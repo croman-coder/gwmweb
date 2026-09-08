@@ -1,0 +1,14 @@
+node_modules
+dist
+.git
+.gitignore
+.claude
+.env
+.env.*
+!.env.example
+README.md
+www_gwm_com_py.html
+npm-debug.log*
+*.log
+.DS_Store
+Thumbs.db

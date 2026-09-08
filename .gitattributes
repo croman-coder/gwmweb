@@ -1,0 +1,10 @@
+# Normalizar finales de linea: el repo guarda LF y el build corre en Linux.
+* text=auto eol=lf
+
+# Binarios: que git no los toque.
+*.png  binary
+*.jpg  binary
+*.webp binary
+*.ico  binary
+*.mp4  binary
+*.woff2 binary

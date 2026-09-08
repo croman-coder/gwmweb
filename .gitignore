@@ -1,0 +1,35 @@
+# Dependencias
+node_modules/
+.pnp/
+.pnp.js
+
+# Build
+dist/
+.vite/
+*.local
+
+# Archivo fuente de referencia (scrape del sitio actual www.gwm.com.py)
+# Se conserva localmente para extraer assets/contenido, no se versiona.
+www_gwm_com_py.html
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+logs/
+*.log
+
+# Entorno
+.env
+.env.*
+!.env.example
+
+# Editores / SO
+.vscode/*
+!.vscode/extensions.json
+.idea/
+*.swp
+.DS_Store
+Thumbs.db
+desktop.ini

@@ -1,0 +1,364 @@
+/* ==========================================================================
+   GWM Paraguay — Landing
+
+   Estructura y estilos replicados de gwm.com.uy: mismo marcado Bootstrap 5,
+   mismo slider Splide y las mismas clases propias (.slide, .hero-model-price,
+   .model-category-button, .model, .home-link, .ws-link, #footer-links).
+   Contenido, catálogo e imágenes: www.gwm.com.py
+   ========================================================================== */
+
+/* --- Tipografía de marca (misma declaración que gwm.com.uy) -------------- */
+@font-face {
+  font-family: 'GWMSans';
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+  src: url('/fonts/GWMSans-Light.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'GWMSans';
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+  src: url('/fonts/GWMSans-Regular.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'GWMSans';
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+  src: url('/fonts/GWMSans-Bold.woff2') format('woff2');
+}
+
+body {
+  padding: 0;
+  margin: 0;
+  font-family: 'GWMSans', Arial, Helvetica, sans-serif;
+}
+
+/* Utilitarias de gwm.com.uy */
+.bg {
+  background-position: center;
+  background-size: cover;
+}
+
+.bg-red {
+  background-color: #d7000f;
+}
+
+.text-shadow {
+  text-shadow: 0 0 5px black;
+}
+
+.ellipsis {
+  text-transform: uppercase;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: 14px;
+}
+
+/* ==========================================================================
+   Navbar
+   ========================================================================== */
+.navbar {
+  height: 80px;
+}
+
+.navbar-toggler {
+  border: 0;
+}
+
+.navbar-toggler:active,
+.navbar-toggler:focus {
+  box-shadow: none !important;
+}
+
+.navbar-dark.bg-dark {
+  background-color: #000 !important;
+}
+
+.nav-item {
+  overflow-y: hidden;
+}
+
+.nav-link {
+  color: white;
+  transition: transform 0.3s;
+  padding: 25px 26px !important;
+}
+
+.nav-link:hover {
+  color: #eee;
+  transform: translateY(2px);
+}
+
+#navbarSupportedContent {
+  max-height: 100vh;
+  overflow-y: auto;
+}
+
+.dropdown-menu {
+  width: 100vw;
+  min-height: fit-content;
+}
+
+@media (min-width: 992px) {
+  .dropdown-menu {
+    position: fixed !important;
+    top: 78px !important;
+    left: 0 !important;
+  }
+}
+
+.header-model {
+  text-decoration: none;
+  color: black;
+  text-align: center;
+  width: 25%;
+}
+
+.brand-item:hover,
+.brand-item.active {
+  background-color: rgba(var(--bs-light-rgb), var(--bs-bg-opacity)) !important;
+  color: #212529 !important;
+}
+
+.list-group-item {
+  border-color: transparent !important;
+  border: none !important;
+}
+
+@media (max-width: 992px) {
+  .header-model {
+    width: 45%;
+  }
+}
+
+@media (max-width: 575px) {
+  .header-model {
+    width: 95%;
+  }
+}
+
+/* ==========================================================================
+   Hero slider (Splide)
+   ========================================================================== */
+.slide {
+  height: 80vh;
+  color: white;
+  position: relative;
+}
+
+.slide-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 0.1) 60%,
+    rgba(0, 0, 0, 0.7) 95%,
+    rgba(0, 0, 0, 0.9) 100%
+  );
+  pointer-events: none;
+  z-index: 1;
+}
+
+.slide .position-relative {
+  z-index: 2;
+}
+
+.hero-model-price {
+  font-size: 12px;
+  line-height: 1;
+  padding: 1px 16px;
+  border-left: 1px solid white;
+}
+
+.hero-model-price-amount {
+  font-size: 30px;
+}
+
+.btn-white {
+  color: white;
+  border: 1px solid white;
+  transition: background-color 0.3s, border 0.3s;
+}
+
+.btn-white:hover {
+  background-color: white !important;
+  color: black !important;
+  border-color: white !important;
+}
+
+/* Video de fondo del slide y de la banda de marca (spots de gwm-mx.com) */
+.slide-media {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+
+.banda-marca-overlay {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.6) 100%);
+  z-index: 1;
+}
+
+/* Columna de categorías del megamenú */
+#models-dropdown .brand-list {
+  background-color: #000;
+}
+
+#models-dropdown .list-group-item {
+  background-color: transparent;
+  color: #fff;
+}
+
+/* ==========================================================================
+   Modelos
+   ========================================================================== */
+.model-category-button {
+  border: 1px solid black;
+  border-radius: 0 0 16px 16px;
+  background-color: white;
+  padding: 24px 8px;
+  width: 180px;
+  margin-left: -1px;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+.model-category-button:hover {
+  background-color: #eee;
+}
+
+.model-category-button.active {
+  background-color: black;
+  color: white !important;
+}
+
+.model {
+  text-decoration: none;
+  flex: 0 0 400px;
+  max-width: 400px;
+}
+
+.model-name {
+  font-size: 24px;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+/* El "+" rojo circular junto al nombre del modelo */
+.model-name > .icon-plus {
+  background-color: #d7000f;
+  border-radius: 50%;
+  font-size: 8px;
+  line-height: 1;
+  padding: 4px 5px;
+}
+
+.model-price {
+  font-size: 16px;
+}
+
+/* ==========================================================================
+   Accesos (home-link)
+   ========================================================================== */
+.home-link {
+  border: 1px solid white;
+  border-radius: 12px;
+  width: 220px;
+  text-decoration: none;
+}
+
+/* ==========================================================================
+   Contacto
+   ========================================================================== */
+#contact .form-control {
+  border-radius: 32px;
+  padding: 6px 22px;
+  font-size: 14px;
+}
+
+.form-control:focus {
+  border-color: #d7000f;
+  box-shadow: none;
+}
+
+.btn-primary {
+  background-color: #d7000f;
+  border: 1px solid white;
+}
+
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active {
+  background-color: #b40009;
+  border: 1px solid white;
+}
+
+/* ==========================================================================
+   Footer y WhatsApp flotante
+   ========================================================================== */
+#footer-links a {
+  text-decoration: none;
+  color: #888;
+  font-size: 0.9rem;
+}
+
+#footer-links a:hover {
+  color: white;
+}
+
+.ws-link {
+  position: fixed;
+  right: 24px;
+  bottom: 40px;
+  z-index: 9999999;
+}
+
+.ws-logo {
+  width: auto;
+}
+
+/* ==========================================================================
+   Responsive (mismos cortes que gwm.com.uy)
+   ========================================================================== */
+@media (max-width: 768px) {
+  .model {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+
+  .home-link {
+    width: 100%;
+  }
+
+  .servicio-tile {
+    height: 240px !important;
+  }
+}
+
+@media (max-width: 575px) {
+  #contact-footer,
+  #end-footer {
+    flex-direction: column !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

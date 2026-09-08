@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Inicio | GWM Paraguay | Great Wall Motors</title>
+    <meta
+      name="description"
+      content="Great Wall Motors en Paraguay: pick ups Wingle y Poer, SUVs Haval y todoterreno Tank. Ingresá y conocé nuestros vehículos híbridos y enchufables."
+    />
+    <meta name="robots" content="index, follow" />
+    <meta name="theme-color" content="#000000" />
+
+    <link rel="shortcut icon" href="/favicon/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon/favicon-16x16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon/apple-touch-icon.png" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_PY" />
+    <meta property="og:site_name" content="GWM Paraguay" />
+    <meta property="og:title" content="GWM Paraguay | Great Wall Motors" />
+    <meta
+      property="og:description"
+      content="Pick ups, SUVs Haval y todoterreno Tank. Descubrí la gama GWM en Paraguay."
+    />
+    <meta property="og:image" content="/img/brand/og-gwm.jpg" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="preload" href="/fonts/GWMSans-Bold.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/GWMSans-Regular.woff2" as="font" type="font/woff2" crossorigin />
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "AutoDealer",
+        "name": "GWM Paraguay",
+        "brand": { "@type": "Brand", "name": "GWM — Great Wall Motors" },
+        "parentOrganization": { "@type": "Organization", "name": "Grupo Santa Rosa" },
+        "url": "https://www.gwm.com.py",
+        "telephone": "+595976955836",
+        "areaServed": "PY",
+        "sameAs": [
+          "https://www.facebook.com/GreatWallPamosa/",
+          "https://www.instagram.com/gwmpy/"
+        ]
+      }
+    </script>
+  </head>
+
+  <body>
+    <!-- ====================================================================
+         Navbar
+         ==================================================================== -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top py-0">
+      <div class="container">
+        <a class="navbar-brand me-5" href="#inicio">
+          <img style="height: 34px; width: auto" src="/img/brand/gwm-blanco.png" alt="GWM" width="392" height="80" />
+        </a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent"
+          aria-expanded="false"
+          aria-label="Abrir navegación"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto bg-black mb-2 mb-lg-0">
+            <li class="nav-item dropdown">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                id="navbarDropdown"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+                >Modelos</a
+              >
+              <!-- Megamenú: lista de categorías + grilla de modelos (data-megamenu lo llena) -->
+              <div
+                id="models-dropdown"
+                class="dropdown-menu w-100 text-left py-0"
+                aria-labelledby="navbarDropdown"
+                data-megamenu
+              ></div>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#servicios">Servicios</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="https://www.gwm.com.py/concesionarios" target="_blank" rel="noopener"
+                >Concesionarios</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#contacto">Contacto</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <main id="inicio">
+      <!-- ==================================================================
+           Hero — slider Splide con los videos de gwm-mx.com
+           ================================================================== -->
+      <section id="home-slider" class="splide" aria-label="Modelos destacados">
+        <div class="splide__track">
+          <div class="splide__list" data-slides></div>
+        </div>
+      </section>
+
+      <!-- ==================================================================
+           Modelos
+           ================================================================== -->
+      <div class="text-center bg-black text-white" style="padding: 2rem 0" id="modelos">
+        <span style="font-size: 24px">Conocé nuestros modelos</span>
+      </div>
+
+      <div class="d-flex justify-content-center" data-categorias></div>
+
+      <div class="container-fluid d-flex justify-content-center px-4 py-5">
+        <div class="d-flex flex-wrap justify-content-center gap-4 mt-0" style="max-width: 1200px" data-modelos></div>
+      </div>
+
+      <p class="text-center text-secondary px-4 mb-0" style="font-size: 12px">
+        * Precios de referencia en dólares americanos, sujetos a cambio sin previo aviso. Las
+        imágenes son ilustrativas y pueden no corresponder a la versión comercializada.
+      </p>
+
+      <!-- ==================================================================
+           Accesos
+           ================================================================== -->
+      <div class="d-flex flex-wrap justify-content-center bg-black p-5 pt-1 mt-5">
+        <a
+          href="https://www.gwm.com.py/concesionarios"
+          target="_blank"
+          rel="noopener"
+          class="home-link d-flex flex-column align-items-center p-4 mx-3 mt-5"
+        >
+          <svg height="60" width="60" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.2" aria-hidden="true">
+            <path d="M12 21s7-6.4 7-11a7 7 0 1 0-14 0c0 4.6 7 11 7 11Z" />
+            <circle cx="12" cy="10" r="2.6" />
+          </svg>
+          <span class="text-white mt-2 mb-1 mt-4" style="font-size: 22px">Concesionarios</span>
+          <div class="d-inline-block bg-red" style="width: 40px; height: 4px"></div>
+        </a>
+
+        <a
+          href="https://www.gwm.com.py/postventa"
+          target="_blank"
+          rel="noopener"
+          class="home-link d-flex flex-column align-items-center p-4 mx-3 mt-5"
+        >
+          <svg height="60" width="60" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.2" aria-hidden="true">
+            <path d="M14.7 6.3a4 4 0 0 1 5.3 5.1l-8.6 8.6a2.2 2.2 0 0 1-3.1-3.1l8-8" />
+            <path d="M9.3 17.7a4 4 0 0 1-5.3-5.1l8.6-8.6a2.2 2.2 0 0 1 3.1 3.1l-8 8" />
+          </svg>
+          <span class="text-white mt-2 mb-1 mt-4" style="font-size: 22px">Servicios</span>
+          <div class="d-inline-block bg-red" style="width: 40px; height: 4px"></div>
+        </a>
+
+        <a
+          href="https://www.gwm.com.py/agendar"
+          target="_blank"
+          rel="noopener"
+          class="home-link d-flex flex-column align-items-center p-4 mx-3 mt-5"
+        >
+          <svg height="60" width="60" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.2" aria-hidden="true">
+            <rect x="3" y="5" width="18" height="16" rx="2" />
+            <path d="M3 10h18M8 3v4M16 3v4" />
+          </svg>
+          <span class="text-white mt-2 mb-1 mt-4" style="font-size: 22px">Agendá tu mantenimiento</span>
+          <div class="d-inline-block bg-red" style="width: 40px; height: 4px"></div>
+        </a>
+      </div>
+
+      <!-- ==================================================================
+           Banda de marca — video institucional de gwm-mx.com
+           ================================================================== -->
+      <div
+        class="bg text-center text-white text-shadow position-relative overflow-hidden"
+        style="
+          background-image: radial-gradient(circle, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.6) 100%),
+            url('/img/poster/hello-tomorrow.webp');
+          padding: 180px 0;
+          line-height: 1.1;
+        "
+      >
+        <video
+          class="slide-media"
+          data-video-fondo
+          muted
+          loop
+          playsinline
+          preload="none"
+          poster="/img/poster/hello-tomorrow.webp"
+          data-src="/video/hello-tomorrow.mp4"
+          aria-hidden="true"
+        ></video>
+        <div class="banda-marca-overlay"></div>
+        <div class="position-relative">
+          <div style="font-size: 36px"><span>Conocé más sobre</span></div>
+          <div style="font-size: 56px"><span>Great Wall Motors</span></div>
+        </div>
+      </div>
+
+      <!-- ==================================================================
+           Servicios
+           ================================================================== -->
+      <div class="text-center bg-black text-white py-4" id="servicios">
+        <span style="font-size: 24px">Servicios Great Wall Motors</span>
+      </div>
+      <div class="container-fluid p-0 overflow-hidden">
+        <div class="row justify-content-center g-2 bg-black">
+          <a
+            href="https://www.gwm.com.py/agendar"
+            class="col-12 col-md-6"
+            target="_blank"
+            rel="noopener"
+            aria-label="Agendar mantenimiento"
+          >
+            <div
+              class="bg servicio-tile d-flex align-items-end p-4"
+              style="background-image: url('/img/hero/agenda-mantenimiento.jpg'); height: 320px"
+            >
+              <span class="btn btn-light rounded-pill px-4">Agendar mantenimiento</span>
+            </div>
+          </a>
+          <a
+            href="https://www.gwm.com.py/concesionarios"
+            class="col-12 col-md-6"
+            target="_blank"
+            rel="noopener"
+            aria-label="Puntos de venta"
+          >
+            <div
+              class="bg servicio-tile d-flex align-items-end p-4"
+              style="background-image: url('/img/hero/puntos-de-venta.webp'); height: 320px"
+            >
+              <span class="btn btn-light rounded-pill px-4">Puntos de venta</span>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <!-- ==================================================================
+           Contacto
+           ================================================================== -->
+      <div class="container" id="contacto">
+        <h1 class="text-center fw-bold py-3 my-5" style="font-size: 28px"><span>Contacto</span></h1>
+        <div class="row">
+          <div class="col-12 col-md-6">
+            <div class="p-3 p-md-0">
+              <h2 class="fw-bold mb-4" style="font-size: 24px"><span>Grupo Santa Rosa</span></h2>
+              <table>
+                <tbody>
+                  <tr>
+                    <td class="pe-3 pb-3">
+                      <svg height="24" width="24" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="1.4" aria-hidden="true">
+                        <path d="M12 21s7-6.4 7-11a7 7 0 1 0-14 0c0 4.6 7 11 7 11Z" />
+                        <circle cx="12" cy="10" r="2.6" />
+                      </svg>
+                    </td>
+                    <td class="pb-3">
+                      <a
+                        class="text-black text-decoration-none"
+                        href="https://www.gwm.com.py/concesionarios"
+                        target="_blank"
+                        rel="noopener"
+                        >Red de concesionarias y talleres en Paraguay</a
+                      >
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="pe-3 pb-3">
+                      <svg height="24" width="24" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+                        <path d="M13.601 2.326A7.85 7.85 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.9 7.9 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.9 7.9 0 0 0 13.6 2.326zM7.994 14.521a6.6 6.6 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.56 6.56 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592" />
+                      </svg>
+                    </td>
+                    <td class="pb-3">
+                      <a class="text-black text-decoration-none" href="https://wa.me/595976955836" target="_blank" rel="noopener"
+                        >+595 976 955 836</a
+                      >
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="pe-3 pb-3">
+                      <svg height="24" width="24" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+                        <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1zm13 2.383-4.708 2.825L15 11.105zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741M1 11.105l4.708-2.897L1 5.383z" />
+                      </svg>
+                    </td>
+                    <td class="pb-3">
+                      <a
+                        class="text-black text-decoration-none"
+                        href="https://www.gwm.com.py/contacto"
+                        target="_blank"
+                        rel="noopener"
+                        >Formulario de contacto oficial</a
+                      >
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div class="col-12 col-md-6">
+            <form id="contact" class="row g-2" novalidate>
+              <div class="col-6">
+                <label class="visually-hidden" for="name">Nombre</label>
+                <input id="name" type="text" name="name" class="form-control" placeholder="Nombre" autocomplete="name" required />
+              </div>
+              <div class="col-6">
+                <label class="visually-hidden" for="phone">Teléfono</label>
+                <input id="phone" type="tel" name="phone" class="form-control" placeholder="Teléfono" autocomplete="tel" required />
+              </div>
+              <div class="col-6">
+                <label class="visually-hidden" for="email">E-mail</label>
+                <input id="email" type="email" name="email" class="form-control" placeholder="E-mail" autocomplete="email" required />
+              </div>
+              <div class="col-6">
+                <label class="visually-hidden" for="model">Modelo</label>
+                <select id="model" name="model" class="form-control" required>
+                  <option value="">Seleccionar modelo...</option>
+                </select>
+              </div>
+              <div class="col-12 text-center">
+                <label class="visually-hidden" for="message">Mensaje</label>
+                <textarea
+                  id="message"
+                  name="message"
+                  rows="4"
+                  class="form-control"
+                  placeholder="Mensaje"
+                  style="border-radius: 8px"
+                ></textarea>
+                <button id="send-contact" class="btn btn-primary btn-sm text-white mt-4 px-4" type="submit">ENVIAR</button>
+                <p class="mt-3 mb-0" style="font-size: 14px" data-estado role="status" aria-live="polite"></p>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================================================================
+           Instagram
+           ================================================================== -->
+      <div class="text-center bg-black text-white py-4 mt-5">
+        <a href="https://www.instagram.com/gwmpy/" style="color: white; text-decoration: none" target="_blank" rel="noopener">
+          <svg height="22" width="22" viewBox="0 0 16 16" fill="currentColor" class="align-middle me-2" aria-hidden="true">
+            <path d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.9 3.9 0 0 0-1.417.923A3.9 3.9 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.9 3.9 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.9 3.9 0 0 0-.923-1.417A3.9 3.9 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599s.453.546.598.92c.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.5 2.5 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.5 2.5 0 0 1-.92-.598 2.5 2.5 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233s.008-2.388.046-3.231c.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92s.546-.453.92-.598c.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92m-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217m0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334" />
+          </svg>
+          <span class="align-middle">Seguinos en Instagram</span>
+        </a>
+      </div>
+    </main>
+
+    <!-- ====================================================================
+         Footer
+         ==================================================================== -->
+    <footer class="px-5 px-sm-0 py-5" style="background-color: black">
+      <div class="container">
+        <div class="row justify-content-center align-items-center">
+          <div class="col-12 col-md-4 order-2 order-lg-0 text-center mt-5 mt-md-0">
+            <img class="mb-3" style="height: 34px; width: auto" src="/img/brand/gwm-blanco.png" alt="GWM" width="392" height="80" />
+            <div class="d-flex justify-content-center">
+              <a href="https://www.facebook.com/GreatWallPamosa/" target="_blank" rel="noopener" class="text-white me-4" aria-label="Facebook">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+                  <path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951" />
+                </svg>
+              </a>
+              <a href="https://www.instagram.com/gwmpy/" target="_blank" rel="noopener" class="text-white" aria-label="Instagram">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+                  <path d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.9 3.9 0 0 0-1.417.923A3.9 3.9 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.9 3.9 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.9 3.9 0 0 0-.923-1.417A3.9 3.9 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599s.453.546.598.92c.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.5 2.5 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.5 2.5 0 0 1-.92-.598 2.5 2.5 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233s.008-2.388.046-3.231c.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92s.546-.453.92-.598c.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92m-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217m0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334" />
+                </svg>
+              </a>
+            </div>
+          </div>
+
+          <div class="col-12 col-md-4 order-1 order-lg-0 d-flex justify-content-center">
+            <table id="footer-links">
+              <tbody>
+                <tr>
+                  <td class="px-3 pb-2"><a href="#inicio">Inicio</a></td>
+                  <td class="px-3 pb-2"><a href="#modelos">Modelos</a></td>
+                </tr>
+                <tr>
+                  <td class="px-3 pb-2">
+                    <a href="https://www.gwm.com.py/postventa" target="_blank" rel="noopener">Servicios</a>
+                  </td>
+                  <td class="px-3 pb-2">
+                    <a href="https://www.gwm.com.py/concesionarios" target="_blank" rel="noopener">Concesionarias</a>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="px-3 pb-2">
+                    <a href="https://www.gwm.com.py/garantia" target="_blank" rel="noopener">Garantía</a>
+                  </td>
+                  <td class="px-3 pb-2">
+                    <a href="https://www.gwm.com.py/agendar" target="_blank" rel="noopener">Agendá tu mantenimiento</a>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="px-3">
+                    <a href="https://www.gwm.com.py/codigo-de-cumplimiento" target="_blank" rel="noopener"
+                      >Código de cumplimiento</a
+                    >
+                  </td>
+                  <td class="px-3">
+                    <a href="https://www.gwm.com.py/repuesto" target="_blank" rel="noopener">Repuestos originales</a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="col-12 col-md-4 order-3 order-lg-0 text-center">
+            <a href="https://www.santarosa.com.py/" class="mt-3 d-inline-block" target="_blank" rel="noopener">
+              <img style="width: 210px; height: auto" src="/img/brand/logo-santarosa.webp" alt="Grupo Santa Rosa" width="1653" height="263" loading="lazy" />
+            </a>
+            <a href="https://www.porta.com.py/" class="mt-4 d-block" target="_blank" rel="noopener" aria-label="Porta">
+              <img style="width: 90px; height: auto" src="/img/brand/porta-blanco.svg" alt="Porta" width="340" height="111" loading="lazy" />
+            </a>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <a
+      href="https://wa.me/595976955836?text=Hola.%20Quiero%20hacer%20una%20consulta%20desde%20la%20p%C3%A1gina%20de%20GWM"
+      target="_blank"
+      rel="noopener"
+      title="Contactanos por WhatsApp"
+      class="ws-link"
+      aria-label="Contactanos por WhatsApp"
+    >
+      <svg class="ws-logo" width="56" height="56" viewBox="0 0 32 32" aria-hidden="true">
+        <circle cx="16" cy="16" r="16" fill="#25d366" />
+        <path
+          transform="translate(8 8)"
+          fill="#fff"
+          d="M13.601 2.326A7.85 7.85 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.9 7.9 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.9 7.9 0 0 0 13.6 2.326zM7.994 14.521a6.6 6.6 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.56 6.56 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592m3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.73.73 0 0 0-.529.247c-.182.198-.691.677-.691 1.654s.71 1.916.81 2.049c.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232"
+        />
+      </svg>
+    </a>
+
+    <script type="module" src="/src/js/main.js"></script>
+  </body>
+</html>
