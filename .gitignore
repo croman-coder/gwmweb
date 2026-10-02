@@ -25,6 +25,9 @@ logs/
 .env.*
 !.env.example
 
+# Configuracion local de Claude Code (permisos personales, no del equipo)
+.claude/settings.local.json
+
 # Editores / SO
 .vscode/*
 !.vscode/extensions.json

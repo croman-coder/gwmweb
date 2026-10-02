@@ -146,6 +146,8 @@ body {
    ========================================================================== */
 .slide {
   height: 80vh;
+  /* En monitores muy altos 80vh deja un hero desproporcionado. */
+  max-height: 760px;
   color: white;
   position: relative;
 }
@@ -267,6 +269,20 @@ body {
 
 .model-price {
   font-size: 16px;
+}
+
+.model-versiones {
+  margin-top: 2px;
+  font-size: 14px;
+  font-weight: 300;
+  color: #6c757d;
+}
+
+/* Bootstrap fija el ancho con .w-100 pero no toca el alto, así que sin esto
+   gana el atributo height="190" del <img> y la foto sale estirada. */
+.model img,
+.header-model img {
+  height: auto;
 }
 
 /* ==========================================================================

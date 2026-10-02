@@ -6,7 +6,7 @@ import '../css/styles.css';
 
 import { Dropdown, Collapse } from 'bootstrap';
 import Splide from '@splidejs/splide';
-import { CATEGORIAS, MODELOS, SLIDES, formatearPrecio } from './modelos.js';
+import { CATEGORIAS, MODELOS, SLIDES_ACTIVOS, formatearPrecio, textoPrecio } from './modelos.js';
 
 const WHATSAPP = '595976955836';
 
@@ -95,8 +95,18 @@ function initHero() {
   const pista = document.querySelector('[data-slides]');
   if (!pista) return;
 
-  pista.innerHTML = SLIDES.map((s) => {
-    const precio = formatearPrecio(s.precio).replace('USD ', '');
+  pista.innerHTML = SLIDES_ACTIVOS.map((s) => {
+    // Los modelos sin precio confirmado para Paraguay muestran "Consultar".
+    const precio = s.precio === null ? null : formatearPrecio(s.precio).replace('USD ', '');
+    const bloquePrecio = (clases) =>
+      precio === null
+        ? `<div class="hero-model-price ${clases}" style="border: none;">
+             <div class="hero-model-price-amount">Consultar precio</div>
+           </div>`
+        : `<div class="hero-model-price ${clases}">
+             <span class="d-block" style="margin-top: -12px">Desde</span>
+             <div class="hero-model-price-amount">USD <span>${precio}</span></div>
+           </div>`;
     return `
       <div class="splide__slide">
         <!-- Desktop: recorte 16:9 -->
@@ -108,10 +118,7 @@ function initHero() {
             <div class="hero-model-price text-white ms-3" style="border: none;">
               <div class="hero-model-price-amount"><span>${s.modelo}</span></div>
             </div>
-            <div class="hero-model-price ms-3">
-              <span class="d-block" style="margin-top: -12px">Desde</span>
-              <div class="hero-model-price-amount">USD <span>${precio}</span></div>
-            </div>
+            ${bloquePrecio('ms-3')}
             <a href="${s.url}" target="_blank" rel="noopener" class="btn btn-white ms-4 mt-3 mt-sm-0">
               DESCUBRILO AHORA
             </a>
@@ -128,10 +135,7 @@ function initHero() {
             <div class="hero-model-price text-white ms-3" style="border: none;">
               <div class="hero-model-price-amount">${s.modelo}</div>
             </div>
-            <div class="hero-model-price mt-2 ms-3" style="border: none;">
-              Desde
-              <div class="hero-model-price-amount">USD <span>${precio}</span></div>
-            </div>
+            ${bloquePrecio('mt-2 ms-3')}
             <a href="${s.url}" target="_blank" rel="noopener" class="btn btn-white ms-3 mt-3">
               DESCUBRILO AHORA
             </a>
@@ -231,8 +235,9 @@ function initModelos() {
         ${m.nombre}
         <span class="icon-plus fw-normal text-white ms-2" aria-hidden="true">✚</span>
       </div>
-      <div class="model-price">Desde USD <span>${formatearPrecio(m.precio).replace('USD ', '')}</span>*</div>
-      <img class="w-100 pt-3" src="${m.imagen}" alt="GWM ${m.nombre}" loading="lazy" width="480" height="190">
+      <div class="model-price">${textoPrecio(m.precio)}</div>
+      ${m.versiones ? `<div class="model-versiones">${m.versiones.join(' · ')}</div>` : ''}
+      <img class="model-foto w-100 pt-3" src="${m.imagen}" alt="GWM ${m.nombre}" loading="lazy" width="480" height="190">
     </a>`
   ).join('');
 

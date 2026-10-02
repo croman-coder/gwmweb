@@ -1,59 +1,35 @@
 /**
  * Catálogo de modelos GWM Paraguay.
- * Nombres, precios y bajadas tomados del sitio actual www.gwm.com.py.
- * Los precios son "desde", en USD, y se muestran con el asterisco de la nota legal.
+ *
+ * Lineup y precios tomados de www.gwm.com.py (relevado 2026-10-02), con los
+ * ajustes pedidos por Marketing: submarcas Wingle / Haval / Ora / Poer / Tank,
+ * POER unificada en "Poer Diesel" con sus dos versiones, Jolion MT dada de
+ * baja, H7 PHEV incorporada y la línea ORA agregada.
+ *
+ * Los precios son "desde", en USD. `precio: null` muestra "Consultar precio":
+ * se usa para los modelos cuyo precio de Paraguay todavía no está confirmado.
  */
 
 export const CATEGORIAS = [
-  { id: 'pickups', titulo: 'Pick Ups' },
+  { id: 'wingle', titulo: 'Wingle' },
   { id: 'haval', titulo: 'Haval' },
+  { id: 'ora', titulo: 'Ora' },
+  { id: 'poer', titulo: 'Poer' },
   { id: 'tank', titulo: 'Tank' },
 ];
 
 export const MODELOS = [
-  // --- Pick Ups ---
+  // --- Wingle -------------------------------------------------------------
   {
-    categoria: 'pickups',
+    categoria: 'wingle',
     nombre: 'Wingle 7',
     precio: 19990,
     imagen: '/img/modelos/wingle-7.webp',
-    bajada: 'La camioneta que conjuga alto rendimiento y estilo.',
+    bajada: 'La pick up que conjuga alto rendimiento y estilo.',
     url: 'https://www.gwm.com.py/producto/3/wingle-7',
   },
-  {
-    categoria: 'pickups',
-    nombre: 'Poer',
-    precio: 29990,
-    imagen: '/img/modelos/poer.webp',
-    bajada: 'Tu sueño de una camioneta doble cabina, potente y confiable.',
-    url: 'https://www.gwm.com.py/producto/13/poer',
-  },
-  {
-    categoria: 'pickups',
-    nombre: 'Poer Plus 2.4T',
-    precio: 35990,
-    imagen: '/img/modelos/poer-plus-24t.webp',
-    bajada: 'Con más poder para dominar cualquier terreno.',
-    url: 'https://www.gwm.com.py/producto/18/poer-plus-24t',
-  },
-  {
-    categoria: 'pickups',
-    nombre: 'Poer P500',
-    precio: 44990,
-    imagen: '/img/modelos/poer-p500.webp',
-    bajada: 'La pickup híbrida enchufable 4x4 de GWM.',
-    url: 'https://www.gwm.com.py/producto/21/poer-p500',
-  },
 
-  // --- Haval ---
-  {
-    categoria: 'haval',
-    nombre: 'Jolion MT',
-    precio: 15990,
-    imagen: '/img/modelos/jolion-mt.webp',
-    bajada: 'La SUV familiar que sorprende: sobriedad y performance.',
-    url: 'https://www.gwm.com.py/producto/9/jolion-mt',
-  },
+  // --- Haval (orden pedido por Marketing) ---------------------------------
   {
     categoria: 'haval',
     nombre: 'Jolion Pro HEV',
@@ -67,7 +43,7 @@ export const MODELOS = [
     nombre: 'New H6 HEV',
     precio: 24990,
     imagen: '/img/modelos/new-h6-hev.webp',
-    bajada: 'La SUV automática por excelencia se renueva, ahora híbrida.',
+    bajada: 'La SUV automática por excelencia, ahora híbrida.',
     url: 'https://www.gwm.com.py/producto/12/new-h6-hev',
   },
   {
@@ -88,6 +64,14 @@ export const MODELOS = [
   },
   {
     categoria: 'haval',
+    nombre: 'H7 PHEV',
+    precio: 35990,
+    imagen: '/img/modelos/h7-phev.webp',
+    bajada: 'El SUV híbrido enchufable que redefine el off road urbano.',
+    url: 'https://www.gwm.com.py/producto/10/h7-phev',
+  },
+  {
+    categoria: 'haval',
     nombre: 'H9 Diesel 2.4',
     precio: 42990,
     imagen: '/img/modelos/h9-diesel-24.webp',
@@ -95,7 +79,54 @@ export const MODELOS = [
     url: 'https://www.gwm.com.py/producto/7/h9-diesel-24',
   },
 
-  // --- Tank ---
+  // --- Ora ----------------------------------------------------------------
+  // PENDIENTE: fotos definitivas y precios de Paraguay. Las imágenes actuales
+  // son provisorias (tomadas de gwm.com.uy) y ORA 5 EV/HEV comparten foto.
+  {
+    categoria: 'ora',
+    nombre: 'Ora 03 Skin',
+    precio: null,
+    imagen: '/img/modelos/ora-03.webp',
+    bajada: '100% eléctrico, con un diseño que no pasa desapercibido.',
+    url: 'https://www.gwm.com.py/contacto',
+  },
+  {
+    categoria: 'ora',
+    nombre: 'Ora 5 EV',
+    precio: null,
+    imagen: '/img/modelos/ora-5.webp',
+    bajada: 'El SUV urbano 100% eléctrico de GWM.',
+    url: 'https://www.gwm.com.py/contacto',
+  },
+  {
+    categoria: 'ora',
+    nombre: 'Ora 5 HEV',
+    precio: null,
+    imagen: '/img/modelos/ora-5.webp',
+    bajada: 'La versión híbrida del SUV urbano de ORA.',
+    url: 'https://www.gwm.com.py/contacto',
+  },
+
+  // --- Poer ---------------------------------------------------------------
+  {
+    categoria: 'poer',
+    nombre: 'Poer Diesel',
+    precio: 29990,
+    imagen: '/img/modelos/poer-diesel.webp',
+    bajada: 'La pick up doble cabina 4x4, potente y confiable.',
+    versiones: ['Poer 2.0', 'Poer Plus 2.4'],
+    url: 'https://www.gwm.com.py/producto/18/poer-diesel-4x4',
+  },
+  {
+    categoria: 'poer',
+    nombre: 'Poer P500',
+    precio: 44990,
+    imagen: '/img/modelos/poer-p500.webp',
+    bajada: 'La pick up híbrida enchufable 4x4 de GWM.',
+    url: 'https://www.gwm.com.py/producto/21/poer-p500',
+  },
+
+  // --- Tank ---------------------------------------------------------------
   {
     categoria: 'tank',
     nombre: 'Tank 300 PHEV 4x4',
@@ -131,43 +162,34 @@ export const MODELOS = [
 ];
 
 /**
- * Slides del hero, con la jerarquía de gwm.com.uy: modelo | Desde USD X | CTA.
+ * Slides de la portada: la selección pedida por Marketing.
  *
- * Los slides con `video` usan los spots institucionales de gwm-mx.com en sus dos
- * recortes (16:9 para desktop, 9:16 para mobile), igual que el home de México.
- * Los que solo tienen `imagen` usan los banners de campaña de gwm.com.py.
+ * Cada slide usa el spot en sus dos recortes (16:9 desktop, 9:16 mobile).
+ * Los que todavía no tienen video quedan con `pendiente: true` y NO entran a
+ * la rotación: apenas llegue el material se borra esa línea y se completan
+ * `video` / `videoMobile`, sin tocar nada más.
+ *
+ * Especificación del material: ver README, sección "Videos".
  */
 export const SLIDES = [
   {
-    modelo: 'Tank 500 HEV 4x4',
-    precio: 49990,
-    url: 'https://www.gwm.com.py/producto/17/tank-500-hev-4x4',
-    imagen: '/img/poster/tank-500.webp',
-    video: '/video/tank-500-16x9.mp4',
-    videoMobile: '/video/tank-500-9x16.mp4',
+    modelo: 'Tank 400 PHEV 4x4',
+    precio: 50990,
+    url: 'https://www.gwm.com.py/producto/16/tank-400-phev-4x4',
+    imagen: '/img/hero/tank-400.webp',
   },
   {
-    modelo: 'Haval H9 Diesel',
-    precio: 42990,
-    url: 'https://www.gwm.com.py/producto/7/h9-diesel-24',
-    imagen: '/img/hero/h9-diesel.webp',
-    imagenMobile: '/img/hero/h9-diesel.webp',
+    modelo: 'Tank 700 PHEV 4x4',
+    precio: 74990,
+    url: 'https://www.gwm.com.py/producto/22/tank-700-phev-4x4',
+    imagen: '/img/modelos/tank-700-phev.webp',
+    pendiente: true, // falta banner y spot
   },
   {
-    modelo: 'Tank 300 PHEV 4x4',
-    precio: 39990,
-    url: 'https://www.gwm.com.py/producto/5/tank-300-phev-4x4',
-    imagen: '/img/poster/tank-300.webp',
-    video: '/video/tank-300-16x9.mp4',
-    videoMobile: '/video/tank-300-9x16.mp4',
-  },
-  {
-    modelo: 'Poer P500',
-    precio: 44990,
-    url: 'https://www.gwm.com.py/producto/21/poer-p500',
-    imagen: '/img/poster/poer.webp',
-    video: '/video/poer-500-16x9.mp4',
-    videoMobile: '/video/poer-500-9x16.mp4',
+    modelo: 'Haval New H6 HEV',
+    precio: 24990,
+    url: 'https://www.gwm.com.py/producto/12/new-h6-hev',
+    imagen: '/img/hero/new-h6-hev.webp',
   },
   {
     modelo: 'Haval New H6 PHEV',
@@ -178,16 +200,52 @@ export const SLIDES = [
     videoMobile: '/video/h6-phev-9x16.mp4',
   },
   {
-    modelo: 'Poer',
+    modelo: 'Poer Diesel',
     precio: 29990,
-    url: 'https://www.gwm.com.py/producto/13/poer',
+    url: 'https://www.gwm.com.py/producto/18/poer-diesel-4x4',
     imagen: '/img/poster/poer.webp',
     video: '/video/poer-16x9.mp4',
     videoMobile: '/video/poer-9x16.mp4',
   },
+  {
+    modelo: 'Haval H7 PHEV',
+    precio: 35990,
+    url: 'https://www.gwm.com.py/producto/10/h7-phev',
+    imagen: '/img/modelos/h7-phev.webp',
+    pendiente: true, // falta banner y spot
+  },
+  {
+    modelo: 'Haval H6 GT PHEV',
+    precio: 39990,
+    url: 'https://www.gwm.com.py/producto/8/h6-gt-phev',
+    imagen: '/img/hero/h6-gt-phev.webp',
+  },
+  {
+    modelo: 'Jolion Pro HEV',
+    precio: 19990,
+    url: 'https://www.gwm.com.py/producto/14/jolion-pro-hev',
+    imagen: '/img/modelos/jolion-pro-hev.webp',
+    pendiente: true, // falta banner y spot
+  },
+  {
+    modelo: 'Ora 5',
+    precio: null,
+    url: 'https://www.gwm.com.py/contacto',
+    imagen: '/img/poster/ora-5.webp',
+    video: '/video/ora-5-16x9.mp4',
+    videoMobile: '/video/ora-5-9x16.mp4',
+  },
 ];
+
+/** Slides con material listo, en el orden pedido. */
+export const SLIDES_ACTIVOS = SLIDES.filter((s) => !s.pendiente);
 
 /** Formatea un precio USD al estilo del sitio: USD 42.990 */
 export function formatearPrecio(valor) {
   return `USD ${valor.toLocaleString('es-PY')}`;
+}
+
+/** Texto de precio de una tarjeta, contemplando los que están por confirmar. */
+export function textoPrecio(valor) {
+  return valor === null ? 'Consultar precio' : `Desde ${formatearPrecio(valor)}*`;
 }

@@ -124,8 +124,8 @@ python -m fontTools.subset GWMSans-Regular.woff2 \
 - **Grilla de Instagram**: Uruguay muestra sus últimas publicaciones. No hay un
   set equivalente para Paraguay, así que queda solo la banda con el enlace al
   perfil.
-- **Categorías**: Uruguay usa Hatch / SUV / Todo terreno / Pickup. Acá se usa la
-  taxonomía de gwm.com.py: Pick Ups / Haval / Tank.
+- **Categorías**: Uruguay usa Hatch / SUV / Todo terreno / Pickup. Acá se usan
+  las submarcas definidas por Marketing: Wingle / Haval / Ora / Poer / Tank.
 
 ## Notas
 
