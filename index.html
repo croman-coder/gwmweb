@@ -95,9 +95,10 @@
               <a class="nav-link" href="#servicios">Servicios</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#contacto"
-                >Concesionarios</a
-              >
+              <a class="nav-link" href="#concesionarios">Concesionarios</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#postventa">Postventa</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="#contacto">Contacto</a>
@@ -124,7 +125,7 @@
         <span style="font-size: 24px">Conocé nuestros modelos</span>
       </div>
 
-      <div class="d-flex justify-content-center" data-categorias></div>
+      <div class="model-tabs" data-categorias role="group" aria-label="Elegir submarca"></div>
 
       <div class="container-fluid d-flex justify-content-center px-4 py-5">
         <div class="d-flex flex-wrap justify-content-center gap-4 mt-0" style="max-width: 1200px" data-modelos></div>
@@ -140,7 +141,7 @@
            ================================================================== -->
       <div class="d-flex flex-wrap justify-content-center bg-black p-5 pt-1 mt-5">
         <a
-          href="#contacto"
+          href="#concesionarios"
           class="home-link d-flex flex-column align-items-center p-4 mx-3 mt-5"
         >
           <svg height="60" width="60" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.2" aria-hidden="true">
@@ -152,7 +153,7 @@
         </a>
 
         <a
-          href="#contacto"
+          href="#postventa"
           class="home-link d-flex flex-column align-items-center p-4 mx-3 mt-5"
         >
           <svg height="60" width="60" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.2" aria-hidden="true">
@@ -164,7 +165,7 @@
         </a>
 
         <a
-          href="#contacto"
+          href="#postventa"
           class="home-link d-flex flex-column align-items-center p-4 mx-3 mt-5"
         >
           <svg height="60" width="60" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.2" aria-hidden="true">
@@ -215,10 +216,8 @@
       <div class="container-fluid p-0 overflow-hidden">
         <div class="row justify-content-center g-2 bg-black">
           <a
-            href="#contacto"
+            href="#postventa"
             class="col-12 col-md-6"
-            target="_blank"
-            rel="noopener"
             aria-label="Agendar mantenimiento"
           >
             <div
@@ -229,10 +228,8 @@
             </div>
           </a>
           <a
-            href="#contacto"
+            href="#concesionarios"
             class="col-12 col-md-6"
-            target="_blank"
-            rel="noopener"
             aria-label="Puntos de venta"
           >
             <div
@@ -244,6 +241,122 @@
           </a>
         </div>
       </div>
+
+      <!-- ==================================================================
+           Puntos de venta
+           ================================================================== -->
+      <section class="seccion seccion--gris" id="concesionarios" aria-labelledby="concesionarios-titulo">
+        <div class="container">
+          <header class="seccion__cabecera">
+            <p class="seccion__etiqueta">Puntos de venta</p>
+            <h2 class="seccion__titulo" id="concesionarios-titulo">Encontrá tu concesionaria</h2>
+            <span class="seccion__barra" aria-hidden="true"></span>
+          </header>
+
+          <div class="model-tabs" data-ciudades role="group" aria-label="Filtrar por ciudad"></div>
+
+          <div class="splide dealers" id="dealers-slider" aria-label="Puntos de venta GWM">
+            <div class="splide__track">
+              <ul class="splide__list" data-dealers></ul>
+            </div>
+
+            <div class="dealers__controles">
+              <div class="splide__arrows">
+                <button class="splide__arrow splide__arrow--prev" type="button" aria-label="Anterior">
+                  <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                    <path fill-rule="evenodd" d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0" />
+                  </svg>
+                </button>
+                <button class="splide__arrow splide__arrow--next" type="button" aria-label="Siguiente">
+                  <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false">
+                    <path fill-rule="evenodd" d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708" />
+                  </svg>
+                </button>
+              </div>
+              <ul class="splide__pagination"></ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================================================================
+           Postventa: agendamiento de service
+           ================================================================== -->
+      <section class="seccion seccion--negra" id="postventa" aria-labelledby="postventa-titulo">
+        <div class="container">
+          <header class="seccion__cabecera">
+            <p class="seccion__etiqueta">Postventa</p>
+            <h2 class="seccion__titulo" id="postventa-titulo">Agendá tu service</h2>
+            <span class="seccion__barra" aria-hidden="true"></span>
+            <p class="seccion__bajada">Completá tus datos y elegí el servicio que necesitás para tu GWM.</p>
+          </header>
+
+          <form class="agenda" id="agenda" data-form-agenda novalidate>
+            <fieldset class="agenda__grupo">
+              <legend class="agenda__titulo"><span class="agenda__paso" aria-hidden="true">1</span>Tus datos</legend>
+              <div class="row g-3">
+                <div class="col-12 col-md-6">
+                  <label class="agenda__label" for="ag-nombre">Nombre y apellido</label>
+                  <input class="form-control" id="ag-nombre" name="nombre" type="text" autocomplete="name" required />
+                </div>
+                <div class="col-12 col-md-6">
+                  <label class="agenda__label" for="ag-telefono">Teléfono / celular</label>
+                  <input class="form-control" id="ag-telefono" name="telefono" type="tel" autocomplete="tel" required />
+                </div>
+                <div class="col-12">
+                  <label class="agenda__label" for="ag-email">Email</label>
+                  <input class="form-control" id="ag-email" name="email" type="email" autocomplete="email" required />
+                </div>
+              </div>
+            </fieldset>
+
+            <fieldset class="agenda__grupo">
+              <legend class="agenda__titulo"><span class="agenda__paso" aria-hidden="true">2</span>Tu vehículo</legend>
+              <div class="row g-3">
+                <div class="col-12 col-md-8">
+                  <label class="agenda__label" for="ag-modelo">Modelo</label>
+                  <select class="form-control" id="ag-modelo" name="modelo" required>
+                    <option value="">Seleccioná un modelo...</option>
+                  </select>
+                </div>
+                <div class="col-12 col-md-4">
+                  <label class="agenda__label" for="ag-anio">Año</label>
+                  <input class="form-control" id="ag-anio" name="anio" type="number" inputmode="numeric" placeholder="Ej: 2024" required />
+                </div>
+              </div>
+            </fieldset>
+
+            <fieldset class="agenda__grupo">
+              <legend class="agenda__titulo"><span class="agenda__paso" aria-hidden="true">3</span>¿Qué servicio necesitás?</legend>
+              <div class="agenda__opciones" data-servicios></div>
+            </fieldset>
+
+            <fieldset class="agenda__grupo">
+              <legend class="agenda__titulo">
+                <span class="agenda__paso" aria-hidden="true">4</span>Fecha y comentarios
+                <span class="agenda__opcional">opcional</span>
+              </legend>
+              <div class="row g-3">
+                <div class="col-12 col-md-4">
+                  <label class="agenda__label" for="ag-fecha">Fecha preferida</label>
+                  <input class="form-control" id="ag-fecha" name="fecha" type="date" />
+                </div>
+                <div class="col-12 col-md-8">
+                  <label class="agenda__label" for="ag-comentarios">Comentarios</label>
+                  <textarea class="form-control" id="ag-comentarios" name="comentarios" rows="3"></textarea>
+                </div>
+              </div>
+            </fieldset>
+
+            <div class="agenda__envio">
+              <button class="btn btn-primary agenda__enviar" type="submit">Agendar</button>
+              <p class="agenda__estado" data-estado role="status" aria-live="polite"></p>
+            </div>
+          </form>
+
+          <p class="agenda__reclamos" data-reclamos></p>
+        </div>
+      </section>
 
       <!-- ==================================================================
            Contacto
@@ -266,8 +379,8 @@
                     <td class="pb-3">
                       <a
                         class="text-black text-decoration-none"
-                        href="#contacto"
-                        >Consultanos por la concesionaria más cercana</a
+                        href="#concesionarios"
+                        >Encontrá la concesionaria más cercana</a
                       >
                     </td>
                   </tr>
@@ -367,6 +480,10 @@
                 <tr>
                   <td class="px-3 pb-2"><a href="#inicio">Inicio</a></td>
                   <td class="px-3 pb-2"><a href="#modelos">Modelos</a></td>
+                </tr>
+                <tr>
+                  <td class="px-3 pb-2"><a href="#concesionarios">Concesionarias</a></td>
+                  <td class="px-3 pb-2"><a href="#postventa">Postventa</a></td>
                 </tr>
                 <tr>
                   <td class="px-3"><a href="#servicios">Servicios</a></td>
