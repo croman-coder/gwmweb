@@ -9,9 +9,9 @@
  * Los precios son "desde", en USD. `precio: null` muestra "Consultar precio":
  * se usa para los modelos cuyo precio de Paraguay todavía no está confirmado.
  *
- * El sitio es autocontenido: no se enlaza a ningún dominio externo. Cada
- * tarjeta y cada CTA del hero llevan al formulario de contacto propio, que
- * queda con el modelo ya elegido.
+ * El sitio es autocontenido: no se enlaza a ningún dominio externo salvo
+ * WhatsApp. Cada tarjeta, cada enlace del megamenú y cada CTA del hero abren el
+ * WhatsApp de ventas con el modelo ya nombrado en el mensaje.
  */
 
 export const CATEGORIAS = [

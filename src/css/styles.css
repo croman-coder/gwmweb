@@ -423,14 +423,8 @@ body {
 }
 
 /* ==========================================================================
-   Contacto
+   Controles de formulario y botones
    ========================================================================== */
-#contact .form-control {
-  border-radius: 32px;
-  padding: 6px 22px;
-  font-size: 14px;
-}
-
 .form-control:focus {
   border-color: #d7000f;
   box-shadow: none;
@@ -446,6 +440,14 @@ body {
 .btn-primary:active {
   background-color: #b40009;
   border: 1px solid white;
+}
+
+/* ==========================================================================
+   Banda de Instagram
+   ========================================================================== */
+/* Queda pegada al bloque negro de Postventa: una línea fina marca el corte. */
+.banda-instagram {
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
 }
 
 /* ==========================================================================
@@ -487,13 +489,6 @@ body {
 
   .servicio-tile {
     height: 240px !important;
-  }
-}
-
-@media (max-width: 575px) {
-  #contact-footer,
-  #end-footer {
-    flex-direction: column !important;
   }
 }
 

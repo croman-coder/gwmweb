@@ -43,7 +43,7 @@ src/css/styles.css       @font-face de GWMSans y las clases propias del sitio de
 src/js/modelos.js        Catálogo: modelos, categorías y slides del hero
 src/js/concesionarios.js Puntos de venta (datos) y helpers de teléfono y mapa
 src/js/postventa.js      Servicios del agendamiento, WhatsApp de Postventa y reclamos
-src/js/main.js           Megamenú, sliders Splide, filtros y los dos formularios
+src/js/main.js           Megamenú, sliders Splide, filtros y el formulario de agendamiento
 public/video/            Spots de gwm-mx.com (16:9 y 9:16) + video institucional
 public/img/poster/       Posters de cada video (fallback y primer frame)
 public/img/modelos/      Fotos de modelos (webp): 15 archivos para 16 modelos,
@@ -71,8 +71,8 @@ Para agregar un modelo:
    `imagen` y `bajada`. `precio: null` muestra "Consultar precio"; `versiones`
    (opcional) lista las versiones debajo del nombre, como hace Poer Diesel.
 
-No hay campo `url`: el sitio es autocontenido y cada tarjeta lleva al formulario
-de contacto con el modelo ya elegido.
+No hay campo `url`: el sitio es autocontenido y cada tarjeta, enlace del megamenú
+y CTA del hero abre el WhatsApp de ventas con el modelo ya nombrado en el mensaje.
 
 Para sumar un slide al hero, agregar una entrada a `SLIDES`. Si tiene `video` y
 `videoMobile` usa los recortes 16:9 y 9:16; si solo tiene `imagen`, queda como
@@ -120,15 +120,15 @@ Pendiente de confirmar: el horario de Casa Matriz (en el origen dice solo
 requiere un backend. Hasta que lo haya, los pedidos llegan por WhatsApp o al
 endpoint que se configure.
 
-## Formularios (contacto y agendamiento)
+## Formulario de agendamiento
 
-Los dos comparten la misma lógica de envío (`enviarSolicitud` en `main.js`).
-Por defecto arman el mensaje y lo abren en WhatsApp (el de ventas para contacto,
-el de `WHATSAPP_POSTVENTA` para agendamiento).
+Es el único formulario del sitio (`#postventa`). La lógica de envío está en
+`enviarSolicitud`, en `main.js`. Por defecto arma el mensaje y lo abre en el
+WhatsApp de `WHATSAPP_POSTVENTA`.
 
 Si hay un backend que reciba las solicitudes, se configura por variable de
-entorno y los formularios pasan a enviarlas por `POST` en JSON, con un campo
-`tipo` (`"contacto"` o `"agendamiento"`) para distinguir de cuál vienen:
+entorno y el formulario pasa a enviarlas por `POST` en JSON, con un campo
+`tipo` (hoy siempre `"agendamiento"`) que identifica el formulario de origen:
 
 ```bash
 cp .env.example .env
@@ -185,13 +185,13 @@ sitio son los de WhatsApp, las redes sociales, Grupo Santa Rosa y Google Maps
 (el botón "Cómo llegar" de cada punto de venta).
 
 Como es una sola página, las fichas de producto no tienen destino propio: las
-tarjetas de modelo, el megamenú y los CTA del hero llevan al formulario de
-contacto **con el modelo ya seleccionado** (atributo `data-modelo`, resuelto en
-`initFormulario`). El emparejamiento tolera que el hero diga "Haval H6 GT PHEV"
-y el catálogo "H6 GT PHEV".
+tarjetas de modelo, el megamenú y los CTA del hero abren el WhatsApp de ventas
+**con el modelo ya nombrado en el mensaje** (`whatsappModelo`, en `main.js`).
+No hay sección ni formulario de contacto: el botón flotante de WhatsApp
+(`.ws-link`) queda como canal directo en toda la página.
 
 Los accesos de concesionarios y postventa (menú, banda de accesos, tarjetas de
-servicios, contacto y footer) llevan a sus secciones. Cuando existan los costos
+servicios y footer) llevan a sus secciones. Cuando existan los costos
 de service y los talleres autorizados, se les suma su propia sección.
 
 El `scroll-padding-top` del `<html>` (80 px, el alto de la barra fija) evita que

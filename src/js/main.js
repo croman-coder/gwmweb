@@ -12,6 +12,10 @@ import { SERVICIOS, WHATSAPP_POSTVENTA, RECLAMOS } from './postventa.js';
 
 const WHATSAPP = '595976955836';
 
+/** WhatsApp de ventas con el modelo ya nombrado en el mensaje. */
+const whatsappModelo = (nombre) =>
+  `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(`Hola, quiero información sobre el GWM ${nombre}.`)}`;
+
 /** Splide reproduce el slide activo; los spots duran ~5 s, de ahí el intervalo. */
 const INTERVALO_SLIDER = 6000;
 
@@ -42,7 +46,8 @@ function initMegamenu() {
             ${MODELOS.filter((m) => m.categoria === cat.id)
               .map(
                 (m) => `
-              <a class="header-model d-inline-block p-3" href="#contacto" data-modelo="${m.nombre}">
+              <a class="header-model d-inline-block p-3" href="${whatsappModelo(m.nombre)}" target="_blank" rel="noopener"
+                 title="Consultar por WhatsApp">
                 <img class="d-block w-100" src="${m.imagen}" alt="GWM ${m.nombre}" loading="lazy" width="480" height="190">
                 <span class="ellipsis">${m.nombre}</span>
               </a>`
@@ -62,8 +67,8 @@ function initMegamenu() {
           ${MODELOS.filter((m) => m.categoria === cat.id)
             .map(
               (m) =>
-                `<a class="d-block py-1 text-decoration-none" style="color:#888" href="#contacto"
-                    data-modelo="${m.nombre}">${m.nombre}</a>`
+                `<a class="d-block py-1 text-decoration-none" style="color:#888"
+                    href="${whatsappModelo(m.nombre)}" target="_blank" rel="noopener">${m.nombre}</a>`
             )
             .join('')}
         </div>`
@@ -121,7 +126,8 @@ function initHero() {
               <div class="hero-model-price-amount"><span>${s.modelo}</span></div>
             </div>
             ${bloquePrecio('ms-3')}
-            <a href="#contacto" data-modelo="${s.modelo}" class="btn btn-white ms-4 mt-3 mt-sm-0">
+            <a href="${whatsappModelo(s.modelo)}" target="_blank" rel="noopener" title="Consultar por WhatsApp"
+               class="btn btn-white ms-4 mt-3 mt-sm-0">
               DESCUBRILO AHORA
             </a>
           </div>
@@ -138,7 +144,8 @@ function initHero() {
               <div class="hero-model-price-amount">${s.modelo}</div>
             </div>
             ${bloquePrecio('mt-2 ms-3')}
-            <a href="#contacto" data-modelo="${s.modelo}" class="btn btn-white ms-3 mt-3">
+            <a href="${whatsappModelo(s.modelo)}" target="_blank" rel="noopener" title="Consultar por WhatsApp"
+               class="btn btn-white ms-3 mt-3">
               DESCUBRILO AHORA
             </a>
           </div>
@@ -232,7 +239,8 @@ function initModelos() {
 
   grilla.innerHTML = MODELOS.map(
     (m) => `
-    <a href="#contacto" data-modelo="${m.nombre}" class="model text-black" data-category="${m.categoria}">
+    <a href="${whatsappModelo(m.nombre)}" target="_blank" rel="noopener" title="Consultar por WhatsApp"
+       class="model text-black" data-category="${m.categoria}">
       <div class="model-name d-flex align-items-center">
         ${m.nombre}
         <span class="icon-plus fw-normal text-white ms-2" aria-hidden="true">✚</span>
@@ -281,12 +289,12 @@ function marcarDesborde(contenedor) {
 }
 
 /* ==========================================================================
-   Envío compartido por los dos formularios (contacto y agendamiento)
+   Envío de solicitudes de formulario (hoy, el de agendamiento de service)
    ========================================================================== */
 
 /**
  * Con backend configurado (VITE_LEADS_ENDPOINT) la solicitud se envía por POST
- * en JSON, con un campo `tipo` para distinguir de qué formulario viene. Sin
+ * en JSON, con un campo `tipo` que identifica el formulario de origen. Sin
  * backend se abre el WhatsApp indicado con el mensaje ya armado.
  *
  * En la rama de WhatsApp no hay ningún `await` antes de `window.open`, así que
@@ -328,63 +336,6 @@ function opcionesModelos() {
         .join('') +
       '</optgroup>'
   ).join('');
-}
-
-/* ==========================================================================
-   Formulario de contacto
-   ========================================================================== */
-function initFormulario() {
-  const form = document.querySelector('#contact');
-  if (!form) return;
-
-  const select = form.querySelector('[name="model"]');
-  select.insertAdjacentHTML('beforeend', opcionesModelos());
-
-  // Las tarjetas, el megamenú y los CTA del hero llevan acá con data-modelo.
-  // El nombre del hero puede venir con la submarca adelante ("Haval H6 GT
-  // PHEV" contra "H6 GT PHEV" del catálogo), así que si no hay coincidencia
-  // exacta se busca la opción que esté contenida en ese texto.
-  function preseleccionar(nombre) {
-    const opciones = [...select.options].filter((o) => o.value);
-    const exacta = opciones.find((o) => o.value === nombre);
-    const parcial = opciones.find((o) => nombre.includes(o.value));
-    const elegida = exacta || parcial;
-    if (elegida) select.value = elegida.value;
-  }
-
-  document.addEventListener('click', (evento) => {
-    const enlace = evento.target.closest('a[data-modelo]');
-    if (enlace) preseleccionar(enlace.dataset.modelo);
-  });
-
-  form.addEventListener('submit', (evento) => {
-    evento.preventDefault();
-    if (!form.reportValidity()) return;
-
-    const datos = { tipo: 'contacto', ...Object.fromEntries(new FormData(form)) };
-    const mensaje = [
-      'Hola, quiero recibir información de GWM.',
-      `Nombre: ${datos.name}`,
-      `Teléfono: ${datos.phone}`,
-      `Email: ${datos.email}`,
-      `Modelo de interés: ${datos.model}`,
-      datos.message ? `Consulta: ${datos.message}` : '',
-    ]
-      .filter(Boolean)
-      .join('\n');
-
-    enviarSolicitud({
-      form,
-      datos,
-      whatsapp: WHATSAPP,
-      mensaje,
-      textos: {
-        ok: 'Gracias, recibimos tu consulta. Te contactamos a la brevedad.',
-        error: 'No pudimos enviar tu consulta. Escribinos por WhatsApp.',
-        whatsapp: 'Abrimos WhatsApp con tu consulta lista para enviar.',
-      },
-    });
-  });
 }
 
 /* ==========================================================================
@@ -588,7 +539,6 @@ initMegamenu();
 initHero();
 initVideoFondo();
 initModelos();
-initFormulario();
 initConcesionarios();
 initAgenda();
 
