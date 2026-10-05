@@ -4,7 +4,8 @@
    Estructura y estilos replicados de gwm.com.uy: mismo marcado Bootstrap 5,
    mismo slider Splide y las mismas clases propias (.slide, .hero-model-price,
    .model-category-button, .model, .home-link, .ws-link, #footer-links).
-   Contenido, catálogo e imágenes: www.gwm.com.py
+   Contenido, catálogo e imágenes: relevados del sitio anterior y servidos
+   desde public/. El sitio no depende de ningún dominio externo.
    ========================================================================== */
 
 /* --- Tipografía de marca (misma declaración que gwm.com.uy) -------------- */

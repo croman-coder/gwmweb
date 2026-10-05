@@ -9,7 +9,7 @@ Grupo Santa Rosa.
 | --- | --- |
 | [gwm.com.uy](https://gwm.com.uy) | La estructura y el diseño: mismo marcado Bootstrap 5, mismo slider Splide y las mismas clases propias (`.slide`, `.hero-model-price`, `.model-category-button`, `.model`, `.home-link`, `#footer-links`, `.ws-link`), con la tipografía GWMSans y el acento rojo `#d7000f`. |
 | [gwm-mx.com/es](https://www.gwm-mx.com/es) | Los spots de video del hero, en sus dos recortes (16:9 desktop y 9:16 mobile), más el video institucional de la banda de marca. |
-| `www.gwm.com.py` | El contenido: catálogo, precios, banners de campaña, logos, favicons y datos de contacto. |
+| `www.gwm.com.py` | El contenido de partida: catálogo, precios, banners de campaña, logos, favicons y datos de contacto. Todo se descargó y se sirve desde `public/`; el sitio no lo consulta en runtime. |
 
 ## Stack
 
@@ -46,7 +46,7 @@ public/video/            Spots de gwm-mx.com (16:9 y 9:16) + video institucional
 public/img/poster/       Posters de cada video (fallback y primer frame)
 public/img/modelos/      Fotos de los 14 modelos (webp)
 public/img/hero/         Banners de campaña y de servicios de gwm.com.py
-public/img/brand/        Logo GWM, Grupo Santa Rosa, Porta e imagen Open Graph
+public/img/brand/        Logo GWM, Grupo Santa Rosa e imagen Open Graph
 public/fonts/            GWMSans (Light/Regular/Bold), subseteada a latín
 public/favicon/          Set de favicons
 ```
@@ -126,6 +126,21 @@ python -m fontTools.subset GWMSans-Regular.woff2 \
   perfil.
 - **Categorías**: Uruguay usa Hatch / SUV / Todo terreno / Pickup. Acá se usan
   las submarcas definidas por Marketing: Wingle / Haval / Ora / Poer / Tank.
+
+## Sitio autocontenido
+
+No se referencia ningún dominio externo para funcionar: imágenes, videos,
+fuentes y favicons se sirven desde `public/`. Los únicos enlaces que salen del
+sitio son los de WhatsApp, las redes sociales y Grupo Santa Rosa.
+
+Como es una sola página, las fichas de producto, concesionarias y posventa no
+tienen destino propio: las tarjetas de modelo, el megamenú y los CTA del hero
+llevan al formulario de contacto **con el modelo ya seleccionado** (atributo
+`data-modelo`, resuelto en `initFormulario`). El emparejamiento tolera que el
+hero diga "Haval H6 GT PHEV" y el catálogo "H6 GT PHEV".
+
+Cuando existan las secciones de agendamiento, costos de service y talleres,
+esos enlaces pasan a apuntar ahí.
 
 ## Notas
 

@@ -40,7 +40,7 @@ function initMegamenu() {
             ${MODELOS.filter((m) => m.categoria === cat.id)
               .map(
                 (m) => `
-              <a class="header-model d-inline-block p-3" href="${m.url}" target="_blank" rel="noopener">
+              <a class="header-model d-inline-block p-3" href="#contacto" data-modelo="${m.nombre}">
                 <img class="d-block w-100" src="${m.imagen}" alt="GWM ${m.nombre}" loading="lazy" width="480" height="190">
                 <span class="ellipsis">${m.nombre}</span>
               </a>`
@@ -60,8 +60,8 @@ function initMegamenu() {
           ${MODELOS.filter((m) => m.categoria === cat.id)
             .map(
               (m) =>
-                `<a class="d-block py-1 text-decoration-none" style="color:#888" href="${m.url}"
-                    target="_blank" rel="noopener">${m.nombre}</a>`
+                `<a class="d-block py-1 text-decoration-none" style="color:#888" href="#contacto"
+                    data-modelo="${m.nombre}">${m.nombre}</a>`
             )
             .join('')}
         </div>`
@@ -119,7 +119,7 @@ function initHero() {
               <div class="hero-model-price-amount"><span>${s.modelo}</span></div>
             </div>
             ${bloquePrecio('ms-3')}
-            <a href="${s.url}" target="_blank" rel="noopener" class="btn btn-white ms-4 mt-3 mt-sm-0">
+            <a href="#contacto" data-modelo="${s.modelo}" class="btn btn-white ms-4 mt-3 mt-sm-0">
               DESCUBRILO AHORA
             </a>
           </div>
@@ -136,7 +136,7 @@ function initHero() {
               <div class="hero-model-price-amount">${s.modelo}</div>
             </div>
             ${bloquePrecio('mt-2 ms-3')}
-            <a href="${s.url}" target="_blank" rel="noopener" class="btn btn-white ms-3 mt-3">
+            <a href="#contacto" data-modelo="${s.modelo}" class="btn btn-white ms-3 mt-3">
               DESCUBRILO AHORA
             </a>
           </div>
@@ -230,7 +230,7 @@ function initModelos() {
 
   grilla.innerHTML = MODELOS.map(
     (m) => `
-    <a href="${m.url}" target="_blank" rel="noopener" class="model text-black" data-category="${m.categoria}">
+    <a href="#contacto" data-modelo="${m.nombre}" class="model text-black" data-category="${m.categoria}">
       <div class="model-name d-flex align-items-center">
         ${m.nombre}
         <span class="icon-plus fw-normal text-white ms-2" aria-hidden="true">✚</span>
@@ -281,6 +281,23 @@ function initFormulario() {
   );
 
   const estado = form.querySelector('[data-estado]');
+
+  // Las tarjetas, el megamenú y los CTA del hero llevan acá con data-modelo.
+  // El nombre del hero puede venir con la submarca adelante ("Haval H6 GT
+  // PHEV" contra "H6 GT PHEV" del catálogo), así que si no hay coincidencia
+  // exacta se busca la opción que esté contenida en ese texto.
+  function preseleccionar(nombre) {
+    const opciones = [...select.options].filter((o) => o.value);
+    const exacta = opciones.find((o) => o.value === nombre);
+    const parcial = opciones.find((o) => nombre.includes(o.value));
+    const elegida = exacta || parcial;
+    if (elegida) select.value = elegida.value;
+  }
+
+  document.addEventListener('click', (evento) => {
+    const enlace = evento.target.closest('a[data-modelo]');
+    if (enlace) preseleccionar(enlace.dataset.modelo);
+  });
 
   form.addEventListener('submit', async (evento) => {
     evento.preventDefault();
