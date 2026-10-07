@@ -497,6 +497,19 @@ body {
   z-index: 9999999;
 }
 
+/* El botón flotante (a 40px del borde, de 56px de alto) queda sobre el final de la página: el pie reserva ese
+   espacio abajo para que no tape el logo de Santa Rosa. En celular el logo es lo último de la columna única
+   y necesita más. */
+.footer-con-ws {
+  padding-bottom: 5rem;
+}
+
+@media (max-width: 767.98px) {
+  .footer-con-ws {
+    padding-bottom: 7rem;
+  }
+}
+
 .ws-logo {
   width: auto;
 }

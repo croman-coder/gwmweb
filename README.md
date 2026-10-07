@@ -56,7 +56,9 @@ public/img/modelos/      Fotos de modelos (webp): 15 archivos para 16 modelos,
 public/img/hero/         Banners de campaña y de servicios de gwm.com.py
 public/img/fichas/       Imágenes de las fichas (webp), una carpeta por modelo
 public/fichas/           PDF de ficha técnica, uno por modelo (<slug>.pdf)
-public/img/brand/        Logo GWM, Grupo Santa Rosa e imagen Open Graph
+public/img/brand/        Logo GWM, wordmark de Grupo Santa Rosa e imagen Open Graph.
+                         El de Santa Rosa es el original a color de santarosa.com.py:
+                         el pie lo muestra en blanco con un filtro CSS (ver index.html)
 public/fonts/            GWMSans (Light/Regular/Bold), subseteada a latín
 public/favicon/          Set de favicons
 ```
