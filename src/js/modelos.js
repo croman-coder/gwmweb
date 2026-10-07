@@ -9,9 +9,9 @@
  * Los precios son "desde", en USD. `precio: null` muestra "Consultar precio":
  * se usa para los modelos cuyo precio de Paraguay todavía no está confirmado.
  *
- * El sitio es autocontenido: no se enlaza a ningún dominio externo salvo
- * WhatsApp. Cada tarjeta, cada enlace del megamenú y cada CTA del hero abren el
- * WhatsApp de ventas con el modelo ya nombrado en el mensaje.
+ * Cada tarjeta, enlace del megamenú y CTA del hero lleva a la ficha del modelo
+ * (/modelos/<slug>); el contenido de las fichas está en fichas.js. El `slug`
+ * identifica al modelo y forma parte de su URL: no cambiarlo una vez publicado.
  */
 
 export const CATEGORIAS = [
@@ -27,6 +27,7 @@ export const MODELOS = [
   {
     categoria: 'wingle',
     nombre: 'Wingle 7',
+    slug: 'wingle-7',
     precio: 19990,
     imagen: '/img/modelos/wingle-7.webp',
     bajada: 'La pick up que conjuga alto rendimiento y estilo.',
@@ -36,6 +37,7 @@ export const MODELOS = [
   {
     categoria: 'haval',
     nombre: 'Jolion Pro HEV',
+    slug: 'jolion-pro-hev',
     precio: 19990,
     imagen: '/img/modelos/jolion-pro-hev.webp',
     bajada: 'El SUV que re-evoluciona tu mundo.',
@@ -43,6 +45,7 @@ export const MODELOS = [
   {
     categoria: 'haval',
     nombre: 'New H6 HEV',
+    slug: 'new-h6-hev',
     precio: 24990,
     imagen: '/img/modelos/new-h6-hev.webp',
     bajada: 'La SUV automática por excelencia, ahora híbrida.',
@@ -50,6 +53,7 @@ export const MODELOS = [
   {
     categoria: 'haval',
     nombre: 'New H6 PHEV',
+    slug: 'new-h6-phev',
     precio: 30990,
     imagen: '/img/modelos/new-h6-phev.webp',
     bajada: 'Tecnología y seguridad como nunca antes.',
@@ -57,6 +61,7 @@ export const MODELOS = [
   {
     categoria: 'haval',
     nombre: 'H6 GT PHEV',
+    slug: 'h6-gt-phev',
     precio: 39990,
     imagen: '/img/modelos/h6-gt-phev.webp',
     bajada: 'SUV deportiva de lujo con más autonomía en modo eléctrico.',
@@ -64,6 +69,7 @@ export const MODELOS = [
   {
     categoria: 'haval',
     nombre: 'H7 PHEV',
+    slug: 'h7-phev',
     precio: 35990,
     imagen: '/img/modelos/h7-phev.webp',
     bajada: 'El SUV híbrido enchufable que redefine el off road urbano.',
@@ -71,6 +77,7 @@ export const MODELOS = [
   {
     categoria: 'haval',
     nombre: 'H9 Diesel 2.4',
+    slug: 'h9-diesel-24',
     precio: 42990,
     imagen: '/img/modelos/h9-diesel-24.webp',
     bajada: 'La SUV de 3 hileras lista para cualquier aventura.',
@@ -82,6 +89,7 @@ export const MODELOS = [
   {
     categoria: 'ora',
     nombre: 'Ora 03 Skin',
+    slug: 'ora-03-skin',
     precio: null,
     imagen: '/img/modelos/ora-03.webp',
     bajada: '100% eléctrico, con un diseño que no pasa desapercibido.',
@@ -89,6 +97,7 @@ export const MODELOS = [
   {
     categoria: 'ora',
     nombre: 'Ora 5 EV',
+    slug: 'ora-5-ev',
     precio: null,
     imagen: '/img/modelos/ora-5.webp',
     bajada: 'El SUV urbano 100% eléctrico de GWM.',
@@ -96,6 +105,7 @@ export const MODELOS = [
   {
     categoria: 'ora',
     nombre: 'Ora 5 HEV',
+    slug: 'ora-5-hev',
     precio: null,
     imagen: '/img/modelos/ora-5.webp',
     bajada: 'La versión híbrida del SUV urbano de ORA.',
@@ -105,6 +115,7 @@ export const MODELOS = [
   {
     categoria: 'poer',
     nombre: 'Poer Diesel',
+    slug: 'poer-diesel',
     precio: 29990,
     imagen: '/img/modelos/poer-diesel.webp',
     bajada: 'La pick up doble cabina 4x4, potente y confiable.',
@@ -113,6 +124,7 @@ export const MODELOS = [
   {
     categoria: 'poer',
     nombre: 'Poer P500',
+    slug: 'poer-p500',
     precio: 44990,
     imagen: '/img/modelos/poer-p500.webp',
     bajada: 'La pick up híbrida enchufable 4x4 de GWM.',
@@ -122,6 +134,7 @@ export const MODELOS = [
   {
     categoria: 'tank',
     nombre: 'Tank 300 PHEV 4x4',
+    slug: 'tank-300-phev-4x4',
     precio: 39990,
     imagen: '/img/modelos/tank-300-phev.webp',
     bajada: 'Una SUV todoterreno imparable, ahora híbrida enchufable.',
@@ -129,6 +142,7 @@ export const MODELOS = [
   {
     categoria: 'tank',
     nombre: 'Tank 400 PHEV 4x4',
+    slug: 'tank-400-phev-4x4',
     precio: 50990,
     imagen: '/img/modelos/tank-400-phev.webp',
     bajada: 'El equilibrio perfecto entre poder y elegancia.',
@@ -136,6 +150,7 @@ export const MODELOS = [
   {
     categoria: 'tank',
     nombre: 'Tank 500 HEV 4x4',
+    slug: 'tank-500-hev-4x4',
     precio: 49990,
     imagen: '/img/modelos/tank-500-hev.webp',
     bajada: 'La potencia expresada en una SUV de máximo lujo.',
@@ -143,6 +158,7 @@ export const MODELOS = [
   {
     categoria: 'tank',
     nombre: 'Tank 700 PHEV 4x4',
+    slug: 'tank-700-phev-4x4',
     precio: 74990,
     imagen: '/img/modelos/tank-700-phev.webp',
     bajada: 'La máxima expresión de lujo y poder off road de GWM.',
@@ -162,22 +178,26 @@ export const MODELOS = [
 export const SLIDES = [
   {
     modelo: 'Tank 400 PHEV 4x4',
+    slug: 'tank-400-phev-4x4',
     precio: 50990,
     imagen: '/img/hero/tank-400.webp',
   },
   {
     modelo: 'Tank 700 PHEV 4x4',
+    slug: 'tank-700-phev-4x4',
     precio: 74990,
     imagen: '/img/modelos/tank-700-phev.webp',
     pendiente: true, // falta banner y spot
   },
   {
     modelo: 'Haval New H6 HEV',
+    slug: 'new-h6-hev',
     precio: 24990,
     imagen: '/img/hero/new-h6-hev.webp',
   },
   {
     modelo: 'Haval New H6 PHEV',
+    slug: 'new-h6-phev',
     precio: 30990,
     imagen: '/img/poster/h6-phev.webp',
     video: '/video/h6-phev-16x9.mp4',
@@ -185,6 +205,7 @@ export const SLIDES = [
   },
   {
     modelo: 'Poer Diesel',
+    slug: 'poer-diesel',
     precio: 29990,
     imagen: '/img/poster/poer.webp',
     video: '/video/poer-16x9.mp4',
@@ -192,23 +213,27 @@ export const SLIDES = [
   },
   {
     modelo: 'Haval H7 PHEV',
+    slug: 'h7-phev',
     precio: 35990,
     imagen: '/img/modelos/h7-phev.webp',
     pendiente: true, // falta banner y spot
   },
   {
     modelo: 'Haval H6 GT PHEV',
+    slug: 'h6-gt-phev',
     precio: 39990,
     imagen: '/img/hero/h6-gt-phev.webp',
   },
   {
     modelo: 'Jolion Pro HEV',
+    slug: 'jolion-pro-hev',
     precio: 19990,
     imagen: '/img/modelos/jolion-pro-hev.webp',
     pendiente: true, // falta banner y spot
   },
   {
     modelo: 'Ora 5',
+    slug: 'ora-5-ev',
     precio: null,
     imagen: '/img/poster/ora-5.webp',
     video: '/video/ora-5-16x9.mp4',
@@ -227,4 +252,14 @@ export function formatearPrecio(valor) {
 /** Texto de precio de una tarjeta, contemplando los que están por confirmar. */
 export function textoPrecio(valor) {
   return valor === null ? 'Consultar precio' : `Desde ${formatearPrecio(valor)}*`;
+}
+
+/** Ruta de la ficha de un modelo. */
+export function urlFicha(slug) {
+  return `/modelos/${slug}`;
+}
+
+/** Modelo del catálogo por su slug (undefined si no existe). */
+export function modeloPorSlug(slug) {
+  return MODELOS.find((m) => m.slug === slug);
 }

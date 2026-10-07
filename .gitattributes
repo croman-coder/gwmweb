@@ -7,4 +7,5 @@
 *.webp binary
 *.ico  binary
 *.mp4  binary
+*.pdf  binary
 *.woff2 binary

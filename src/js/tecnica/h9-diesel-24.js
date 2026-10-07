@@ -1,0 +1,147 @@
+/**
+ * Especificaciones técnicas de h9-diesel-24.
+ *
+ * Fuente: ficha técnica oficial en PDF (public/fichas/h9-diesel-24.pdf), transcripta y revisada contra el documento.
+ * Formato: columnas = versiones comparadas en la hoja (vacío si es una sola); cada fila es [etiqueta, valor];
+ * valor = texto | true (incluido) | false (no incluido) | [valor por columna] cuando difiere entre versiones.
+ * Las filas sin dato o no incluidas en ninguna versión no se listan.
+ *
+ * Respecto de la hoja:
+ *  - La hoja titula la columna "H9 MEDIUM" y el recuadro de versión "H9 HIGH"; la página llama al modelo "H9 Diesel 4x4".
+ *  - El bloque "Motor/Conducción" mezcla motor, medidas, capacidades y chasis: se separó en tres grupos.
+ *  - Se omitió "Ajuste manual alarmómetro" (la etiqueta no tiene sentido en la hoja; confirmar con el fabricante) y "Función de localización de automóviles" (marcada como no incluida).
+ */
+export default {
+  columnas: [],
+  secciones: [
+    {
+      titulo: 'Motor y transmisión',
+      filas: [
+        ['Motor / combustible', '2.4T Diesel'],
+        ['Transmisión', '9AT'],
+        ['Tracción', '4WD'],
+        ['Potencia', '184 HP'],
+        ['Torque', '480 Nm'],
+      ],
+    },
+    {
+      titulo: 'Dimensiones y capacidades',
+      filas: [
+        ['Largo × ancho × alto (con escalón lateral eléctrico)', '4.950 × 1.960 × 1.930 mm'],
+        ['Largo × ancho × alto (con escalón lateral fijo)', '4.950 × 1.976 × 1.930 mm'],
+        ['Distancia entre ejes', '2.850 mm'],
+        ['Ancho de vía delantero / trasero', '1.635 mm'],
+        ['Depósito de combustible', '78 L'],
+        ['Neumáticos', '265/60 R18'],
+      ],
+    },
+    {
+      titulo: 'Chasis y conducción',
+      filas: [
+        ['Suspensión trasera', 'Doble Horquilla'],
+        ['Sistema de arranque', 'Push to start'],
+        ['Dirección asistida eléctrica', true],
+        ['Asistencia de dirección', true],
+        ['4WD eléctrico inteligente / doble velocidad + bloqueo mecánico', true],
+        ['Modo de conducción opcional', true],
+        ['Control de crucero todoterreno', true],
+        ['Freno de disco-trasero', true],
+      ],
+    },
+    {
+      titulo: 'Exterior',
+      filas: [
+        ['Tablero de protección del chasis', true],
+        ['Interfaz de remolque + portal de energía de remolque', true],
+        ['Escobillas limpiaparabrisas delanteras deshuesadas: Automático', true],
+        ['Limpiaparabrisas trasero', true],
+        ['Paso lateral', 'Fijo'],
+        ['Tirador de techo + tiradores de techo interior (pilares A + B)', true],
+        ['Gancho de cuerda fijo', true],
+        ['Espejo retrovisor con desempañador', true],
+        ['Descongelación de alambre calentado', true],
+        ['Parabrisas delantero calefactado', true],
+        ['Escobillas limpiaparabrisas delanteras calefactadas', true],
+        ['Limpieza de cámaras', true],
+        ['Mangos del color del cuerpo', true],
+        ['Antena de tiburón', true],
+        ['Faros', 'Eléctricos ajustables'],
+        ['Faro automático', true],
+        ['Follow me home', true],
+        ['Luz antiniebla delantera con iluminación automática al girar', true],
+        ['Luz antiniebla trasera', true],
+        ['Luces de circulación diurna (DRL)', true],
+        ['Luces de freno LED de alto nivel', true],
+        ['Espejo retrovisor plegable / ajustable eléctricamente/ giro individual', true],
+      ],
+    },
+    {
+      titulo: 'Interior',
+      filas: [
+        ['7 Asientos', true],
+        ['Techo panorámico', 'Manual'],
+        ['Color del interior', 'Negro y marrón'],
+        ['Pantalla multimedia', '14,6"'],
+        ['Altavoces', '8'],
+        ['Volumen de detección de velocidad', true],
+        ['Asiento del conductor ajustable eléctricamente en 6 direcciones', true],
+        ['Soporte lumbar eléctrico de 4 vías asiento del conductor ajustable', true],
+        ['Asiento del pasajero delantero ajustable en 4 direcciones', 'Manual'],
+        ['Calefacción de los asientos delanteros', true],
+        ['Asientos de la 2ª fila calefacción', true],
+        ['Reposabrazos central de los asientos de la 2ª fila (con portavasos)', true],
+        ['Espejo retrovisor interno eléctrico antideslumbrante', true],
+        ['Calefacción del volante', true],
+        ['Asientos de PU', true],
+        ['Aire acondicionado automático de doble zona', true],
+        ['Aire acondicionado automático trasero de una sola zona', true],
+        ['Salida de aire de la segunda / tercera fila de aire acondicionado', true],
+        ['Indicador de temperatura exterior', true],
+        ['Filtro de polvo', true],
+        ['AV+MP5+RDS', true],
+        ['Bluetooth', true],
+        ['Puerto USB DVR', true],
+        ['USB frontal + USB trasero', true],
+        ['Carga inalámbrica de energía', true],
+        ['Panel de instrumentos', '10,25"'],
+        ['Linterna frontal LED', true],
+        ['Volante de cuero de microfibra', true],
+        ['Volante ajustable manualmente en 4 direcciones', true],
+        ['Recordatorio de retroceso del volante', true],
+        ['Visera solar + espejo de maquillaje + lámpara', true],
+        ['Lámpara de habitación delantera + lámpara de luz suave + estuche de gafas', true],
+        ['Luz de techo', 'Central'],
+        ['Luz ambiental de un solo color', true],
+        ['Lámpara de guantera', true],
+      ],
+    },
+    {
+      titulo: 'Seguridad',
+      filas: [
+        ['Airbags', '6 (Frontales + Laterales + cortina dual)'],
+        ['Cámara de visión periférica 360', true],
+        ['Chasis video', true],
+        ['Ventilador electrónico', true],
+        ['Sistema de entrada frontal sin llave', true],
+        ['Retención automática', true],
+        ['Cinturones de seguridad delanteros ajustables con pretensor y sistema de advertencia de desabrochamiento', true],
+        ['ABS+EBD+TCS+RMI+ESC+IBC', true],
+        ['HAC/HDC', true],
+        ['Mitigación de colisión secundaria', true],
+        ['Sistema de anulación de frenos (BOS)', true],
+        ['Sistema de alarma de freno de emergencia', true],
+        ['TPMS', true],
+        ['Función de desbloqueo automático de colisión', true],
+        ['Sistema de aceite de colisión', true],
+        ['Radar inverso', true],
+        ['Radar frontal', true],
+        ['EDR', true],
+        ['Ventana: un clic lifting + anti-pellizco + cierre automático', true],
+        ['Inmovilizador del motor', true],
+        ['Sistema de alarma antirrobo', true],
+        ['Función de bloqueo automático durante la conducción', true],
+        ['Control remoto cerradura central de la puerta', true],
+      ],
+    },
+  ],
+};

@@ -6,15 +6,9 @@ import '../css/styles.css';
 
 import { Dropdown, Collapse } from 'bootstrap';
 import Splide from '@splidejs/splide';
-import { CATEGORIAS, MODELOS, SLIDES_ACTIVOS, formatearPrecio, textoPrecio } from './modelos.js';
+import { CATEGORIAS, MODELOS, SLIDES_ACTIVOS, formatearPrecio, textoPrecio, urlFicha } from './modelos.js';
 import { DEALERS, CIUDADES, telHref, mapaHref } from './concesionarios.js';
 import { SERVICIOS, WHATSAPP_POSTVENTA, RECLAMOS } from './postventa.js';
-
-const WHATSAPP = '595976955836';
-
-/** WhatsApp de ventas con el modelo ya nombrado en el mensaje. */
-const whatsappModelo = (nombre) =>
-  `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(`Hola, quiero información sobre el GWM ${nombre}.`)}`;
 
 /** Splide reproduce el slide activo; los spots duran ~5 s, de ahí el intervalo. */
 const INTERVALO_SLIDER = 6000;
@@ -46,8 +40,7 @@ function initMegamenu() {
             ${MODELOS.filter((m) => m.categoria === cat.id)
               .map(
                 (m) => `
-              <a class="header-model d-inline-block p-3" href="${whatsappModelo(m.nombre)}" target="_blank" rel="noopener"
-                 title="Consultar por WhatsApp">
+              <a class="header-model d-inline-block p-3" href="${urlFicha(m.slug)}">
                 <img class="d-block w-100" src="${m.imagen}" alt="GWM ${m.nombre}" loading="lazy" width="480" height="190">
                 <span class="ellipsis">${m.nombre}</span>
               </a>`
@@ -67,8 +60,7 @@ function initMegamenu() {
           ${MODELOS.filter((m) => m.categoria === cat.id)
             .map(
               (m) =>
-                `<a class="d-block py-1 text-decoration-none" style="color:#888"
-                    href="${whatsappModelo(m.nombre)}" target="_blank" rel="noopener">${m.nombre}</a>`
+                `<a class="d-block py-1 text-decoration-none" style="color:#888" href="${urlFicha(m.slug)}">${m.nombre}</a>`
             )
             .join('')}
         </div>`
@@ -126,8 +118,7 @@ function initHero() {
               <div class="hero-model-price-amount"><span>${s.modelo}</span></div>
             </div>
             ${bloquePrecio('ms-3')}
-            <a href="${whatsappModelo(s.modelo)}" target="_blank" rel="noopener" title="Consultar por WhatsApp"
-               class="btn btn-white ms-4 mt-3 mt-sm-0">
+            <a href="${urlFicha(s.slug)}" class="btn btn-white ms-4 mt-3 mt-sm-0">
               DESCUBRILO AHORA
             </a>
           </div>
@@ -144,8 +135,7 @@ function initHero() {
               <div class="hero-model-price-amount">${s.modelo}</div>
             </div>
             ${bloquePrecio('mt-2 ms-3')}
-            <a href="${whatsappModelo(s.modelo)}" target="_blank" rel="noopener" title="Consultar por WhatsApp"
-               class="btn btn-white ms-3 mt-3">
+            <a href="${urlFicha(s.slug)}" class="btn btn-white ms-3 mt-3">
               DESCUBRILO AHORA
             </a>
           </div>
@@ -239,8 +229,7 @@ function initModelos() {
 
   grilla.innerHTML = MODELOS.map(
     (m) => `
-    <a href="${whatsappModelo(m.nombre)}" target="_blank" rel="noopener" title="Consultar por WhatsApp"
-       class="model text-black" data-category="${m.categoria}">
+    <a href="${urlFicha(m.slug)}" class="model text-black" data-category="${m.categoria}">
       <div class="model-name d-flex align-items-center">
         ${m.nombre}
         <span class="icon-plus fw-normal text-white ms-2" aria-hidden="true">✚</span>
@@ -535,18 +524,60 @@ function initAgenda() {
 /* ==========================================================================
    Arranque
    ========================================================================== */
-initMegamenu();
-initHero();
-initVideoFondo();
-initModelos();
-initConcesionarios();
-initAgenda();
+/* ==========================================================================
+   Arranque. La landing vive en "/" y cada ficha de modelo en "/modelos/<slug>":
+   nginx devuelve index.html para cualquier ruta (ver nginx.conf) y acá se decide
+   qué se arma. En las fichas un script del <head> ya ocultó la landing.
+   ========================================================================== */
+/**
+ * Llegada a la landing con "#seccion" (por ejemplo desde el menú de una ficha). El navegador salta al ancla
+ * apenas la encuentra, cuando las secciones armadas por JS todavía no tienen su alto: queda corto. Se vuelve
+ * a alinear ya armadas, y de nuevo al terminar de cargar, salvo que la persona ya haya empezado a moverse.
+ */
+function alinearConAncla() {
+  const id = decodeURIComponent(location.hash.slice(1));
+  const raiz = document.documentElement;
+  if (!id) return;
+  let movida = false;
+  const alinear = () => document.getElementById(id)?.scrollIntoView();
+  const terminar = () => {
+    if (!movida) alinear();
+    raiz.classList.remove('llegada-con-ancla');
+  };
+  ['wheel', 'touchstart', 'keydown'].forEach((e) => window.addEventListener(e, () => (movida = true), { once: true, passive: true }));
+  alinear();
+  if (document.readyState === 'complete') terminar();
+  else window.addEventListener('load', terminar, { once: true });
+}
 
-// Al elegir una sección desde el menú mobile, cerrar el desplegable.
+const rutaFicha = location.pathname.match(/^\/modelos\/([^/]+)\/?$/);
+
+initMegamenu();
+if (rutaFicha) {
+  // La ficha (y su contenido y estilos) se baja aparte: la landing no paga su peso.
+  import('./ficha.js')
+    .then(({ initFicha }) => initFicha(decodeURIComponent(rutaFicha[1])))
+    .catch(() => {
+      document.querySelector('#ficha').innerHTML =
+        '<p style="padding: 96px 24px; text-align: center">No pudimos cargar la ficha. Probá recargar la página.</p>';
+    });
+} else if (/^\/modelos\/?$/.test(location.pathname)) {
+  location.replace('/#modelos'); // /modelos sin modelo: al listado de la landing
+} else {
+  initHero();
+  initVideoFondo();
+  initModelos();
+  initConcesionarios();
+  initAgenda();
+  alinearConAncla();
+}
+
+// Al elegir una sección desde el menú mobile, cerrar el desplegable. El menú y el pie
+// apuntan a "/#seccion" para que también funcionen desde una ficha.
 const navColapsable = document.querySelector('#navbarSupportedContent');
 if (navColapsable) {
   const colapso = Collapse.getOrCreateInstance(navColapsable, { toggle: false });
-  navColapsable.querySelectorAll('a[href^="#"]').forEach((enlace) => {
+  navColapsable.querySelectorAll('a[href^="/#"]').forEach((enlace) => {
     enlace.addEventListener('click', () => colapso.hide());
   });
 }

@@ -1,0 +1,1036 @@
+/* ==========================================================================
+   Ficha de modelo (/modelos/<slug>)
+
+   Replica la ficha de gwm.com.py. Las medidas salen de su hoja de estilos
+   (layout.min.css) y de la página en funcionamiento: barra de secciones de
+   45 px (65 px desde 825 px), portada con degradé, bloques de 2 columnas,
+   galería con puntos, etc. La tipografía, el menú y el pie son los de esta
+   página. Todo cuelga de .ficha para no tocar el resto del sitio.
+
+   Se carga junto con ficha.js, es decir, solo en las páginas de ficha.
+   ========================================================================== */
+
+.ficha {
+  /* Alto de la barra fija del sitio y de la barra de secciones de la ficha. */
+  --ficha-menu: 80px;
+  --ficha-nav: 45px;
+  --ficha-gris: #f1f1f1;
+  color: #111;
+  background: #fff;
+}
+
+@media (min-width: 825px) {
+  .ficha {
+    --ficha-nav: 65px;
+  }
+}
+
+.ficha *,
+.ficha *::before,
+.ficha *::after {
+  box-sizing: border-box;
+}
+
+/* :where() deja la especificidad en 0 para que los márgenes de cada clase (.ficha-subtitulo, etc.) ganen. */
+:where(.ficha) :is(h1, h2, p) {
+  margin: 0;
+}
+
+/* html ya reserva el alto de la barra del sitio (scroll-padding-top): acá solo falta la de la ficha. */
+.ficha [id] {
+  scroll-margin-top: var(--ficha-nav);
+}
+
+/* --- Botones ------------------------------------------------------------ */
+.ficha-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  height: 48px;
+  padding: 0 20px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: 0.75px;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+}
+
+.ficha-btn--claro {
+  width: 100%;
+  background: var(--ficha-gris);
+  border-color: var(--ficha-gris);
+  border-radius: 5px;
+  color: #000;
+}
+
+.ficha-btn--claro:hover {
+  background: #fff;
+  border-color: #fff;
+  color: #000;
+}
+
+.ficha-btn--oscuro {
+  background: #000;
+  border-color: #000;
+  color: #fff;
+}
+
+.ficha-btn--oscuro:hover {
+  background: #2a2a2a;
+  border-color: #2a2a2a;
+  color: #fff;
+}
+
+.ficha-btn--contorno {
+  background: transparent;
+  border-color: #000;
+  color: #222;
+}
+
+.ficha-btn--contorno:hover {
+  background: #000;
+  color: #fff;
+}
+
+.ficha-btn:focus-visible,
+.ficha-tabs button:focus-visible,
+.ficha-nav a:focus-visible {
+  outline: 2px solid #d7000f;
+  outline-offset: 2px;
+}
+
+/* --- Barra de secciones (se pega bajo la barra del sitio) ---------------- */
+.ficha-nav {
+  position: sticky;
+  top: var(--ficha-menu);
+  z-index: 1010;
+  display: flex;
+  width: 100%;
+  height: var(--ficha-nav);
+  background: #000;
+  color: #fff;
+}
+
+.ficha-nav__inicio {
+  display: flex;
+  justify-content: center;
+  flex: none;
+  padding: 0.25rem 1rem;
+  box-shadow: 4px 0 4px -4px rgba(0, 0, 0, 0.36);
+}
+
+.ficha-nav__modelo {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  border-bottom: 3px solid #fff;
+  color: #fff;
+  font-size: 14px;
+  text-decoration: none;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.ficha-nav__items {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 0 1rem;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+}
+
+.ficha-nav__items::-webkit-scrollbar {
+  display: none;
+}
+
+.ficha-nav__items a {
+  color: #fff;
+  font-size: 14px;
+  text-decoration: none;
+  text-transform: capitalize;
+  white-space: nowrap;
+}
+
+.ficha-nav__items a:hover {
+  text-decoration: underline;
+  opacity: 0.9;
+}
+
+.ficha-nav__items a.activo {
+  font-weight: 700;
+}
+
+@media (min-width: 825px) {
+  .ficha-nav {
+    padding: 0 2rem;
+  }
+
+  .ficha-nav__inicio {
+    position: relative;
+    padding: 0 2rem;
+    box-shadow: none;
+  }
+
+  .ficha-nav__inicio::after {
+    content: '';
+    position: absolute;
+    top: 25%;
+    right: 0;
+    height: 50%;
+    border-left: 1.33px solid #666;
+  }
+
+  .ficha-nav__modelo {
+    font-size: 20px;
+  }
+
+  .ficha-nav__items {
+    justify-content: space-between;
+    padding: 0 2rem;
+  }
+
+  .ficha-nav__items a {
+    font-size: 18px;
+  }
+}
+
+/* --- Portada ------------------------------------------------------------- */
+.ficha-portada {
+  position: relative;
+  padding: 70px 0;
+  overflow: hidden;
+  background: #000;
+  color: #fff;
+}
+
+.ficha-portada picture,
+.ficha-portada__imagen {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.ficha-portada__imagen {
+  object-fit: cover;
+  object-position: center;
+}
+
+.ficha-portada::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  opacity: 0.67;
+  background: linear-gradient(to right, #000 14.89%, transparent 100%);
+  pointer-events: none;
+}
+
+.ficha-portada__contenido {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  padding: 0 15px;
+}
+
+.ficha-portada h1 {
+  margin-bottom: 18px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #fff;
+  color: #fff;
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.ficha-portada__bajada {
+  margin-bottom: 20px;
+  color: #fff;
+  font-size: 18px;
+  line-height: 1.5;
+}
+
+.ficha-portada__precio {
+  margin-bottom: 20px;
+  color: #fff;
+  line-height: 1.2;
+}
+
+.ficha-portada__precio span {
+  display: block;
+  font-size: 14px;
+}
+
+.ficha-portada__precio strong {
+  display: block;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+@media (min-width: 768px) {
+  .ficha-portada__contenido {
+    width: 50%;
+    padding: 0 36px;
+  }
+
+  .ficha-portada h1 {
+    font-size: 36px;
+  }
+
+  .ficha-portada__precio strong {
+    font-size: 30px;
+  }
+}
+
+/* --- Versiones ----------------------------------------------------------- */
+.ficha-versiones {
+  padding: 60px 15px;
+  background: #fff;
+}
+
+.ficha-versiones h2 {
+  margin-bottom: 18px;
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.1;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.ficha-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0 2rem;
+  margin: 0 0 18px;
+  padding: 0;
+  list-style: none;
+}
+
+.ficha-tabs button {
+  padding: 5px 0;
+  border: 0;
+  border-bottom: 4px solid transparent;
+  background: none;
+  color: #000;
+  font: inherit;
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1.1;
+  text-transform: uppercase;
+  opacity: 0.5;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.ficha-tabs button:hover {
+  opacity: 0.85;
+}
+
+.ficha-tabs button[aria-selected='true'] {
+  border-bottom-color: #000;
+  opacity: 1;
+}
+
+.ficha-version {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 24px;
+  margin-top: 40px;
+}
+
+.ficha-version[hidden] {
+  display: none;
+}
+
+.ficha-version__specs p {
+  color: #222;
+  font-size: 14px;
+  line-height: 1.8;
+}
+
+.ficha-version__specs strong {
+  font-weight: 700;
+}
+
+.ficha-version__nombre {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.ficha-version__nombre small {
+  font-size: 14px;
+  font-weight: 300;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+}
+
+.ficha-version__nombre strong {
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.ficha-version__precio {
+  color: #222;
+  font-size: 14px;
+}
+
+.ficha-version__precio strong {
+  display: block;
+  margin-top: 4px;
+  font-size: 25px;
+  font-weight: 300;
+  line-height: 1;
+}
+
+.ficha-version__acciones {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 8px;
+  max-width: 460px;
+}
+
+/* Tableta: especificaciones, nombre y precio a la izquierda y los botones a la derecha. */
+@media (min-width: 768px) and (max-width: 991px) {
+  .ficha-version {
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+      'specs acciones'
+      'nombre acciones'
+      'precio acciones';
+    column-gap: 48px;
+    align-items: start;
+  }
+
+  .ficha-version__specs {
+    grid-area: specs;
+  }
+
+  .ficha-version__nombre {
+    grid-area: nombre;
+  }
+
+  .ficha-version__precio {
+    grid-area: precio;
+  }
+
+  .ficha-version__acciones {
+    grid-area: acciones;
+    align-self: center;
+    max-width: none;
+  }
+}
+
+@media (min-width: 992px) {
+  .ficha-versiones {
+    padding: 60px 36px;
+  }
+
+  .ficha-versiones h2 {
+    font-size: 24px;
+  }
+
+  .ficha-version {
+    grid-template-columns: minmax(0, 25%) minmax(0, 25%) auto minmax(0, 1fr);
+    gap: 0;
+  }
+
+  .ficha-version__specs {
+    padding-right: 24px;
+    border-right: 1px solid #dee2e6;
+  }
+
+  .ficha-version__nombre {
+    padding: 0 48px;
+  }
+
+  .ficha-version__nombre strong {
+    font-size: 25px;
+  }
+
+  .ficha-version__precio {
+    align-self: center;
+    padding: 0 24px;
+  }
+
+  .ficha-version__precio strong {
+    font-size: 35px;
+  }
+
+  .ficha-version__acciones {
+    max-width: none;
+    padding-left: 48px;
+    border-left: 1px solid #dee2e6;
+  }
+}
+
+/* --- Diseño y tecnología: texto sobre negro + imagen -------------------- */
+.ficha-bloque {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  background: #000;
+  color: #fff;
+}
+
+.ficha-bloque + .ficha-bloque {
+  margin-top: 60px;
+}
+
+.ficha-bloque__texto {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 2rem;
+  min-height: 270px;
+  padding: 60px 40px;
+}
+
+.ficha-bloque h2 {
+  padding-bottom: 20px;
+  border-bottom: 1px solid #fff;
+  color: #fff;
+  font-size: 24px;
+  font-weight: 700;
+  line-height: 1.1;
+}
+
+.ficha-bloque__cuerpo p {
+  color: #fff;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.ficha-bloque__imagen {
+  position: relative;
+  height: 50vh;
+}
+
+.ficha-bloque__imagen img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+@media (min-width: 769px) {
+  .ficha-bloque {
+    grid-template-columns: 1fr 1fr;
+    min-height: min(100vh, 900px);
+  }
+
+  .ficha-bloque__texto {
+    min-height: 0;
+  }
+
+  .ficha-bloque h2 {
+    font-size: 40px;
+  }
+
+  .ficha-bloque__cuerpo p {
+    font-size: 20px;
+    line-height: 1.9;
+  }
+
+  .ficha-bloque__imagen {
+    height: auto;
+  }
+}
+
+/* --- Galería ------------------------------------------------------------- */
+.ficha-galeria {
+  padding: 60px 0;
+}
+
+.ficha-galeria h2 {
+  margin-bottom: 40px;
+  font-size: 22px;
+  font-weight: 300;
+  letter-spacing: 4px;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.ficha-galeria__slider {
+  position: relative;
+}
+
+.ficha-galeria__slider .splide__slide img,
+.ficha-galeria__slider--unica .splide__slide img {
+  display: block;
+  width: 100%;
+  aspect-ratio: var(--ficha-proporcion, 12 / 5);
+  object-fit: cover;
+}
+
+/* Sin Splide montado (una sola imagen) las slides se apilan como una lista normal. */
+.ficha-galeria__slider--unica {
+  visibility: visible;
+}
+
+.ficha-galeria__slider--unica .splide__list {
+  display: block;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ficha-galeria__slider .splide__pagination {
+  position: absolute;
+  right: auto;
+  bottom: 16px;
+  left: 50%;
+  z-index: 9;
+  width: fit-content;
+  padding: 0.5rem;
+  border-radius: 30px;
+  background: #fff;
+  transform: translateX(-50%);
+}
+
+.ficha-galeria__slider .splide__pagination li {
+  line-height: 0;
+}
+
+.ficha-galeria__slider .splide__pagination__page {
+  width: 14px;
+  height: 14px;
+  margin: 0 3px;
+  border-radius: 50%;
+  background: #000;
+  opacity: 0.2;
+  transform: none;
+}
+
+.ficha-galeria__slider .splide__pagination__page.is-active {
+  background: #000;
+  opacity: 1;
+  transform: none;
+}
+
+@media (min-width: 769px) {
+  .ficha-galeria h2 {
+    font-size: 24px;
+  }
+}
+
+/* --- Diseño interior ------------------------------------------------------ */
+.ficha-etiqueta {
+  margin-bottom: 15px;
+  font-size: 14px;
+  font-weight: 300;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+}
+
+.ficha-interior h2,
+.ficha-exterior h2 {
+  margin-bottom: 18px;
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.ficha-subtitulo {
+  margin-bottom: 20px;
+  color: #21293c;
+  font-size: 17.5px;
+  line-height: 1.5;
+}
+
+.ficha-interior {
+  padding: 60px 15px;
+  background: var(--ficha-gris);
+}
+
+.ficha-interior__grilla {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-items: center;
+  gap: 30px;
+}
+
+.ficha-interior__texto p:not(.ficha-etiqueta):not(.ficha-subtitulo) {
+  margin-bottom: 15px;
+  font-size: 15px;
+  line-height: 1.8;
+}
+
+.ficha-interior img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 5 / 4;
+  object-fit: cover;
+}
+
+@media (min-width: 992px) {
+  .ficha-interior {
+    padding: 60px 36px;
+  }
+
+  .ficha-interior__grilla {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .ficha-interior h2,
+  .ficha-exterior h2 {
+    font-size: 24px;
+  }
+}
+
+/* --- Diseño exterior ------------------------------------------------------ */
+.ficha-exterior {
+  padding: 30px 15px 60px;
+  text-align: center;
+}
+
+.ficha-exterior__cuerpo {
+  max-width: 1185px;
+  margin: 0 auto;
+}
+
+.ficha-exterior__cuerpo p:not(.ficha-etiqueta):not(.ficha-subtitulo) {
+  font-size: 15px;
+  line-height: 1.8;
+}
+
+.ficha-exterior img {
+  display: block;
+  width: 100%;
+  max-width: 889px;
+  aspect-ratio: 5 / 4;
+  margin: 30px auto 0;
+  object-fit: cover;
+}
+
+@media (min-width: 992px) {
+  .ficha-exterior {
+    padding: 30px 36px 60px;
+  }
+
+  .ficha-exterior img {
+    width: 75%;
+  }
+}
+
+/* --- Especificaciones técnicas --------------------------------------------
+   Un <details> por grupo con su tabla. Con varias versiones, cada columna es una
+   versión y el encabezado se queda pegado bajo las barras al desplazarse. */
+.ficha .visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.ficha-tecnica {
+  padding: 60px 15px;
+  background: #fff;
+}
+
+.ficha-tecnica__contenido {
+  max-width: 1040px;
+  margin: 0 auto;
+}
+
+.ficha-tecnica h2 {
+  margin-bottom: 12px;
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.1;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.ficha-tecnica__bajada {
+  max-width: 640px;
+  margin: 0 auto 28px;
+  color: #6c757d;
+  font-size: 14px;
+  line-height: 1.6;
+  text-align: center;
+}
+
+.ficha-tecnica__acciones {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 24px;
+  margin-bottom: 14px;
+}
+
+.ficha-tecnica__pdf,
+.ficha-tecnica__todo {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: #111;
+  font: inherit;
+  font-size: 13px;
+  letter-spacing: 0.75px;
+  text-decoration: underline;
+  text-transform: uppercase;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+.ficha-tecnica__pdf:hover,
+.ficha-tecnica__todo:hover {
+  text-decoration-thickness: 2px;
+}
+
+.ficha-tecnica__pdf:focus-visible,
+.ficha-tecnica__todo:focus-visible,
+.ficha-grupo > summary:focus-visible {
+  outline: 2px solid #d7000f;
+  outline-offset: 2px;
+}
+
+.ficha-grupo {
+  border-top: 1px solid #000;
+}
+
+.ficha-grupo:last-child {
+  border-bottom: 1px solid #000;
+}
+
+.ficha-grupo > summary {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 4px;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.75px;
+  list-style: none;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.ficha-grupo > summary::-webkit-details-marker {
+  display: none;
+}
+
+.ficha-grupo__titulo {
+  flex: 1 1 auto;
+}
+
+.ficha-grupo__cantidad {
+  color: #6c757d;
+  font-size: 13px;
+  font-weight: 300;
+}
+
+.ficha-grupo > summary::after {
+  content: '';
+  flex: none;
+  width: 9px;
+  height: 9px;
+  margin-bottom: 3px;
+  border-right: 2px solid #000;
+  border-bottom: 2px solid #000;
+  transform: rotate(45deg);
+  transition: transform 0.2s;
+}
+
+.ficha-grupo[open] > summary::after {
+  margin-bottom: -3px;
+  transform: rotate(-135deg);
+}
+
+.ficha-tabla {
+  width: 100%;
+  margin: 0 0 14px;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.ficha-tabla th,
+.ficha-tabla td {
+  padding: 9px 4px;
+  border-top: 1px solid #e4e4e4;
+  line-height: 1.4;
+  vertical-align: middle;
+  /* listas sin espacios ("Eco/Normal/Deportivo/Lodo...") no deben ensanchar la tabla en el celular */
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.ficha-tabla tbody th {
+  width: 58%;
+  color: #333;
+  font-weight: 400;
+  text-align: left;
+}
+
+.ficha-tabla td {
+  padding-left: 14px;
+  color: #111;
+  text-align: right;
+}
+
+.ficha-tabla .ficha-si,
+.ficha-tabla .ficha-no {
+  line-height: 1;
+}
+
+@media (hover: hover) {
+  .ficha-tabla tbody tr:hover > * {
+    background: #f6f6f6;
+  }
+}
+
+.ficha-si__icono {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.ficha-no {
+  color: #9a9a9a;
+}
+
+/* Varias versiones: una columna por versión y el encabezado a la vista. */
+.ficha-tabla thead th {
+  position: sticky;
+  top: calc(var(--ficha-menu) + var(--ficha-nav));
+  z-index: 2;
+  padding: 10px 4px;
+  border-top: 0;
+  border-bottom: 1px solid #000;
+  background: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.75px;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.ficha-tabla--versiones tbody th {
+  width: auto;
+}
+
+.ficha-tabla--versiones td,
+.ficha-tabla--versiones thead th + th {
+  width: 24%;
+  padding-right: 4px;
+  text-align: center;
+}
+
+@media (max-width: 575px) {
+  .ficha-tabla {
+    font-size: 13px;
+  }
+
+  .ficha-tabla tbody th {
+    width: 64%;
+  }
+
+  .ficha-tabla--versiones td,
+  .ficha-tabla--versiones thead th + th {
+    width: 26%;
+    padding-left: 4px;
+  }
+
+  .ficha-tabla thead th {
+    font-size: 11px;
+    letter-spacing: 0.4px;
+  }
+}
+
+@media (min-width: 992px) {
+  .ficha-tecnica {
+    padding: 60px 36px;
+  }
+
+  .ficha-tecnica h2 {
+    font-size: 24px;
+  }
+
+  .ficha-tabla {
+    font-size: 15px;
+  }
+
+  .ficha-tabla--versiones td,
+  .ficha-tabla--versiones thead th + th {
+    width: 20%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ficha-grupo > summary::after {
+    transition: none;
+  }
+}
+
+/* --- Pie de la ficha ------------------------------------------------------ */
+.ficha-nota {
+  padding: 0 15px 24px;
+  color: #6c757d;
+  font-size: 12px;
+  text-align: center;
+}
+
+.ficha-volver {
+  padding: 24px 15px 56px;
+  text-align: center;
+}
+
+.ficha-volver a {
+  color: #111;
+  font-size: 14px;
+  letter-spacing: 0.75px;
+  text-transform: uppercase;
+}
+
+/* --- Ficha mínima (modelos sin contenido todavía) ------------------------ */
+.ficha-aviso {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 64px 24px 24px;
+  text-align: center;
+}
+
+.ficha-aviso p {
+  font-size: 17px;
+  line-height: 1.6;
+}
+
+/* --- Modelo no encontrado ------------------------------------------------- */
+.ficha-vacia {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  min-height: 60vh;
+  padding: 96px 24px;
+  text-align: center;
+}
+
+.ficha-vacia h1 {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.ficha-vacia p {
+  max-width: 460px;
+  margin: 0;
+}

@@ -37,6 +37,33 @@ html {
   scroll-padding-top: 80px;
 }
 
+/* Páginas de ficha (/modelos/<slug>): un script del <head> marca <html> con .vista-ficha y se
+   oculta la landing desde el primer pintado; ficha.js rellena #ficha (ver ficha.css). */
+html.vista-ficha main > :not(#ficha) {
+  display: none !important;
+}
+
+/* Llegada con ancla: el salto es instantáneo, porque el contenido se arma por JS y un scroll suave
+   se quedaría corto (main.js alinea de nuevo y devuelve el scroll suave). */
+html.llegada-con-ancla {
+  scroll-behavior: auto;
+}
+
+html.vista-ficha #ficha:empty {
+  min-height: 100vh;
+}
+
+/* Fichas cortas (p. ej. las que todavía no tienen contenido): el pie queda al fondo de la pantalla. */
+html.vista-ficha body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+html.vista-ficha main {
+  flex: 1 0 auto;
+}
+
 body {
   padding: 0;
   margin: 0;
