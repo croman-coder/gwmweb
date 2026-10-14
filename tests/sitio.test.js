@@ -286,5 +286,18 @@ test(
     const invalid = await fetch(origen + "/modelos/no-existe");
     assert.equal(invalid.status, 404);
     assert.match(await invalid.text(), /noindex, follow/);
+    if (new URL(origen).hostname === '127.0.0.1') {
+      // Reproduce el proxy HTTPS de Cloudflare y su salto HTTP hacia Coolify.
+      for (const [headers, status] of [
+        [{ 'X-Forwarded-Proto': 'http' }, 301],
+        [{ 'X-Forwarded-Proto': 'https' }, 200],
+        [{ 'CF-Visitor': '{"scheme":"https"}', 'X-Forwarded-Proto': 'http' }, 200],
+        [{ 'CF-Visitor': '{ "scheme": "http" }', 'X-Forwarded-Proto': 'https' }, 301],
+      ]) {
+        const res = await fetch(origen + '/modelos/ora-5-ev?utm_source=prueba', { headers, redirect: 'manual' });
+        assert.equal(res.status, status, JSON.stringify(headers));
+        if (status === 301) assert.equal(res.headers.get('location'), 'https://127.0.0.1/modelos/ora-5-ev?utm_source=prueba');
+      }
+    }
   },
 );

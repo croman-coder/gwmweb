@@ -27,6 +27,8 @@ Open Graph, Twitter, datos estructurados de página, vehículos, categorías y s
 sitemap y robots. Las variantes `.html`, la barra final y los productos antiguos tienen
 redirección permanente. `npm run build` y `SITE_TEST_URL=<origen> node tests/sitio.test.js`
 comprueban contenido, enlaces, metadatos, redirecciones y 404 real.
+El acceso público por HTTP redirige a HTTPS. Nginx respeta el protocolo original
+informado por Cloudflare; el enlace HTTP interno de Coolify y los healthchecks se conservan.
 
 ## Stack
 
