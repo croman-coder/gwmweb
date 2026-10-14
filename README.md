@@ -291,8 +291,10 @@ No se inventan stock, reseñas ni horarios que no estén confirmados.
 - `/concesionarios`: direcciones y contactos de Paraguay.
 - `/postventa`: orientación sobre garantía y mantenimiento, sin trasladar plazos
   de otro país. `/privacidad`: información de formularios y medición opcional. `/cookies`: política de cookies y acceso a configuración.
-- El material ORA sigue siendo ilustrativo: las cifras técnicas de otro mercado
-  no se muestran hasta disponer de la ficha para Paraguay. Se conserva el visor 3D.
+- ORA 5 EV y HEV incluyen las cifras oficiales de GWM Tailandia, identificadas
+  como referencia internacional, con comparación de motorizaciones y PDF original.
+  El precio y la configuración comercial de Paraguay quedan a confirmar.
+  ORA 03 sigue siendo ilustrativo y se conserva el visor 3D de ORA 5 EV.
 
 Las imágenes para compartir siguen en `public/img/og/<slug>.jpg` (1200×627).
 Si se agrega una portada: `python3 scripts/generar-og.py` (requiere Pillow).
@@ -309,13 +311,14 @@ con los mismos nombres para Docker/Coolify. Son valores públicos del navegador:
   este valor, recompilar y dirigir el dominio al despliegue.
 - `VITE_NOINDEX=true`: entorno de pruebas público; añade noindex a todas las
   páginas. Mantiene el rastreo habilitado para que el buscador vea esa indicación.
-- `VITE_LEADS_ENDPOINT`: receptor POST JSON de solicitudes `cotizacion`,
-  `testdrive` y `agendamiento`. Debe admitir el origen del sitio mediante CORS si
-  está en otro dominio. Un 2xx confirma recepción; no confirma turno ni reserva.
+- `VITE_LEADS_ENDPOINT`: receptor alternativo POST JSON. Las solicitudes
+  comerciales usan `/api/lead` por defecto. Si se configura otro dominio debe
+  admitir CORS y devolver un 2xx con `{"ok":true}` al confirmar recepción.
+  No confirma turno ni reserva.
   Los datos incluyen modelo, versión, ciudad, contacto, página y campaña UTM.
   El servidor receptor debe validar, limitar envíos y gestionar la retención.
-  **Sin endpoint el sitio prepara un mensaje y continúa en WhatsApp**; la persona
-  todavía debe enviarlo allí. No se contabiliza esa apertura como lead recibido.
+  El agendamiento de service continúa en WhatsApp si no se configura un receptor
+  alternativo; la persona todavía debe enviar el mensaje allí.
 - `VITE_GA_ID`: ID público GA4 `G-…`. Sin ID no se carga ninguna analítica externa.
   El menú de cookies se muestra siempre en la primera visita, incluso sin ID.
   Con ID, GA4 solo se carga tras permitir las cookies analíticas. La preferencia
@@ -482,6 +485,47 @@ fichas de modelo y el visor 3D.
 
 ## Sitio autocontenido
 
+### CRM Bitrix y reparto de consultas
+
+El formulario comercial envía a `/api/lead`, servido por Node en `127.0.0.1:3001`
+detrás de nginx dentro del mismo contenedor. El único puerto público sigue siendo
+el 80. El webhook `BITRIX_WEBHOOK_URL` se configura **solo en runtime** en Coolify,
+sin disponibilidad durante el build. Nunca se incorpora al navegador ni a Git.
+
+Reutiliza el esquema de las webs de Santa Rosa y SOUEAST, documentado en Obsidian
+en «Infraestructura y Conexiones → Reparto de leads web por marca y sucursal».
+Marca Bitrix: `UF_CRM_1775591500778=297`; origen compartido: `WEB_SR_GWM`.
+El servidor determina el asesor; el formulario no puede enviar un responsable:
+
+| Ciudad | Pool GWM | Respaldo |
+|---|---|---|
+| Asunción / San Lorenzo | 43, 79, 113, 117, 119, 123, 125, 127, 44489, 44493 | 45 |
+| Ciudad del Este | 121, 42415, 42413 | 21707 |
+
+Se consultan asesores activos y se elige a quien hace más tiempo no recibe un
+lead del origen compartido. Las solicitudes se serializan dentro de la instancia.
+Un identificador de envío guardado en `ORIGINATOR_ID/ORIGIN_ID` permite detectar
+reintentos después de una respuesta perdida o un reinicio. El nombre, teléfono,
+email opcional, modelo, versión, ciudad, fecha preferida, consulta, página y UTM
+se conservan en el CRM. Las reglas automáticas del portal pueden ejecutar
+acciones posteriores al alta.
+
+`GET /api/health` comprueba el proceso; `GET /api/lead?check=1` comprueba una lectura
+de Bitrix y devuelve `bitrix: "ok"`, sin exponer credenciales. `tests/leads.test.js`
+prueba reparto, asesores inactivos, reservas, simultaneidad, duplicados y errores
+contra un CRM simulado, sin crear prospectos reales. En desarrollo se puede usar
+`GWM_DEV_API_PORT` para elegir un receptor local de prueba.
+
+### Fuentes de ORA 5
+
+La comparación y las tablas EV/HEV se transcribieron y cotejaron visualmente con
+[la tabla oficial de GWM Tailandia](https://www.gwm.co.th/content/dam/gwm/pages/th/en/model/ora-5/ORA%205-EN.pdf)
+el 14/10/2026. Se conserva sin modificar en `public/fichas/ora-5-internacional.pdf`.
+Los módulos `tecnica/ora-5-ev.js`, `tecnica/ora-5-hev.js` y `tecnica/ora-5-base.js`
+separan potencia eléctrica y combinada, baterías, carga y equipamiento por versión.
+NEDC se etiqueta como ciclo de ensayo; no se mezcla con autonomía WLTP.
+No se trasladaron precios ni garantías de otros mercados a Paraguay.
+
 ### Hero, menú y experiencia móvil (octubre de 2026)
 
 El hero y el menú visual por marcas toman como referencia
@@ -503,9 +547,8 @@ El HTML estático y las vistas interactivas comparten `srcset` para que el naveg
 elija la resolución según pantalla y densidad. `mobile.css` contiene los ajustes
 de navegación táctil, formularios, cookies y ventanas con teclado abierto.
 
-No se referencia ningún dominio externo para funcionar: imágenes, videos,
-fuentes y favicons se sirven desde `public/`. GA4 y el receptor comercial son
-integraciones opcionales, desactivadas hasta configurarlas. Los enlaces que salen del
+Imágenes, videos, fuentes y favicons se sirven desde `public/`. El receptor
+comercial conecta con Bitrix desde el servidor; GA4 es opcional. Los enlaces que salen del
 sitio son los de WhatsApp, las redes sociales, Grupo Santa Rosa y Google Maps
 (el botón "Cómo llegar" de cada punto de venta).
 
@@ -544,8 +587,8 @@ arman por JS y el salto del navegador quedaba corto; `alinearConAncla` (en
 Datos que no existen en el repo ni en el HTML de Paraguay y que hay que pedirle a
 Marketing; sin ellos las secciones correspondientes no se pueden completar:
 
-- **Ora 5 EV (lanzado el 2026-10-13)**: precio, versiones, hoja técnica y fotos
-  oficiales de Paraguay. Las imágenes son ilustrativas; las cifras y el equipamiento de Uruguay quedan sin publicar hasta validarlos para Paraguay.
+- **Ora 5 EV / HEV**: precio, versiones, hoja técnica y fotos oficiales de Paraguay.
+  Ya se publica la ficha internacional de Tailandia con su procedencia visible.
 - **Ofertas**: si hay promociones, se suma la sección "Ofertas destacadas" de México
   (`car-models-custom`) con sus datos; la portada muestra tres modelos destacados y enlaza al catálogo completo, sin promociones inventadas.
 - **Garantía, repuestos, red de talleres, cotizador, código de cumplimiento y

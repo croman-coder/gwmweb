@@ -476,6 +476,7 @@
       <button class="dialog-close" type="button" data-cerrar-consulta aria-label="Cerrar consulta">×</button>
       <p class="eyebrow">HABLEMOS DE TU PRÓXIMO GWM</p><h2 id="consulta-titulo">Tu próximo GWM empieza acá.</h2><p data-lead-canales></p>
       <form class="lead-form">
+        <label class="lead-honeypot" aria-hidden="true">Sitio web<input name="website" tabindex="-1" autocomplete="off" /></label>
         <label>Modelo<select name="modelo" required></select></label>
         <label>Versión<select name="version"></select></label>
         <label>Nombre y apellido<input name="nombre" autocomplete="name" maxlength="100" required /></label>
@@ -485,7 +486,7 @@
         <label hidden>Fecha preferida <span>(opcional)</span><input name="fecha" type="date" /></label>
         <label class="lead-form__full">Tu consulta <span>(opcional)</span><textarea name="comentarios" rows="2" maxlength="1000"></textarea></label>
         <p class="lead-privacy lead-form__full">Usaremos tus datos para responder esta solicitud. Conocé nuestra <a href="/privacidad">política de privacidad</a>. El test drive está sujeto a disponibilidad y confirmación.</p>
-        <button class="action action--dark lead-form__full" type="submit">Continuar en WhatsApp</button><p class="lead-form__full lead-status" role="status" aria-live="polite" data-estado-lead></p>
+        <button class="action action--dark lead-form__full" type="submit">Enviar solicitud</button><p class="lead-form__full lead-status" role="status" aria-live="polite" data-estado-lead></p>
       </form>
     </dialog>
     <dialog class="gwm-dialog gwm-dialog--wide" id="comparacion-dialogo" aria-labelledby="comparacion-titulo"><button class="dialog-close" type="button" data-cerrar-comparacion aria-label="Cerrar comparación">×</button><p class="eyebrow">ELEGÍ CON MÁS INFORMACIÓN</p><h2 id="comparacion-titulo">Compará tus favoritos.</h2><div data-comparacion></div></dialog>

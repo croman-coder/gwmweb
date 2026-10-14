@@ -188,7 +188,7 @@ export const PAGINAS = {
       ],
       [
         "Cómo se envía una solicitud",
-        "Antes de enviar, el formulario indica si la solicitud se recibirá desde la web o si continuará en WhatsApp. Cuando continúa en WhatsApp, debés enviar el mensaje allí para que el equipo lo reciba. La apertura de WhatsApp por sí sola no confirma la recepción ni una reserva.",
+        "Las cotizaciones y solicitudes de test drive se registran en Bitrix24, el CRM de Grupo Santa Rosa, y se asignan al equipo GWM según la ciudad de atención elegida. El formulario confirma si se registró la solicitud; el envío no confirma una reserva ni un turno. El agendamiento de service puede continuar en WhatsApp: en ese caso debés enviar el mensaje allí.",
       ],
       [
         "Finalidad y atención",

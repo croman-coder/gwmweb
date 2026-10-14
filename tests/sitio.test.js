@@ -71,14 +71,27 @@ test("todos los modelos y páginas entregan un único H1, canonical e informaci�
   assert.match(h6, /new-h6-hev\.pdf/);
 });
 
-test("los modelos ORA no publican cifras de otro mercado como si fueran datos de Paraguay", () => {
-  const html = readFileSync(archivo("/modelos/ora-5-ev"), "utf8");
-  assert.match(
-    html,
-    /Consultá las versiones y la disponibilidad para Paraguay/,
-  );
-  assert.doesNotMatch(html, /520 km|solo 20 minutos/);
-  assert.match(html, /Explorá el ORA 5 en 3D/);
+test("ORA 5 distingue ambas motorizaciones y atribuye sus datos internacionales", () => {
+  const ev = readFileSync(archivo("/modelos/ora-5-ev"), "utf8");
+  const hev = readFileSync(archivo("/modelos/ora-5-hev"), "utf8");
+  for (const html of [ev, hev]) {
+    assert.match(html, /Referencia internacional · GWM Tailandia/);
+    assert.match(html, /confirmá|Confirmá/);
+    assert.match(html, /id="motorizaciones"/);
+    assert.match(html, /id="especificaciones"/);
+    assert.match(html, /ora-5-internacional\.pdf/);
+    assert.doesNotMatch(html, /Estamos preparando la ficha|Consultar según versión/);
+    const ficha = html.slice(html.indexOf('<article class="ficha">'), html.indexOf('</main>'));
+    assert.doesNotMatch(ficha, /24\.990|26\.990/); // precios de Uruguay
+  }
+  assert.match(ev, /150 kW \(204 CV\)/);
+  assert.match(ev, /ciclo NEDC/);
+  assert.match(ev, /120 kW/);
+  assert.match(ev, /Explorá el ORA 5 en 3D/);
+  assert.match(hev, /164 kW \(223 CV\)/);
+  assert.match(hev, /Automática DHT/);
+  assert.match(hev, /1,09 kWh/);
+  assert.ok(hev.indexOf('id="especificaciones"') < hev.indexOf('id="diseno"'));
 });
 
 test("las direcciones anteriores conservan su modelo y el sitemap no contiene páginas vacías", () => {

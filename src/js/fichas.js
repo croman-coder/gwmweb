@@ -5,8 +5,8 @@
  * ficha técnica), relevadas el 2026-10-06 a partir del HTML que aportó Marketing. Los textos se
  * tomaron tal cual, salvo erratas (tildes y tipeos) corregidas sin cambiar el sentido.
  *
- * Las de Ora (`provisoria: true`) no tenían ficha en el sitio anterior: usan texto e imágenes de
- * gwm.com.uy, sin precios, versiones ni ficha técnica. Falta que Marketing las revise o las reemplace.
+ * Las ORA sin datos locales conservan material ilustrativo. ORA 5 incorpora especificaciones
+ * internacionales oficiales identificadas como tales; precio y configuración local siguen a confirmar.
  *
  * Todo vive en el repo: imágenes en public/img/fichas/<slug>/ y PDF en public/fichas/<slug>.pdf.
  * Una sección sin datos no se muestra (el Wingle 7, por ejemplo, no tiene "Diseño" ni "Tecnología").
@@ -17,6 +17,8 @@
  * fichaTecnica (ruta del PDF), aviso (texto que reemplaza a las secciones en una ficha mínima) y
  * visor3d {titulo, texto, poster, aviso} (sección "Vista 3D": exige src/js/visor3d/modelos/<slug>.js).
  */
+
+import { ORA5_PDF, ORA5_AVISO, MOTORIZACIONES_ORA5 } from './ora5.js';
 
 export const FICHAS = {
   'wingle-7': {
@@ -437,62 +439,54 @@ export const FICHAS = {
     },
   },
   'ora-5-ev': {
-    provisoria: true,
-    titular: ['El SUV 100% eléctrico para las familias de hoy'],
-    bajada: 'Descubrí el nuevo GWM ORA 5.',
-    portada: {
-      escritorio: '/img/fichas/ora-5-ev/portada.webp',
-      movil: '/img/fichas/ora-5-ev/portada-m.webp',
-    },
+    referenciaInternacional: true,
+    motorizaciones: MOTORIZACIONES_ORA5,
+    fichaTecnica: ORA5_PDF,
+    aviso: ORA5_AVISO,
+    titular: ['ORA 5 EV'],
+    bajada: 'Descubrí el SUV eléctrico de ORA.',
+    portada: { escritorio: '/img/fichas/ora-5-ev/portada.webp', movil: '/img/fichas/ora-5-ev/portada-m.webp' },
     diseno: {
-      titulo: 'Diseño',
-      texto: [
-        'El ORA 5 destaca por su diseño inspirado en la naturaleza, premiado en los London Design Awards. En su interior, ofrece una experiencia digital completa con un tablero de instrumentos de 10.25 pulgadas y una pantalla multimedia central de 14.6 pulgadas, con conectividad inalámbrica para smartphones.',
-      ],
+      titulo: 'Un interior conectado',
+      enlace: 'Diseño',
+      texto: ['Pantalla central de 14,6 pulgadas, tablero digital de 10,25 y Apple CarPlay y Android Auto inalámbricos en las versiones internacionales Pro y Ultra.'],
       imagen: '/img/fichas/ora-5-ev/diseno.webp',
     },
     tecnologia: {
-      titulo: 'Seguridad',
-      texto: [
-        'Equipado para garantizar una conducción tranquila. El ORA 5 incluye 6 airbags y +20 asistencias avanzadas a la conducción (ADAS). Cuenta con cámara de visión periférica 360°, control de crucero adaptativo (ACC), frenado autónomo de emergencia, detector de punto ciego y alerta de colisión frontal, entre otros.',
-      ],
+      titulo: 'Seguridad y asistencias',
+      enlace: 'Seguridad',
+      texto: ['La especificación de Tailandia incluye seis airbags, cámara 360°, crucero adaptativo y frenado autónomo. Ultra suma detector de punto ciego y asistencias de tráfico cruzado.'],
       imagen: '/img/fichas/ora-5-ev/tecnologia.webp',
     },
-    // Visor 3D (src/js/visor3d/modelos/ora-5-ev.js). Modelo y texturas del visor oficial de GWM México.
     visor3d: {
       titulo: 'Explorá el ORA 5 en 3D',
       texto: ['Girá el SUV, cambiá su color, abrí las puertas y recorré el interior en 360°.'],
       poster: '/img/fichas/ora-5-ev/galeria-1.webp',
-      aviso:
-        'Imagen virtual ilustrativa. Los colores y tapizados mostrados pueden variar según la versión y la disponibilidad en Paraguay: consultá con un asesor.',
+      aviso: 'Imagen virtual ilustrativa. Los colores y tapizados pueden variar según la versión y la disponibilidad en Paraguay.',
     },
-    galeria: [
-      '/img/fichas/ora-5-ev/galeria-1.webp',
-      '/img/fichas/ora-5-ev/galeria-2.webp',
-      '/img/fichas/ora-5-ev/galeria-3.webp',
-      '/img/fichas/ora-5-ev/galeria-4.webp',
-      '/img/fichas/ora-5-ev/galeria-5.webp',
-      '/img/fichas/ora-5-ev/galeria-6.webp',
-    ],
+    galeria: [1,2,3,4,5,6].map(i => `/img/fichas/ora-5-ev/galeria-${i}.webp`),
     galeriaProporcion: '16 / 9',
-    interior: {
-      titulo: 'ORA 5',
-      subtitulo: 'Más kilómetros, más espacio',
-      texto: [
-        'Viajá sin preocupaciones con una autonomía de hasta 520 km (NEDC) y carga rápida en solo 20 minutos. Cuenta con un baúl de 422L y 1120L con asientos rebatidos, rueda de repuesto y asientos rebatibles que amplían la capacidad para adaptarse a cada viaje.',
-      ],
-      imagen: '/img/fichas/ora-5-ev/interior.webp',
-    },
   },
   'ora-5-hev': {
-    provisoria: true,
+    referenciaInternacional: true,
+    motorizaciones: MOTORIZACIONES_ORA5,
+    fichaTecnica: ORA5_PDF,
+    aviso: ORA5_AVISO,
     titular: ['ORA 5 HEV'],
     bajada: 'La versión híbrida del SUV urbano de ORA.',
-    portada: {
-      escritorio: '/img/fichas/ora-5-ev/portada.webp',
-      movil: '/img/fichas/ora-5-ev/portada-m.webp',
+    portada: { escritorio: '/img/fichas/ora-5-ev/portada.webp', movil: '/img/fichas/ora-5-ev/portada-m.webp' },
+    diseno: {
+      titulo: 'Tecnología para cada viaje',
+      enlace: 'Diseño',
+      texto: ['La gama internacional combina una pantalla multimedia de 14,6 pulgadas con un tablero digital de 10,25. Conectividad inalámbrica para Apple CarPlay y Android Auto. Imágenes ilustrativas de la gama ORA 5.'],
+      imagen: '/img/fichas/ora-5-ev/diseno.webp',
     },
-    aviso: 'Estamos preparando la ficha completa de este modelo. Escribinos por WhatsApp y te pasamos toda la información.',
+    tecnologia: {
+      titulo: 'Seguridad y asistencias',
+      enlace: 'Seguridad',
+      texto: ['Seis airbags, cámara 360°, crucero adaptativo y frenado autónomo en las versiones Pro y Ultra de Tailandia. El equipamiento de Ultra agrega detector de punto ciego y asistencias de tráfico cruzado.'],
+      imagen: '/img/fichas/ora-5-ev/tecnologia.webp',
+    },
   },
   'poer-diesel': {
     titular: ['NUEVA POER DIESEL 4X4'],

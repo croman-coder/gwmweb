@@ -20,6 +20,14 @@ RUN npm run build
 # ---- Runtime --------------------------------------------------------------
 FROM nginx:1.27-alpine
 
+RUN apk add --no-cache nodejs tini
+WORKDIR /app
+COPY package.json ./package.json
+COPY api ./api
+COPY src/js/modelos.js ./src/js/modelos.js
+COPY scripts/iniciar.sh ./iniciar.sh
+RUN chmod +x ./iniciar.sh
+
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 COPY nginx-seguridad.inc /etc/nginx/conf.d/seguridad.inc
 COPY --from=build /app/dist /usr/share/nginx/html
@@ -29,6 +37,7 @@ RUN rm /usr/share/nginx/html/nginx-redirects.inc
 EXPOSE 80
 
 HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
-  CMD wget --spider -q http://127.0.0.1/ || exit 1
+  CMD wget --spider -q http://127.0.0.1/ && wget -qO- http://127.0.0.1:3001/api/health >/dev/null || exit 1
 
-CMD ["nginx", "-g", "daemon off;"]
+ENTRYPOINT ["/sbin/tini", "-g", "--"]
+CMD ["/app/iniciar.sh"]

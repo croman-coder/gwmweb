@@ -13,7 +13,9 @@ export function initLeads() {
   const version = form.elements.version;
   const estado = form.querySelector("[data-estado-lead]");
   const boton = form.querySelector('[type="submit"]');
-  const endpoint = import.meta.env.VITE_LEADS_ENDPOINT;
+  const endpoint = import.meta.env.VITE_LEADS_ENDPOINT || '/api/lead';
+  let requestId = crypto.randomUUID();
+  let ultimoCuerpo = '';
   modelo.innerHTML =
     '<option value="">Elegí un modelo</option>' +
     MODELOS.map(
@@ -41,6 +43,8 @@ export function initLeads() {
     origen = trigger;
     tipo = solicitud;
     form.reset();
+    requestId = crypto.randomUUID();
+    ultimoCuerpo = '';
     estado.textContent = "";
     boton.disabled = false;
     modelo.value =
@@ -57,10 +61,8 @@ export function initLeads() {
     )
       .toISOString()
       .slice(0, 10);
-    dialogo.querySelector("[data-lead-canales]").textContent = endpoint
-      ? "Recibimos tu solicitud desde esta web. Un asesor te contactará para continuar."
-      : "Prepará tu consulta y continuá en WhatsApp. El equipo recibe tu solicitud cuando enviás el mensaje allí.";
-    boton.textContent = endpoint ? "Enviar solicitud" : "Continuar en WhatsApp";
+    dialogo.querySelector("[data-lead-canales]").textContent = "Enviá tu solicitud y un asesor GWM de la ciudad elegida te contactará para continuar.";
+    boton.textContent = "Enviar solicitud";
     medir("consulta_abierta", { tipo, modelo: modelo.value });
     dialogo.showModal();
   };
@@ -107,36 +109,19 @@ export function initLeads() {
       campana: campana(),
       ...(tipo !== "testdrive" ? { fecha: "" } : {}),
     };
+    const cuerpo = JSON.stringify(payload);
+    if (ultimoCuerpo && ultimoCuerpo !== cuerpo) requestId = crypto.randomUUID();
+    ultimoCuerpo = cuerpo;
+    payload.requestId = requestId;
     medir("consulta_preparada", {
       tipo,
       modelo: m.slug,
       version: datos.version,
     });
-    if (!endpoint) {
-      const mensaje = [
-        `Hola, ${tipo === "testdrive" ? "quiero solicitar un test drive" : "quiero una cotización"} del GWM ${nombreCompleto(m)}.`,
-        `Nombre: ${datos.nombre}`,
-        `Teléfono: ${datos.telefono}`,
-        `Ciudad: ${datos.ciudad}`,
-        datos.version ? `Versión: ${datos.version}` : "",
-        datos.email ? `Email: ${datos.email}` : "",
-        tipo === "testdrive" && datos.fecha
-          ? `Fecha preferida: ${datos.fecha}`
-          : "",
-        datos.comentarios ? `Consulta: ${datos.comentarios}` : "",
-      ]
-        .filter(Boolean)
-        .join("\n");
-      const enlace = enlaceWhatsApp(mensaje);
-      window.open(enlace, "_blank", "noopener");
-      estado.innerHTML = `Continuá en WhatsApp y enviá el mensaje para que recibamos tu solicitud. <a href="${esc(enlace)}" target="_blank" rel="noopener">Abrir WhatsApp</a>`;
-      medir("whatsapp_click", { tipo, modelo: m.slug });
-      return;
-    }
     boton.disabled = true;
     estado.textContent = "Enviando tu solicitud…";
     const controlador = new AbortController();
-    const timeout = setTimeout(() => controlador.abort(), 15000);
+    const timeout = setTimeout(() => controlador.abort(), 30000);
     try {
       const respuesta = await fetch(endpoint, {
         method: "POST",
@@ -144,7 +129,8 @@ export function initLeads() {
         body: JSON.stringify(payload),
         signal: controlador.signal,
       });
-      if (!respuesta.ok) throw new Error("No recibido");
+      const recibo = await respuesta.json().catch(() => null);
+      if (!respuesta.ok || recibo?.ok !== true) throw new Error("No recibido");
       estado.textContent =
         "Recibimos tu solicitud. Un asesor te contactará para confirmar los detalles. El envío no confirma una reserva ni un turno.";
       medir("consulta_recibida", {

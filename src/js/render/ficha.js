@@ -26,14 +26,16 @@ const FLECHA =
 
 function menuSecciones(ficha, tecnica) {
   const items = [];
+  if (ficha.motorizaciones?.length) items.push({ id: 'motorizaciones', texto: 'Motorizaciones' });
+  if (ficha.referenciaInternacional && tecnica) items.push({ id: 'especificaciones', texto: 'Especificaciones' });
   if (ficha.versiones?.length)
     items.push({ id: "versiones", texto: "Versiones" });
-  if (ficha.diseno) items.push({ id: "diseno", texto: ficha.diseno.titulo });
+  if (ficha.diseno) items.push({ id: "diseno", texto: ficha.diseno.enlace || ficha.diseno.titulo });
   if (ficha.tecnologia)
-    items.push({ id: "tecnologia", texto: ficha.tecnologia.titulo });
+    items.push({ id: "tecnologia", texto: ficha.tecnologia.enlace || ficha.tecnologia.titulo });
   if (ficha.visor3d) items.push({ id: "visor-3d", texto: "Vista 3D" });
   if (ficha.galeria?.length) items.push({ id: "galeria", texto: "Galería" });
-  if (tecnica)
+  if (tecnica && !ficha.referenciaInternacional)
     items.push({ id: "especificaciones", texto: "Especificaciones" });
   return items;
 }
@@ -43,7 +45,7 @@ function htmlBarra(modelo, ficha, tecnica) {
     .map((s) => `<a href="#${s.id}" data-seccion="${s.id}">${esc(s.texto)}</a>`)
     .join("");
   const pdf = ficha.fichaTecnica
-    ? `<a href="${esc(ficha.fichaTecnica)}" target="_blank" rel="noopener">Ficha técnica</a>`
+    ? `<a href="${esc(ficha.fichaTecnica)}" target="_blank" rel="noopener">${ficha.referenciaInternacional ? 'Ficha internacional (PDF)' : 'Ficha técnica'}</a>`
     : "";
   return `
     <nav class="ficha-nav" aria-label="Secciones de ${esc(modelo.nombre)}">
@@ -275,10 +277,12 @@ function htmlGrupoTecnica(grupo, columnas, abierto) {
 
 function htmlTecnica(modelo, ficha, tecnica) {
   const pdf = ficha.fichaTecnica
-    ? `<a class="ficha-tecnica__pdf" href="${esc(ficha.fichaTecnica)}" target="_blank" rel="noopener">Descargar ficha técnica (PDF)</a>`
+    ? `<a class="ficha-tecnica__pdf" href="${esc(ficha.fichaTecnica)}" target="_blank" rel="noopener">Descargar ficha ${tecnica.referencia ? 'internacional' : 'técnica'} (PDF)</a>`
     : "<span></span>";
   const bajada =
-    tecnica.columnas.length > 1
+    tecnica.referencia
+      ? `Datos oficiales de GWM ${esc(tecnica.referencia.mercado)}. Las versiones Pro y Ultra corresponden a ese mercado; confirmá la configuración para Paraguay.`
+      : tecnica.columnas.length > 1
       ? `Datos de la ficha técnica oficial del GWM ${esc(modelo.nombre)}, con las versiones lado a lado.`
       : `Datos de la ficha técnica oficial del GWM ${esc(modelo.nombre)}.`;
   return `
@@ -286,6 +290,7 @@ function htmlTecnica(modelo, ficha, tecnica) {
       <div class="ficha-tecnica__contenido">
         <h2>Especificaciones técnicas</h2>
         <p class="ficha-tecnica__bajada">${bajada}</p>
+        ${tecnica.referencia ? `<p class="ficha-tecnica__fuente"><a href="${esc(tecnica.referencia.fuente)}" target="_blank" rel="noopener">Consultar fuente oficial · GWM ${esc(tecnica.referencia.mercado)} ↗</a></p>` : ''}
         <div class="ficha-tecnica__acciones">
           ${pdf}
           <button type="button" class="ficha-tecnica__todo" data-accion="alternar">Expandir todo</button>
@@ -295,9 +300,21 @@ function htmlTecnica(modelo, ficha, tecnica) {
     </section>`;
 }
 
+function htmlMotorizaciones(modelo, ficha) {
+  return `<section class="ficha-motores responsive__layout" id="motorizaciones" aria-labelledby="motores-titulo">
+    <div class="section-heading"><div><p class="eyebrow">DOS FORMAS DE MOVERTE</p><h2 id="motores-titulo">Eléctrico o híbrido.</h2></div><p>Conocé las diferencias de la gama ORA 5.</p></div>
+    <div class="ficha-motores__grid">${ficha.motorizaciones.map(m => `<article class="ficha-motor${m.slug === modelo.slug ? ' ficha-motor--activo' : ''}">
+      <div class="ficha-motor__cabecera"><span class="energy-tag">${esc(m.etiqueta)}</span>${m.slug === modelo.slug ? '<span class="ficha-motor__actual">Estás viendo este modelo</span>' : ''}</div>
+      <h3>${esc(m.nombre)}</h3><p>${esc(m.descripcion)}</p>
+      <dl>${m.datos.map(([k,v]) => `<div><dt>${esc(k)}</dt><dd>${esc(v)}</dd></div>`).join('')}</dl>
+      <a class="action ${m.slug === modelo.slug ? 'action--line' : 'action--dark'}" href="${m.slug === modelo.slug ? '#especificaciones' : '/modelos/' + m.slug}">${m.slug === modelo.slug ? 'Ver especificaciones' : 'Conocé el ' + esc(m.nombre)} <span aria-hidden="true">↗</span></a>
+    </article>`).join('')}</div>
+    <p class="ficha-motores__nota">Referencia internacional: GWM Tailandia. La autonomía NEDC del EV es un valor de ensayo y cambia según uso, clima y carga. La potencia combinada del HEV es la declarada para el sistema, no la suma de sus motores.</p>
+  </section>`;
+}
+
 export function htmlFicha(modelo, ficha, tecnica) {
-  // El material de ORA de otro mercado se mantiene como referencia visual. No se publican cifras
-  // de autonomía, carga o equipamiento hasta contar con la ficha correspondiente a Paraguay.
+  // Los ORA sin documentación técnica validada conservan solo el material ilustrativo.
   if (ficha.provisoria)
     ficha = {
       ...ficha,
@@ -315,10 +332,13 @@ export function htmlFicha(modelo, ficha, tecnica) {
     <article class="ficha">
       ${htmlBarra(modelo, ficha, tecnica)}
       ${htmlPortada(modelo, ficha)}
-      <dl class="ficha-highlights">${datosClave(modelo, tecnica)
+      ${ficha.referenciaInternacional ? `<section class="ficha-aviso ficha-aviso--referencia"><p>${esc(ficha.aviso)}</p></section>` : ''}
+      <dl class="ficha-highlights">${(tecnica?.destacados || datosClave(modelo, tecnica))
         .map(([k, v]) => `<div><dt>${esc(k)}</dt><dd>${esc(v)}</dd></div>`)
         .join("")}</dl>
-      ${ficha.aviso ? `<section class="ficha-aviso"><p>${esc(ficha.aviso)}</p></section>` : ""}
+      ${ficha.aviso && !ficha.referenciaInternacional ? `<section class="ficha-aviso"><p>${esc(ficha.aviso)}</p></section>` : ""}
+      ${ficha.motorizaciones?.length ? htmlMotorizaciones(modelo, ficha) : ''}
+      ${tecnica && ficha.referenciaInternacional ? htmlTecnica(modelo, ficha, tecnica) : ''}
       ${ficha.versiones?.length ? htmlVersiones(modelo, ficha) : ""}
       ${ficha.diseno ? htmlBloque("diseno", ficha.diseno, modelo.nombre) : ""}
       ${ficha.tecnologia ? htmlBloque("tecnologia", ficha.tecnologia, modelo.nombre) : ""}
@@ -326,7 +346,7 @@ export function htmlFicha(modelo, ficha, tecnica) {
       ${ficha.galeria?.length ? htmlGaleria(modelo, ficha) : ""}
       ${ficha.interior ? htmlInterior(modelo, ficha.interior) : ""}
       ${ficha.exterior ? htmlExterior(modelo, ficha.exterior) : ""}
-      ${tecnica ? htmlTecnica(modelo, ficha, tecnica) : ""}
+      ${tecnica && !ficha.referenciaInternacional ? htmlTecnica(modelo, ficha, tecnica) : ""}
       ${hayPrecios ? `<p class="ficha-nota">${esc(NOTA_PRECIOS)}</p>` : ""}
       <section class="ficha-next"><div><p class="eyebrow">TU PRÓXIMO PASO</p><h2>Conocelo al volante.</h2><p>Coordiná una prueba y consultá las condiciones de tu versión en Paraguay.</p></div><div><button class="action action--dark" type="button" data-lead="testdrive" data-modelo-slug="${modelo.slug}">Solicitá un test drive ↗</button><a class="action action--line" href="/postventa">Garantía y mantenimiento</a></div></section>
       <p class="ficha-volver"><a href="/modelos">Ver todos los modelos ↗</a></p>
