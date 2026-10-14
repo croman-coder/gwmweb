@@ -12,6 +12,7 @@ import { initCatalogo } from './home/catalogo.js';
 import { initPie } from './home/pie.js';
 import { marcarDesborde } from './home/util.js';
 import '../css/mejoras.css';
+import '../css/diseno.css';
 import { htmlDestacadosHome, htmlGuiasHome } from './render/catalogo.js';
 import { initDescubrir } from './descubrir.js';
 import { initLeads } from './leads.js';

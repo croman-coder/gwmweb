@@ -54,9 +54,12 @@ export function htmlDestacadosHome() {
     .filter(Boolean)
     .slice(0, 3);
   return `<section class="home-destacados" id="modelos" aria-labelledby="destacados-titulo"><div class="responsive__layout">
-    <div class="section-heading"><div><p class="eyebrow">DESCUBRÍ LA GAMA GWM</p><h2 id="destacados-titulo">Tu próximo camino empieza acá.</h2></div><p>Tres formas de vivir GWM.<br />Encontrá la que va con vos.</p></div>
+    <div class="section-heading"><div><p class="eyebrow">DESCUBRÍ LA GAMA GWM</p><h2 id="destacados-titulo">Elegí tu próxima historia.</h2></div><p>La ciudad. La rutina. La aventura.<br />Hay un GWM para cada camino.</p></div>
     <p class="home-destacados__hint">Deslizá para descubrir los destacados <span aria-hidden="true">→</span></p>
-    <div class="catalogo-grid" role="group" aria-label="Modelos destacados" tabindex="0">${modelos.map((m) => tarjetaModelo(m, { comparar: false })).join("")}</div>
+    <div class="catalogo-grid destacados-grid" role="group" aria-label="Modelos destacados" tabindex="0">${modelos.map((m, i) => `<article class="modelo-card modelo-card--editorial" data-catalogo-modelo="${m.slug}">
+      <a class="destacado-media" href="${urlFicha(m.slug)}" tabindex="-1" aria-hidden="true"><img src="/img/fichas/${m.slug}/portada.webp" alt="" width="900" height="600" loading="lazy" /><span class="energy-tag">${esc(tecnologia(m))}</span><span class="destacado-numero">0${i + 1}</span></a>
+      <div class="destacado-contenido"><p class="eyebrow">${esc(m.categoria)} · ${esc(carroceria(m))}</p><h3><a href="${urlFicha(m.slug)}">${esc(nombreCompleto(m))}</a></h3><p class="modelo-card__des">${["La ciudad se vive con otra energía.", "Tu día a día, a otro nivel.", "El camino también es parte del plan."][i]}</p><p class="modelo-card__precio">${precioDesdeTexto(m.precio)}</p><div class="modelo-card__acciones"><a href="${urlFicha(m.slug)}">Descubrí el modelo <span aria-hidden="true">↗</span></a><button type="button" data-lead="cotizacion" data-modelo-slug="${m.slug}">${m.precio === null ? "Consultar" : "Cotizar"} <span aria-hidden="true">→</span></button></div></div>
+    </article>`).join("")}</div>
     <div class="home-destacados__cierre"><p>Hay un GWM para cada plan.</p><a class="action action--dark" href="/modelos">Ver todos los modelos <span aria-hidden="true">↗</span></a></div>
     <p class="catalogo-nota">* Precios de referencia en USD. Versiones y disponibilidad a confirmar con un asesor en Paraguay.</p>
   </div></section>`;
@@ -78,7 +81,7 @@ export function htmlHeroSlide(s, i) {
     <div class="video-box"><picture class="car-app-img"><source media="(max-width:767px)" srcset="${fotoMovil}" /><img src="${foto}" alt="" width="1600" height="700" ${i === 0 ? 'fetchpriority="high"' : 'loading="lazy"'} /></picture>${video(s.video, s.imagen, "video-d")}${video(s.videoMobile, fotoMovil, "video-m")}</div>
     <div class="content-box"><div class="responsive__layout"><div class="kv-swiper-content">
       <p class="hero-eyebrow">GWM PARAGUAY · ${esc(tecnologia(m))}</p>
-      <p class="kv-title">${esc(nombreCompleto(m))}</p>
+      <p class="kv-title">${esc(nombreCompleto(m).replace(/\s+(?:HEV|PHEV|EV)(?:\s+4x4)?$/i, ""))}</p>
       <p class="hero-beneficio">${esc(m.bajada)}</p>
       <p class="kv-subtitle">${precioDesdeTexto(m.precio)}</p>
       <div class="hero-actions"><a class="action action--light" href="${urlFicha(m.slug)}">Explorá el modelo <span aria-hidden="true">↗</span></a><button class="action action--outline" type="button" data-lead="testdrive" data-modelo-slug="${m.slug}">Solicitá un test drive</button></div>
@@ -88,9 +91,9 @@ export function htmlHeroSlide(s, i) {
 }
 
 export function htmlGuiasHome() {
-  return `<section class="guias-home responsive__layout" aria-labelledby="guias-titulo"><div class="section-heading"><div><p class="eyebrow">ELEGÍ CON MÁS INFORMACIÓN</p><h2 id="guias-titulo">El futuro, más cerca.</h2></div><a href="/hibridos">Descubrí la gama híbrida ↗</a></div><div class="guias-grid">
-    <a class="guia-card" href="/guia/hev-vs-phev"><span class="eyebrow">TECNOLOGÍA</span><h3>HEV, PHEV o eléctrico.<br />¿Cuál va con vos?</h3><p>Entendé cómo funciona cada uno y qué cambia en tu rutina.</p><span aria-hidden="true">↗</span></a>
-    <a class="guia-card" href="/guia/carga-en-casa"><span class="eyebrow">TU DÍA A DÍA</span><h3>Tu próximo punto de carga puede estar en casa.</h3><p>Qué consultar antes de instalar un cargador para tu GWM.</p><span aria-hidden="true">↗</span></a>
-    <a class="guia-card" href="/guia/h6-hev-vs-phev"><span class="eyebrow">DOS FORMAS DE MOVERTE</span><h3>Haval H6 HEV<br />y H6 PHEV.</h3><p>Conocé las diferencias y compará las versiones de Paraguay.</p><span aria-hidden="true">↗</span></a>
+  return `<section class="guias-home responsive__layout" aria-labelledby="guias-titulo"><div class="section-heading"><div><p class="eyebrow">UNA NUEVA FORMA DE MOVERTE</p><h2 id="guias-titulo">El futuro se elige hoy.</h2></div><a class="text-link" href="/hibridos">Conocé la gama híbrida <span aria-hidden="true">↗</span></a></div><div class="guias-grid">
+    <a class="guia-card guia-card--principal" href="/guia/hev-vs-phev"><img src="/img/fichas/ora-5-ev/galeria-2.webp" alt="" width="900" height="600" loading="lazy" /><div class="guia-card__texto"><span class="eyebrow">GUÍA DE TECNOLOGÍAS</span><h3>Una nueva energía.<br />La misma libertad.</h3><p>HEV, PHEV o eléctrico: descubrí qué tecnología va con vos.</p><span class="guia-card__link">Explorá la guía <span aria-hidden="true">↗</span></span></div></a>
+    <a class="guia-card" href="/guia/carga-en-casa"><img src="/img/fichas/new-h6-phev/galeria-1.webp" alt="" width="900" height="600" loading="lazy" /><div class="guia-card__texto"><span class="eyebrow">TU DÍA A DÍA</span><h3>Tu casa, tu próximo punto de carga.</h3><span class="guia-card__link">Qué necesitás saber <span aria-hidden="true">↗</span></span></div></a>
+    <a class="guia-card" href="/guia/h6-hev-vs-phev"><img src="/img/fichas/new-h6-hev/portada.webp" alt="" width="900" height="600" loading="lazy" /><div class="guia-card__texto"><span class="eyebrow">DOS FORMAS DE MOVERTE</span><h3>Haval H6.<br />HEV o PHEV.</h3><span class="guia-card__link">Encontrá tu versión <span aria-hidden="true">↗</span></span></div></a>
   </div></section>`;
 }

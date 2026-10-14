@@ -246,7 +246,14 @@ export function htmlPagina(ruta) {
   const p = PAGINAS[ruta];
   if (!p)
     return `<section class="page-intro responsive__layout"><p class="eyebrow">ERROR 404</p><h1>No encontramos esta página</h1><p>Podés volver al inicio o explorar los vehículos GWM.</p><a class="action action--dark" href="/modelos">Ver modelos ↗</a></section>`;
-  return `<article class="content-page"><header class="page-intro responsive__layout"><nav class="breadcrumb" aria-label="Ubicación"><a href="/">Inicio</a><span aria-hidden="true">/</span><span aria-current="page">${esc(p.etiqueta)}</span></nav><p class="eyebrow">${p.etiqueta}</p><h1>${esc(p.titulo)}</h1><p>${esc(p.descripcion)}</p></header>
+  const fotos = {
+    "/modelos": "/img/fichas/tank-500-hev-4x4/portada.webp",
+    "/hibridos": "/img/fichas/new-h6-hev/portada.webp",
+    "/electricos": "/img/fichas/ora-5-ev/portada.webp",
+    "/pickups": "/img/fichas/poer-diesel/portada.webp",
+  };
+  const foto = fotos[ruta];
+  return `<article class="content-page"><header class="page-intro responsive__layout${foto ? " page-intro--visual" : ""}"><div class="page-intro__texto"><nav class="breadcrumb" aria-label="Ubicación"><a href="/">Inicio</a><span aria-hidden="true">/</span><span aria-current="page">${esc(p.etiqueta)}</span></nav><p class="eyebrow">${p.etiqueta}</p><h1>${esc(p.titulo)}</h1><p>${esc(p.descripcion)}</p></div>${foto ? `<div class="page-intro__media"><img src="${foto}" alt="" width="1000" height="650" fetchpriority="high" /></div>` : ""}</header>
     ${p.bloques ? `<div class="editorial responsive__layout">${p.bloques.map(([titulo, texto]) => `<section><h2>${esc(titulo)}</h2><p>${esc(texto)}</p></section>`).join("")}</div>` : ""}
     ${p.tipo ? htmlCatalogo(p.tipo, "Explorá los modelos", "TU PRÓXIMO GWM") : ""}
     ${ruta === "/concesionarios" ? htmlDealers() : ""}
