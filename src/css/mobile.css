@@ -188,7 +188,7 @@ html.vista-ficha .cmp__header.is-open { background: white; }
   .ficha .ficha-portada .hero-actions { display: grid; grid-template-columns: 1fr 1fr; }
   .ficha .ficha-portada .action { min-width: 0; width: 100%; min-height: 48px; padding: 12px 8px; font-size: 12px; }
   .ficha-whatsapp { min-height: 44px; display: inline-flex; align-items: center; font-size: 12px; margin-top: 12px; }
-  .ficha .ficha-nav__items a { min-height: 48px; }
+  .ficha .ficha-nav__items :is(a, button) { min-height: 48px; }
   .ficha .ficha-nav__modelo { font-size: 11px; }
   .ficha .ficha-bloque__cuerpo p { font-size: 15px; }
   .ficha .ficha-galeria .splide__slide img { max-height: 520px; }

@@ -6,7 +6,9 @@ import { MODELOS, SLIDES_ACTIVOS } from "../src/js/modelos.js";
 import imagenes from "../src/js/imagenes-manifest.js";
 import { optimizarImagenes, srcsetImagen } from "../src/js/imagenes.js";
 import { htmlHeroSlide } from "../src/js/render/catalogo.js";
-import { filtrarModelos } from "../src/js/vehiculos.js";
+import { filtrarModelos, modelosDe } from "../src/js/vehiculos.js";
+import { interpretarAncla } from "../src/js/navegacion.js";
+import { SITIO } from "../src/js/sitio.js";
 import {
   interpretarConsentimiento,
   DURACION_CONSENTIMIENTO,
@@ -103,9 +105,56 @@ test("las direcciones anteriores conservan su modelo y el sitemap no contiene p�
   const rutas = [...sitemap.matchAll(/<loc>(.*?)<\/loc>/g)].map(
     ([, u]) => new URL(u).pathname,
   );
-  assert.equal(rutas.length, 28);
+  assert.equal(rutas.length, 1 + Object.keys(PAGINAS).length + MODELOS.length);
   assert.ok(rutas.every((r) => existsSync(archivo(r))));
   assert.match(readFileSync("dist/404.html", "utf8"), /noindex, follow/);
+});
+
+test('cada página tiene metadatos únicos y enlaces públicos sin fragmentos', () => {
+  const titulos = new Set(), descripciones = new Set();
+  for (const ruta of ['/', ...Object.keys(PAGINAS), ...MODELOS.map(m => `/modelos/${m.slug}`)]) {
+    const html = readFileSync(archivo(ruta), 'utf8');
+    const titulo = html.match(/<title>(.*?)<\/title>/)[1];
+    const descripcion = html.match(/<meta name="description" content="([^"]+)"/)[1];
+    assert.ok(!titulos.has(titulo), `Título duplicado: ${ruta}`);
+    assert.ok(!descripciones.has(descripcion), `Descripción duplicada: ${ruta}`);
+    titulos.add(titulo); descripciones.add(descripcion);
+    assert.equal(html.match(/<link rel="canonical" href="([^"]+)"/)[1], SITIO + ruta);
+    assert.match(html, /max-image-preview:large/);
+    assert.match(html, /name="twitter:image"/);
+    for (const [, href] of html.matchAll(/href="([^"]+)"/g)) {
+      if (href.startsWith('/') || href.startsWith(SITIO)) assert.equal(new URL(href, SITIO).hash, '', `${ruta}: ${href}`);
+    }
+    for (const [, id] of html.matchAll(/data-scroll="([^"]+)"/g)) assert.ok(html.includes(`id="${id}"`), `${ruta}: sección ${id}`);
+    if (PAGINAS[ruta]?.tipo) {
+      const listas = [...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)].map(([,j]) => JSON.parse(j));
+      assert.deepEqual(listas.find(j => j['@type'] === 'ItemList').itemListElement.map(i => i.url), modelosDe(PAGINAS[ruta].tipo).map(m => `${SITIO}/modelos/${m.slug}`));
+    }
+  }
+  assert.doesNotMatch(readFileSync('dist/sitemap.xml', 'utf8'), /#/);
+});
+
+test('los enlaces antiguos a secciones conservan su destino y toleran codificación inválida', () => {
+  assert.deepEqual(interpretarAncla('/modelos/ora-5-ev', '#motorizaciones'), { id: 'motorizaciones', destino: null });
+  assert.equal(interpretarAncla('/', '#modelos').destino, '/modelos');
+  assert.equal(interpretarAncla('/', '#postventa').destino, '/postventa/agendar-service');
+  assert.equal(interpretarAncla('/', '#reclamos').destino, '/postventa/reclamos');
+  assert.equal(interpretarAncla('/', '#toString').destino, null);
+  assert.deepEqual(interpretarAncla('/', '#%E0%A4%A'), { id: '', destino: null });
+  assert.equal(redireccion('/index.html'), '/');
+  assert.equal(redireccion('/modelos/ora-5-ev.html'), '/modelos/ora-5-ev');
+});
+
+test('mantenimiento y reclamos tienen contenido propio disponible sin JavaScript', () => {
+  const agenda = readFileSync(archivo('/postventa/agendar-service'), 'utf8');
+  assert.match(agenda, /data-form-agenda/);
+  assert.match(agenda, /Inspección técnica de 25 puntos/);
+  assert.match(agenda, /value="Ora 5 EV"/);
+  assert.match(agenda, /equipo confirma el turno/);
+  const reclamos = readFileSync(archivo('/postventa/reclamos'), 'utf8');
+  assert.match(reclamos, /tel:\+595973924675/);
+  assert.match(reclamos, /mailto:experienciacliente@santarosa.com.py/);
+  assert.match(reclamos, /ContactPage/);
 });
 
 test("los enlaces locales del HTML de producción tienen un destino publicado", () => {
@@ -217,6 +266,8 @@ test(
       "/hibridos",
       "/privacidad",
       "/concesionarios",
+      "/postventa/agendar-service",
+      "/postventa/reclamos",
     ]) {
       const res = await fetch(origen + ruta);
       assert.equal(res.status, 200, ruta);
@@ -227,6 +278,11 @@ test(
     });
     assert.equal(redirect.status, 301);
     assert.equal(redirect.headers.get("location"), "/modelos/new-h6-hev");
+    for (const [antigua, limpia] of [['/index.html', '/'], ['/modelos/ora-5-ev.html', '/modelos/ora-5-ev'], ['/postventa/agendar-service/', '/postventa/agendar-service']]) {
+      const respuesta = await fetch(origen + antigua + '?utm_source=prueba', { redirect: 'manual' });
+      assert.equal(respuesta.status, 301, antigua);
+      assert.equal(respuesta.headers.get('location'), limpia + '?utm_source=prueba', antigua);
+    }
     const invalid = await fetch(origen + "/modelos/no-existe");
     assert.equal(invalid.status, 404);
     assert.match(await invalid.text(), /noindex, follow/);

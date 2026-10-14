@@ -100,10 +100,12 @@
 
 .ficha-btn:focus-visible,
 .ficha-tabs button:focus-visible,
-.ficha-nav a:focus-visible {
+.ficha-nav :is(a, button):focus-visible {
   outline: 2px solid #d7000f;
   outline-offset: 2px;
 }
+
+.ficha-nav button { appearance: none; background: none; border: 0; padding: 0; font: inherit; color: inherit; cursor: pointer; }
 
 /* --- Barra de secciones (se pega bajo la barra del sitio) ---------------- */
 .ficha-nav {
@@ -125,7 +127,7 @@
   box-shadow: 4px 0 4px -4px rgba(0, 0, 0, 0.36);
 }
 
-.ficha-nav__modelo {
+.ficha-nav .ficha-nav__modelo {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -152,7 +154,7 @@
   display: none;
 }
 
-.ficha-nav__items a {
+.ficha-nav__items :is(a, button) {
   color: #fff;
   font-size: 14px;
   text-decoration: none;
@@ -160,12 +162,12 @@
   white-space: nowrap;
 }
 
-.ficha-nav__items a:hover {
+.ficha-nav__items :is(a, button):hover {
   text-decoration: underline;
   opacity: 0.9;
 }
 
-.ficha-nav__items a.activo {
+.ficha-nav__items :is(a, button).activo {
   font-weight: 700;
 }
 
@@ -189,7 +191,7 @@
     border-left: 1.33px solid #666;
   }
 
-  .ficha-nav__modelo {
+  .ficha-nav .ficha-nav__modelo {
     font-size: 20px;
   }
 
@@ -198,7 +200,7 @@
     padding: 0 2rem;
   }
 
-  .ficha-nav__items a {
+  .ficha-nav__items :is(a, button) {
     font-size: 18px;
   }
 }

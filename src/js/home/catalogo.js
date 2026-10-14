@@ -4,16 +4,14 @@ import { SERVICIOS } from '../postventa.js';
 import { esc } from './util.js';
 import { optimizarImagenes } from '../imagenes.js';
 
-function initPostventa() {
-  const caja = document.querySelector('[data-postventa]');
-  if (!caja) return;
+export function htmlPostventa() {
   const ciudades = new Set(DEALERS.map((d) => d.ciudad)).size;
   const tarjetas = [
     {
       titulo: 'Mantenimiento',
       subtitulo: 'Agendá tu turno online.',
       texto: 'Elegí el servicio que necesita tu GWM y completá el formulario: te contactamos a la brevedad.',
-      enlace: '/#postventa',
+      enlace: '/postventa/agendar-service',
       cta: 'Agendar',
       imagen: '/img/hero/agenda-mantenimiento.jpg',
       alt: 'Un técnico revisando un GWM en el taller',
@@ -22,7 +20,7 @@ function initPostventa() {
       titulo: `${SERVICIOS.length} servicios`,
       subtitulo: 'Para cada necesidad de tu GWM.',
       texto: `${SERVICIOS.slice(0, 4).join(', ')} y más.`,
-      enlace: '/#postventa',
+      enlace: '/postventa',
       cta: 'Ver servicios',
       imagen: '/img/poster/hello-tomorrow.webp',
       alt: 'Un taller de GWM',
@@ -37,7 +35,7 @@ function initPostventa() {
       alt: 'Un Haval frente a una concesionaria',
     },
   ];
-  caja.innerHTML = optimizarImagenes(tarjetas
+  return optimizarImagenes(tarjetas
     .map(
       (t) => `
       <div class="msl-swiper-item">
@@ -62,5 +60,6 @@ function initPostventa() {
 }
 
 export function initCatalogo() {
-  initPostventa();
+  const caja = document.querySelector('[data-postventa]');
+  if (caja && !caja.hasChildNodes()) caja.innerHTML = htmlPostventa();
 }

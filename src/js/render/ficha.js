@@ -42,7 +42,7 @@ function menuSecciones(ficha, tecnica) {
 
 function htmlBarra(modelo, ficha, tecnica) {
   const enlaces = menuSecciones(ficha, tecnica)
-    .map((s) => `<a href="#${s.id}" data-seccion="${s.id}">${esc(s.texto)}</a>`)
+    .map((s) => `<button type="button" data-scroll="${s.id}" data-seccion="${s.id}" aria-controls="${s.id}">${esc(s.texto)}</button>`)
     .join("");
   const pdf = ficha.fichaTecnica
     ? `<a href="${esc(ficha.fichaTecnica)}" target="_blank" rel="noopener">${ficha.referenciaInternacional ? 'Ficha internacional (PDF)' : 'Ficha técnica'}</a>`
@@ -50,7 +50,7 @@ function htmlBarra(modelo, ficha, tecnica) {
   return `
     <nav class="ficha-nav" aria-label="Secciones de ${esc(modelo.nombre)}">
       <div class="ficha-nav__inicio">
-        <a class="ficha-nav__modelo" href="#ficha-inicio">${esc(modelo.nombre)}</a>
+        <button class="ficha-nav__modelo" type="button" data-scroll="ficha-inicio" aria-controls="ficha-inicio">${esc(modelo.nombre)}</button>
       </div>
       <div class="ficha-nav__items">${enlaces}${pdf}</div>
     </nav>`;
@@ -307,7 +307,7 @@ function htmlMotorizaciones(modelo, ficha) {
       <div class="ficha-motor__cabecera"><span class="energy-tag">${esc(m.etiqueta)}</span>${m.slug === modelo.slug ? '<span class="ficha-motor__actual">Estás viendo este modelo</span>' : ''}</div>
       <h3>${esc(m.nombre)}</h3><p>${esc(m.descripcion)}</p>
       <dl>${m.datos.map(([k,v]) => `<div><dt>${esc(k)}</dt><dd>${esc(v)}</dd></div>`).join('')}</dl>
-      <a class="action ${m.slug === modelo.slug ? 'action--line' : 'action--dark'}" href="${m.slug === modelo.slug ? '#especificaciones' : '/modelos/' + m.slug}">${m.slug === modelo.slug ? 'Ver especificaciones' : 'Conocé el ' + esc(m.nombre)} <span aria-hidden="true">↗</span></a>
+      ${m.slug === modelo.slug ? '<button class="action action--line" type="button" data-scroll="especificaciones" aria-controls="especificaciones">Ver especificaciones <span aria-hidden="true">↗</span></button>' : `<a class="action action--dark" href="/modelos/${m.slug}">Conocé el ${esc(m.nombre)} <span aria-hidden="true">↗</span></a>`}
     </article>`).join('')}</div>
     <p class="ficha-motores__nota">Referencia internacional: GWM Tailandia. La autonomía NEDC del EV es un valor de ensayo y cambia según uso, clima y carga. La potencia combinada del HEV es la declarada para el sistema, no la suma de sus motores.</p>
   </section>`;
@@ -358,6 +358,6 @@ export function htmlNoEncontrada() {
     <section class="ficha-vacia">
       <h1>No encontramos ese modelo</h1>
       <p>Puede que el enlace esté desactualizado. Podés ver todos los modelos de GWM desde el listado.</p>
-      <a class="ficha-btn ficha-btn--oscuro" href="/#modelos">Ver modelos</a>
+      <a class="ficha-btn ficha-btn--oscuro" href="/modelos">Ver modelos</a>
     </section>`;
 }

@@ -14,6 +14,20 @@ Grupo Santa Rosa.
 La experiencia actual suma catálogo, comparación y consultas comerciales; los detalles
 de la arquitectura original se conservan abajo como referencia de los materiales.
 
+## URLs y SEO
+
+Las secciones de cada ficha se recorren con botones sin agregar fragmentos a la URL.
+Los enlaces antiguos con `#` se resuelven desde `src/js/navegacion.js`: se conserva
+la sección solicitada o se abre su página propia, manteniendo los parámetros de campaña.
+Mantenimiento y atención al cliente están en `/postventa/agendar-service` y
+`/postventa/reclamos`. El formulario se comparte desde `src/js/render/agenda.js`.
+
+El build entrega 30 páginas completas: un H1 y metadatos propios por URL, canonical,
+Open Graph, Twitter, datos estructurados de página, vehículos, categorías y sucursales,
+sitemap y robots. Las variantes `.html`, la barra final y los productos antiguos tienen
+redirección permanente. `npm run build` y `SITE_TEST_URL=<origen> node tests/sitio.test.js`
+comprueban contenido, enlaces, metadatos, redirecciones y 404 real.
+
 ## Stack
 
 - **Splide** — el hero (con fundido entre slides) y el slider de concesionarias.

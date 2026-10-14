@@ -85,15 +85,15 @@ export function htmlMovil() {
       <div class="secondray-item">
         <p class="secondray-title">Clientes</p>
         <ul class="secondray-ul">
-          <li><a class="secondray-link" href="/#postventa">Agendá tu mantenimiento</a></li>
-          <li><a class="secondray-link" href="/#servicios">Servicios de postventa</a></li>
+          <li><a class="secondray-link" href="/postventa/agendar-service">Agendá tu mantenimiento</a></li>
+          <li><a class="secondray-link" href="/postventa">Servicios de postventa</a></li>
         </ul>
       </div>
       <div class="secondray-item">
         <p class="secondray-title">Contacto</p>
         <ul class="secondray-ul">
           <li><a class="secondray-link" href="/concesionarios">Puntos de venta</a></li>
-          <li><a class="secondray-link" href="/#reclamos">Reclamos</a></li>
+          <li><a class="secondray-link" href="/postventa/reclamos">Reclamos</a></li>
         </ul>
       </div>`;
   const desplegable = (titulo, contenido) => `

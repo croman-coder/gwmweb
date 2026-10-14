@@ -1171,7 +1171,7 @@ body:has(.gwm-dialog[open]) {
   .ficha-highlights dd {
     font-size: 13px;
   }
-  .ficha-nav__items a {
+  .ficha-nav__items :is(a, button) {
     min-height: 44px;
     display: flex;
     align-items: center;

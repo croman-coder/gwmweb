@@ -16,6 +16,8 @@ export const PRODUCTOS_ANTERIORES = {
   22: "tank-700-phev-4x4",
 };
 export function redireccion(ruta) {
+  if (ruta === '/index.html') return '/';
+  if (ruta.endsWith('.html') && ruta !== '/404.html') return ruta.slice(0, -5);
   const producto = ruta.match(/^\/producto\/(\d+)(?:\/[^/]+)?\/?$/);
   if (producto && PRODUCTOS_ANTERIORES[producto[1]])
     return `/modelos/${PRODUCTOS_ANTERIORES[producto[1]]}`;

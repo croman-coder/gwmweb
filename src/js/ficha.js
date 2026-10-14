@@ -177,7 +177,11 @@ function iniciarVisor3d(raiz, slug) {
 function iniciarResaltado(raiz) {
   const enlaces = new Map([...raiz.querySelectorAll('.ficha-nav [data-seccion]')].map((a) => [a.dataset.seccion, a]));
   if (!enlaces.size || !('IntersectionObserver' in window)) return;
-  const marcar = (id) => enlaces.forEach((a, k) => a.classList.toggle('activo', k === id));
+  const marcar = (id) => enlaces.forEach((a, k) => {
+    a.classList.toggle('activo', k === id);
+    if (k === id) a.setAttribute('aria-current', 'location');
+    else a.removeAttribute('aria-current');
+  });
   marcar([...enlaces.keys()][0]);
   const observador = new IntersectionObserver(
     (entradas) => entradas.forEach((e) => e.isIntersecting && marcar(e.target.id)),
@@ -218,8 +222,4 @@ export async function initFicha(slug) {
   iniciarVisor3d(contenedor, slug);
   iniciarResaltado(contenedor);
 
-  // El navegador intenta ir al ancla (#versiones) antes de que exista el contenido: se repite ya renderizado.
-  if (location.hash.length > 1) {
-    document.getElementById(decodeURIComponent(location.hash.slice(1)))?.scrollIntoView();
-  }
 }

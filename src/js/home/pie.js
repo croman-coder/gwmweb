@@ -34,9 +34,9 @@ function columnas() {
     {
       titulo: 'POSTVENTA',
       enlaces: [
-        { texto: 'Agendá tu mantenimiento', href: '/#postventa' },
-        { texto: 'Servicios', href: '/#servicios' },
-        { texto: 'Reclamos', href: '/#reclamos' },
+        { texto: 'Agendá tu mantenimiento', href: '/postventa/agendar-service' },
+        { texto: 'Servicios', href: '/postventa' },
+        { texto: 'Reclamos', href: '/postventa/reclamos' },
         { texto: 'Garantía y mantenimiento', href: '/postventa' },
       ],
     },

@@ -14,10 +14,8 @@
     <link rel="canonical" href="https://gwmweb.santarosa.lat/" />
     <script>
       // Páginas de ficha (/modelos/<slug>): se oculta la landing desde el primer pintado (ver styles.css).
-      // Llegada a la landing con ancla (p. ej. desde el menú de una ficha): sin scroll suave hasta alinear (ver main.js).
       var raiz = document.documentElement;
       if (location.pathname !== '/') raiz.classList.add('vista-ficha');
-      else if (location.hash.length > 1) raiz.classList.add('llegada-con-ancla');
     </script>
     <meta name="theme-color" content="#000000" />
 
@@ -62,7 +60,7 @@
   </head>
 
   <body>
-    <a class="skip-link" href="#inicio">Saltar al contenido</a>
+    <button class="skip-link" type="button" data-scroll="inicio" aria-controls="inicio">Saltar al contenido</button>
     <!-- ====================================================================
          Cabecera — misma arquitectura que gwm-mx.com: sobre el hero, transparente y con texto blanco;
          menú Modelos con panel de filtros + lista por submarca; Postventa con columnas; accesos
@@ -98,15 +96,15 @@
                       <div class="secondray-item">
                         <p class="secondray-title">Clientes</p>
                         <ul class="secondray-ul">
-                          <li><a class="secondray-link" href="/#postventa">Agendá tu mantenimiento</a></li>
-                          <li><a class="secondray-link" href="/#servicios">Servicios de postventa</a></li>
+                          <li><a class="secondray-link" href="/postventa/agendar-service">Agendá tu mantenimiento</a></li>
+                          <li><a class="secondray-link" href="/postventa">Servicios de postventa</a></li>
                         </ul>
                       </div>
                       <div class="secondray-item">
                         <p class="secondray-title">Contacto</p>
                         <ul class="secondray-ul">
                           <li><a class="secondray-link" href="/concesionarios">Puntos de venta</a></li>
-                          <li><a class="secondray-link" href="/#reclamos">Reclamos</a></li>
+                          <li><a class="secondray-link" href="/postventa/reclamos">Reclamos</a></li>
                         </ul>
                       </div>
                     </div>
@@ -134,7 +132,7 @@
             <a class="square-btn" href="/concesionarios" aria-label="Encontrá tu concesionaria">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M12 21s7-6.4 7-11a7 7 0 1 0-14 0c0 4.6 7 11 7 11Z" /><circle cx="12" cy="10" r="2.6" /></svg>
             </a>
-            <a class="square-btn" href="/#postventa" aria-label="Agendá tu mantenimiento">
+            <a class="square-btn" href="/postventa/agendar-service" aria-label="Agendá tu mantenimiento">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2" /><path d="M3 10h18M8 3v4M16 3v4" /></svg>
             </a>
           </div>
@@ -249,84 +247,7 @@
         </div>
       </section>
 
-      <section class="seccion seccion--blanca" id="postventa" aria-labelledby="postventa-titulo">
-        <div class="responsive__layout">
-          <header class="seccion__cabecera">
-            <p class="seccion__etiqueta">Postventa</p>
-            <h2 class="seccion__titulo" id="postventa-titulo">Agendá tu service</h2>
-            <p class="seccion__bajada">Completá tus datos y elegí el servicio que necesitás para tu GWM.</p>
-            <p class="agenda-privacidad">Tu fecha es una preferencia: el equipo confirma el turno. Consultá cómo usamos tus datos en nuestra <a href="/privacidad">política de privacidad</a>.</p>
-          </header>
-
-
-          <form class="agenda" id="agenda" data-form-agenda novalidate>
-            <fieldset class="agenda__grupo">
-              <legend class="agenda__titulo"><span class="agenda__paso" aria-hidden="true">1</span>Tus datos</legend>
-              <div class="agenda__fila">
-                <div class="agenda__col agenda__col--6">
-                  <label class="agenda__label" for="ag-nombre">Nombre y apellido</label>
-                  <input class="agenda__campo" id="ag-nombre" name="nombre" type="text" autocomplete="name" required />
-                </div>
-                <div class="agenda__col agenda__col--6">
-                  <label class="agenda__label" for="ag-telefono">Teléfono / celular</label>
-                  <input class="agenda__campo" id="ag-telefono" name="telefono" type="tel" autocomplete="tel" required />
-                </div>
-                <div class="agenda__col agenda__col--12">
-                  <label class="agenda__label" for="ag-email">Email</label>
-                  <input class="agenda__campo" id="ag-email" name="email" type="email" autocomplete="email" required />
-                </div>
-              </div>
-            </fieldset>
-
-            <fieldset class="agenda__grupo">
-              <legend class="agenda__titulo"><span class="agenda__paso" aria-hidden="true">2</span>Tu vehículo</legend>
-              <div class="agenda__fila">
-                <div class="agenda__col agenda__col--8">
-                  <label class="agenda__label" for="ag-modelo">Modelo</label>
-                  <select class="agenda__campo" id="ag-modelo" name="modelo" required>
-                    <option value="">Seleccioná un modelo...</option>
-                  </select>
-                </div>
-                <div class="agenda__col agenda__col--4">
-                  <label class="agenda__label" for="ag-anio">Año</label>
-                  <input class="agenda__campo" id="ag-anio" name="anio" type="number" inputmode="numeric" placeholder="Ej: 2024" required />
-                </div>
-              </div>
-            </fieldset>
-
-            <fieldset class="agenda__grupo">
-              <legend class="agenda__titulo"><span class="agenda__paso" aria-hidden="true">3</span>¿Qué servicio necesitás?</legend>
-              <div class="agenda__opciones" data-servicios></div>
-            </fieldset>
-
-            <fieldset class="agenda__grupo">
-              <legend class="agenda__titulo">
-                <span class="agenda__paso" aria-hidden="true">4</span>Fecha y comentarios
-                <span class="agenda__opcional">opcional</span>
-              </legend>
-              <div class="agenda__fila">
-                <div class="agenda__col agenda__col--4">
-                  <label class="agenda__label" for="ag-fecha">Fecha preferida</label>
-                  <input class="agenda__campo" id="ag-fecha" name="fecha" type="date" />
-                </div>
-                <div class="agenda__col agenda__col--8">
-                  <label class="agenda__label" for="ag-comentarios">Comentarios</label>
-                  <textarea class="agenda__campo" id="ag-comentarios" name="comentarios" rows="3"></textarea>
-                </div>
-              </div>
-            </fieldset>
-
-            <div class="agenda__envio">
-              <button class="button--primary size-medium agenda__enviar" type="submit">
-                <span class="red-arrow-above fs-button-m fw-bold">Agendar</span>
-              </button>
-              <p class="agenda__estado" data-estado role="status" aria-live="polite"></p>
-            </div>
-          </form>
-
-          <p class="agenda__reclamos" id="reclamos" data-reclamos></p>
-        </div>
-      </section>
+      <!-- AGENDA_START --><section id="postventa" data-agenda-home></section><!-- AGENDA_END -->
 
       <section class="brand-film" aria-label="Hello, Tomorrow"><video data-video-fondo muted loop playsinline preload="none" poster="/img/poster/hello-tomorrow.webp" data-src="/video/hello-tomorrow.mp4" aria-hidden="true"></video><div class="responsive__layout"><p class="eyebrow">GWM · GREAT WALL MOTOR</p><p class="brand-film__titulo">Hello,<br /><span>Tomorrow.</span></p><a class="action action--light" href="/modelos">Descubrí lo que viene <span aria-hidden="true">↗</span></a></div></section>
 
@@ -351,7 +272,7 @@
                 </div>
                 <span class="red-arrow tools-btn" aria-hidden="true"></span>
               </a>
-              <a class="assemble-item" href="/#postventa">
+              <a class="assemble-item" href="/postventa/agendar-service">
                 <div class="text">
                   <svg class="card-img" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2" /><path d="M3 10h18M8 3v4M16 3v4" /></svg>
                   <p class="card-title fs-text-body fw-bold">Agendá tu mantenimiento</p>
@@ -412,7 +333,7 @@
           <a class="btn-item" href="/concesionarios">
             <div class="red-arrow fs-button-m fw-bold no-wrap">Encontrá tu concesionaria</div>
           </a>
-          <a class="btn-item" href="/#postventa">
+          <a class="btn-item" href="/postventa/agendar-service">
             <div class="red-arrow fs-button-m fw-bold no-wrap">Agendá tu mantenimiento</div>
           </a>
         </div>

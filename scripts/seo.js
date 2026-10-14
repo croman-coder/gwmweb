@@ -11,7 +11,9 @@ import { pathToFileURL } from "node:url";
 import { MODELOS, SLIDES_ACTIVOS, nombreCompleto } from "../src/js/modelos.js";
 import { FICHAS } from "../src/js/fichas.js";
 import { DEALERS, telHref, mapaHref } from "../src/js/concesionarios.js";
-import { SITIO, metaFicha } from "../src/js/sitio.js";
+import { SITIO, metaFicha, tituloPagina } from "../src/js/sitio.js";
+import { htmlAgenda } from "../src/js/render/agenda.js";
+import { modelosDe } from "../src/js/vehiculos.js";
 import { htmlFicha } from "../src/js/render/ficha.js";
 import {
   htmlDestacadosHome,
@@ -19,6 +21,7 @@ import {
   htmlHeroSlide,
 } from "../src/js/render/catalogo.js";
 import { htmlPanelModelos, htmlMovil } from "../src/js/home/cabecera.js";
+import { htmlPostventa } from "../src/js/home/catalogo.js";
 import { htmlMenuPie } from "../src/js/home/pie.js";
 import { htmlPagina, PAGINAS } from "../src/js/paginas.js";
 import { esc } from "../src/js/home/util.js";
@@ -52,7 +55,7 @@ function metadata(
     )
     .replace(
       /<meta name="robots"[^>]*>/,
-      `<meta name="robots" content="${noindex() || error ? "noindex, follow" : "index, follow"}" />`,
+      `<meta name="robots" content="${noindex() || error ? "noindex, follow" : "index, follow, max-image-preview:large"}" />`,
     )
     .replace(
       /<link rel="canonical"[^>]*>/,
@@ -69,6 +72,7 @@ function metadata(
       `<meta property="${key}" content="${esc(value)}" />`,
     );
   }
+  html = html.replace('</head>', `<meta name="twitter:title" content="${esc(titulo)}" />\n<meta name="twitter:description" content="${esc(descripcion)}" />\n<meta name="twitter:image" content="${esc(foto)}" />\n<meta property="og:image:alt" content="${esc(titulo)}" />\n</head>`);
   html = html.replace(
     /<script type="application\/ld\+json">[\s\S]*?<\/script>/g,
     "",
@@ -89,7 +93,16 @@ function metadata(
   };
   return optimizarImagenes(html.replace(
     "</head>",
-    `${[organization, ...extra].map(jsonLd).join("\n")}\n</head>`,
+    `${[organization, ...(!error ? [{
+      '@context': 'https://schema.org',
+      '@type': ruta === '/postventa/reclamos' ? 'ContactPage' : 'WebPage',
+      url: direccion,
+      name: titulo,
+      description: descripcion,
+      inLanguage: 'es-PY',
+      isPartOf: { '@type': 'WebSite', name: 'GWM Paraguay', url: url('/') },
+      publisher: { '@id': url('/#organizacion') },
+    }] : []), ...extra].map(jsonLd).join("\n")}\n</head>`,
   ));
 }
 
@@ -118,24 +131,25 @@ function interior(base, contenido) {
     );
 }
 function migas(ruta, nombre) {
+  const padre = ruta.startsWith('/modelos/') ? { name: 'Modelos', item: url('/modelos') }
+    : ruta.startsWith('/postventa/') ? { name: 'Postventa', item: url('/postventa') } : null;
   return {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
       { "@type": "ListItem", position: 1, name: "Inicio", item: url("/") },
-      ...(ruta.startsWith("/modelos/")
+      ...(padre
         ? [
             {
               "@type": "ListItem",
               position: 2,
-              name: "Modelos",
-              item: url("/modelos"),
+              ...padre,
             },
           ]
         : []),
       {
         "@type": "ListItem",
-        position: ruta.startsWith("/modelos/") ? 3 : 2,
+        position: padre ? 3 : 2,
         name: nombre,
         item: url(ruta),
       },
@@ -153,7 +167,7 @@ function dealersLd() {
         "@type": "AutoDealer",
         "@id": url(`/concesionarios#local-${i + 1}`),
         name: `${d.marca} ${d.nombre}`,
-        url: url(`/concesionarios#local-${i + 1}`),
+        url: url('/concesionarios'),
         telephone: telHref(d.telefonos[0]).replace("tel:", ""),
         hasMap: mapaHref(d),
         address: {
@@ -279,6 +293,8 @@ export function seo() {
         .replace(/<!-- GUIDES_START -->[\s\S]*?<!-- GUIDES_END -->/, () =>
           htmlGuiasHome(),
         )
+        .replace(/(<div[^>]*data-postventa[^>]*>)[\s\S]*?(<\/div>)/, (_, a, b) => a + htmlPostventa() + b)
+        .replace(/<!-- AGENDA_START -->[\s\S]*?<!-- AGENDA_END -->/, () => htmlAgenda())
         .replace(
           /(<div[^>]*data-slides>)[\s\S]*?(<\/div>)/,
           (_, a, b) => a + SLIDES_ACTIVOS.map(htmlHeroSlide).join("") + b,
@@ -318,7 +334,7 @@ export function seo() {
             name: v.nombre,
             price: v.precio,
             priceCurrency: "USD",
-            url: url(ruta) + "#versiones",
+            url: url(ruta),
             seller: { "@id": url("/#organizacion") },
           }));
         let html = metadata(
@@ -345,13 +361,20 @@ export function seo() {
         const html = metadata(
           interior(base, htmlPagina(ruta)),
           {
-            titulo: `${p.titulo} | GWM Paraguay`,
+            titulo: tituloPagina(p),
             descripcion: p.descripcion,
             ruta,
           },
           [
             migas(ruta, p.titulo),
             ...(ruta === "/concesionarios" ? [dealersLd()] : []),
+            ...(p.tipo ? [{
+              '@context': 'https://schema.org', '@type': 'ItemList',
+              name: p.titulo,
+              itemListElement: modelosDe(p.tipo).map((m, i) => ({
+                '@type': 'ListItem', position: i + 1, name: nombreCompleto(m), url: url(`/modelos/${m.slug}`),
+              })),
+            }] : []),
           ],
         );
         const destino = join(salida, ruta.slice(1) + ".html");

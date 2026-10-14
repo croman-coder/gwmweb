@@ -3,9 +3,10 @@ import '@splidejs/splide/css';
 import '../css/styles.css';
 
 import Splide from '@splidejs/splide';
-import { CATEGORIAS, MODELOS } from './modelos.js';
 import { DEALERS, CIUDADES, telHref, mapaHref } from './concesionarios.js';
-import { SERVICIOS, WHATSAPP_POSTVENTA, RECLAMOS } from './postventa.js';
+import { WHATSAPP_POSTVENTA } from './postventa.js';
+import { htmlAgenda } from './render/agenda.js';
+import { initNavegacion, alinearLlegada } from './navegacion.js';
 import { initCabecera } from './home/cabecera.js';
 import { initHero } from './home/hero.js';
 import { initCatalogo } from './home/catalogo.js';
@@ -65,18 +66,6 @@ async function enviarSolicitud({ form, datos, whatsapp, mensaje, textos }) {
   window.open(`https://wa.me/${whatsapp}?text=${encodeURIComponent(mensaje)}`, '_blank', 'noopener');
   medir('whatsapp_click', { tipo: datos.tipo });
   estado.textContent = textos.whatsapp;
-}
-
-/** <optgroup> por submarca con todos los modelos del catálogo. */
-function opcionesModelos() {
-  return CATEGORIAS.map(
-    (cat) =>
-      `<optgroup label="${cat.titulo}">` +
-      MODELOS.filter((m) => m.categoria === cat.id)
-        .map((m) => `<option value="${m.nombre}">${m.nombre}</option>`)
-        .join('') +
-      '</optgroup>'
-  ).join('');
 }
 
 /* ==========================================================================
@@ -212,16 +201,6 @@ function initAgenda() {
   const form = document.querySelector('[data-form-agenda]');
   if (!form) return;
 
-  form.querySelector('[name="modelo"]').insertAdjacentHTML('beforeend', opcionesModelos());
-
-  form.querySelector('[data-servicios]').innerHTML = SERVICIOS.map(
-    (servicio) => `
-      <label class="agenda__chip">
-        <input type="radio" name="servicio" value="${servicio}" required />
-        <span>${servicio}</span>
-      </label>`
-  ).join('');
-
   // Límites que dependen de la fecha de hoy: el año del vehículo no puede ser
   // futuro (se admite el del año próximo, porque los modelos salen antes) y no
   // se agenda para un día que ya pasó.
@@ -231,13 +210,6 @@ function initAgenda() {
   anio.max = hoy.getFullYear() + 1;
   const hoyIso = new Date(hoy.getTime() - hoy.getTimezoneOffset() * 60000).toISOString().slice(0, 10);
   form.querySelector('[name="fecha"]').min = hoyIso;
-
-  const reclamos = document.querySelector('[data-reclamos]');
-  if (reclamos) {
-    reclamos.innerHTML = `¿Tenés un reclamo? Contactá a Customer Experience:
-      <a href="${RECLAMOS.telHref}">${RECLAMOS.telefono}</a> ·
-      <a href="mailto:${RECLAMOS.email}">${RECLAMOS.email}</a>`;
-  }
 
   form.addEventListener('submit', (evento) => {
     evento.preventDefault();
@@ -278,28 +250,9 @@ function initAgenda() {
    nginx devuelve el HTML de la ficha (o index.html; ver nginx.conf) y acá se decide
    qué se arma. En las fichas un script del <head> ya ocultó la landing.
    ========================================================================== */
-/**
- * Llegada a la landing con "#seccion" (por ejemplo desde el menú de una ficha). El navegador salta al ancla
- * apenas la encuentra, cuando las secciones armadas por JS todavía no tienen su alto: queda corto. Se vuelve
- * a alinear ya armadas, y de nuevo al terminar de cargar, salvo que la persona ya haya empezado a moverse.
- */
-function alinearConAncla() {
-  const id = decodeURIComponent(location.hash.slice(1));
-  const raiz = document.documentElement;
-  if (!id) return;
-  let movida = false;
-  const alinear = () => document.getElementById(id)?.scrollIntoView();
-  const terminar = () => {
-    if (!movida) alinear();
-    raiz.classList.remove('llegada-con-ancla');
-  };
-  ['wheel', 'touchstart', 'keydown'].forEach((e) => window.addEventListener(e, () => (movida = true), { once: true, passive: true }));
-  alinear();
-  if (document.readyState === 'complete') terminar();
-  else window.addEventListener('load', terminar, { once: true });
-}
-
 const rutaFicha = location.pathname.match(/^\/modelos\/([^/]+)\/?$/);
+
+initNavegacion();
 
 // La cabecera y el pie son los mismos en la landing y en las fichas.
 initCabecera();
@@ -310,7 +263,7 @@ initLeads();
 if (rutaFicha) {
   // La ficha (y su contenido y estilos) se baja aparte: la landing no paga su peso.
   import('./ficha.js')
-    .then(async ({ initFicha }) => { await initFicha(decodeURIComponent(rutaFicha[1])); initMobile(); })
+    .then(async ({ initFicha }) => { await initFicha(decodeURIComponent(rutaFicha[1])); initMobile(); alinearLlegada(); })
     .catch(() => {
       document.querySelector('#ficha').innerHTML =
         '<p style="padding: 96px 24px; text-align: center">No pudimos cargar la ficha. Probá recargar la página.</p>';
@@ -322,8 +275,8 @@ if (rutaFicha) {
     const contenedor = document.querySelector('#ficha');
     if (!contenedor.hasChildNodes()) contenedor.innerHTML = optimizarImagenes(htmlPagina(ruta));
     if (p) {
-      const { SITIO } = await import('./sitio.js');
-      document.title = `${p.titulo} | GWM Paraguay`;
+      const { SITIO, tituloPagina } = await import('./sitio.js');
+      document.title = tituloPagina(p);
       document.querySelector('meta[name="description"]').content = p.descripcion;
       document.querySelector('link[rel="canonical"]').href = SITIO + ruta;
     } else {
@@ -331,18 +284,22 @@ if (rutaFicha) {
       document.querySelector('meta[name="robots"]').content = 'noindex, follow';
     }
     initDescubrir();
+    initAgenda();
     initMobile();
+    alinearLlegada();
   });
 } else {
   const catalogo = document.querySelector('[data-catalogo-home]');
   if (catalogo) catalogo.outerHTML = optimizarImagenes(htmlDestacadosHome());
   const guias = document.querySelector('[data-guias-home]');
   if (guias) guias.outerHTML = optimizarImagenes(htmlGuiasHome());
+  const agenda = document.querySelector('[data-agenda-home]');
+  if (agenda) agenda.outerHTML = htmlAgenda();
   initHero();
   initCatalogo();
   initDescubrir();
   initConcesionarios();
   initAgenda();
   initMobile();
-  alinearConAncla();
+  alinearLlegada();
 }
