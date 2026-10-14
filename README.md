@@ -307,7 +307,7 @@ No se inventan stock, reseñas ni horarios que no estén confirmados.
 - `/concesionarios`: direcciones y contactos de Paraguay.
 - `/postventa`: orientación sobre garantía y mantenimiento, sin trasladar plazos
   de otro país. `/privacidad`: información de formularios y medición opcional. `/cookies`: política de cookies y acceso a configuración.
-- ORA 5 EV y HEV incluyen las cifras oficiales de GWM Tailandia, identificadas
+- ORA 5 EV y HEV incluyen las cifras oficiales de GWM México, identificadas
   como referencia internacional, con comparación de motorizaciones y PDF original.
   El precio y la configuración comercial de Paraguay quedan a confirmar.
   ORA 03 sigue siendo ilustrativo y se conserva el visor 3D de ORA 5 EV.
@@ -534,13 +534,22 @@ contra un CRM simulado, sin crear prospectos reales. En desarrollo se puede usar
 
 ### Fuentes de ORA 5
 
-La comparación y las tablas EV/HEV se transcribieron y cotejaron visualmente con
-[la tabla oficial de GWM Tailandia](https://www.gwm.co.th/content/dam/gwm/pages/th/en/model/ora-5/ORA%205-EN.pdf)
-el 14/10/2026. Se conserva sin modificar en `public/fichas/ora-5-internacional.pdf`.
-Los módulos `tecnica/ora-5-ev.js`, `tecnica/ora-5-hev.js` y `tecnica/ora-5-base.js`
-separan potencia eléctrica y combinada, baterías, carga y equipamiento por versión.
-NEDC se etiqueta como ciclo de ensayo; no se mezcla con autonomía WLTP.
-No se trasladaron precios ni garantías de otros mercados a Paraguay.
+La referencia actual es la [página oficial de GWM México](https://www.gwm-mx.com/es/models/ora-5)
+y su [ficha de 11 páginas](https://www.gwm-mx.com/content/dam/gwm/pages/mx/es/pdf/gwm-ora5-ficha-tecnica.pdf),
+cotejada visualmente el 14/10/2026. El PDF original se sirve sin modificar como
+`public/fichas/ora-5-mexico.pdf`. La ficha anterior de Tailandia se conserva para enlaces históricos;
+las tablas visibles usan exclusivamente la referencia mexicana.
+
+EV y HEV tienen 13 grupos técnicos cada uno (94 y 97 datos), correspondientes a Luxury EV
+y Luxury Híbrida. El baúl es de 362 L en EV y 272 L en HEV; el techo panorámico figura solo
+en Luxury EV y ambos Luxury incluyen siete airbags. Se prioriza el torque de 191 lb-ft
+del PDF EV ante los valores distintos dentro de la página de marketing; las conversiones
+a Nm se identifican como aproximadas. Los límites de carga AC/DC de Tailandia no se mezclan
+con esta ficha. NEDC, aceleración, carga y consumo conservan sus condiciones de referencia.
+
+La tercera tarjeta describe Premium Gasolina de México y enlaza al PDF; no crea un modelo
+local ni una oferta comercial. Los servicios My GWM App se identifican como regionales.
+El precio y la configuración de Paraguay siguen a confirmar con el equipo comercial.
 
 ### Hero, menú y experiencia móvil (octubre de 2026)
 
@@ -604,7 +613,7 @@ Datos que no existen en el repo ni en el HTML de Paraguay y que hay que pedirle 
 Marketing; sin ellos las secciones correspondientes no se pueden completar:
 
 - **Ora 5 EV / HEV**: precio, versiones, hoja técnica y fotos oficiales de Paraguay.
-  Ya se publica la ficha internacional de Tailandia con su procedencia visible.
+  Ya se publica la ficha internacional de México con su procedencia visible.
 - **Ofertas**: si hay promociones, se suma la sección "Ofertas destacadas" de México
   (`car-models-custom`) con sus datos; la portada muestra tres modelos destacados y enlaza al catálogo completo, sin promociones inventadas.
 - **Garantía, repuestos, red de talleres, cotizador, código de cumplimiento y

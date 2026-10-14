@@ -18,7 +18,7 @@
  * visor3d {titulo, texto, poster, aviso} (sección "Vista 3D": exige src/js/visor3d/modelos/<slug>.js).
  */
 
-import { ORA5_PDF, ORA5_AVISO, MOTORIZACIONES_ORA5 } from './ora5.js';
+import { ORA5_PDF, ORA5_AVISO, ORA5_NOTA, MOTORIZACIONES_ORA5 } from './ora5.js';
 
 export const FICHAS = {
   'wingle-7': {
@@ -441,6 +441,7 @@ export const FICHAS = {
   'ora-5-ev': {
     referenciaInternacional: true,
     motorizaciones: MOTORIZACIONES_ORA5,
+    motorizacionesNota: ORA5_NOTA,
     fichaTecnica: ORA5_PDF,
     aviso: ORA5_AVISO,
     titular: ['ORA 5 EV'],
@@ -449,13 +450,13 @@ export const FICHAS = {
     diseno: {
       titulo: 'Un interior conectado',
       enlace: 'Diseño',
-      texto: ['Pantalla central de 14,6 pulgadas, tablero digital de 10,25 y Apple CarPlay y Android Auto inalámbricos en las versiones internacionales Pro y Ultra.'],
+      texto: ['La versión Luxury EV de México combina pantalla central de 14,6 pulgadas, tablero digital de 10,25 y conectividad inalámbrica para Apple CarPlay y Android Auto. El audio suma nueve parlantes y carga inalámbrica de celular de 50 W.'],
       imagen: '/img/fichas/ora-5-ev/diseno.webp',
     },
     tecnologia: {
       titulo: 'Seguridad y asistencias',
       enlace: 'Seguridad',
-      texto: ['La especificación de Tailandia incluye seis airbags, cámara 360°, crucero adaptativo y frenado autónomo. Ultra suma detector de punto ciego y asistencias de tráfico cruzado.'],
+      texto: ['Luxury EV incorpora siete airbags, incluido uno central delantero. La cámara 360°, el detector de punto ciego, el crucero adaptativo y el frenado de emergencia forman parte de la dotación de referencia mexicana.'],
       imagen: '/img/fichas/ora-5-ev/tecnologia.webp',
     },
     visor3d: {
@@ -470,6 +471,7 @@ export const FICHAS = {
   'ora-5-hev': {
     referenciaInternacional: true,
     motorizaciones: MOTORIZACIONES_ORA5,
+    motorizacionesNota: ORA5_NOTA,
     fichaTecnica: ORA5_PDF,
     aviso: ORA5_AVISO,
     titular: ['ORA 5 HEV'],
@@ -478,13 +480,13 @@ export const FICHAS = {
     diseno: {
       titulo: 'Tecnología para cada viaje',
       enlace: 'Diseño',
-      texto: ['La gama internacional combina una pantalla multimedia de 14,6 pulgadas con un tablero digital de 10,25. Conectividad inalámbrica para Apple CarPlay y Android Auto. Imágenes ilustrativas de la gama ORA 5.'],
+      texto: ['Luxury Híbrida de México reúne pantalla de 14,6 pulgadas, tablero de 10,25, Apple CarPlay y Android Auto inalámbricos. Cuenta con nueve parlantes, asientos delanteros calefaccionados y ventilados y memoria para el conductor. Imágenes ilustrativas de la gama ORA 5.'],
       imagen: '/img/fichas/ora-5-ev/diseno.webp',
     },
     tecnologia: {
       titulo: 'Seguridad y asistencias',
       enlace: 'Seguridad',
-      texto: ['Seis airbags, cámara 360°, crucero adaptativo y frenado autónomo en las versiones Pro y Ultra de Tailandia. El equipamiento de Ultra agrega detector de punto ciego y asistencias de tráfico cruzado.'],
+      texto: ['La versión Luxury Híbrida mexicana incluye siete airbags, cámara 360°, crucero adaptativo, detección de punto ciego y asistencias de carril y tráfico cruzado. La configuración comercializada en Paraguay debe confirmarse con un asesor.'],
       imagen: '/img/fichas/ora-5-ev/tecnologia.webp',
     },
   },

@@ -267,6 +267,7 @@ function htmlGrupoTecnica(grupo, columnas, abierto) {
   return `
     <details class="ficha-grupo"${abierto ? " open" : ""}>
       <summary><span class="ficha-grupo__titulo">${esc(grupo.titulo)}</span><span class="ficha-grupo__cantidad" aria-hidden="true">${grupo.filas.length}</span></summary>
+      ${grupo.nota ? `<p class="ficha-grupo__nota">${esc(grupo.nota)}</p>` : ""}
       <table class="ficha-tabla${columnas.length > 1 ? " ficha-tabla--versiones" : ""}">
         <caption class="visually-hidden">${esc(grupo.titulo)}</caption>
         ${encabezado}
@@ -281,7 +282,7 @@ function htmlTecnica(modelo, ficha, tecnica) {
     : "<span></span>";
   const bajada =
     tecnica.referencia
-      ? `Datos oficiales de GWM ${esc(tecnica.referencia.mercado)}. Las versiones Pro y Ultra corresponden a ese mercado; confirmá la configuración para Paraguay.`
+      ? `Datos oficiales de GWM ${esc(tecnica.referencia.mercado)}${tecnica.referencia.version ? ` · ${esc(tecnica.referencia.version)}` : ""}. Confirmá con un asesor el equipamiento y la disponibilidad para Paraguay.`
       : tecnica.columnas.length > 1
       ? `Datos de la ficha técnica oficial del GWM ${esc(modelo.nombre)}, con las versiones lado a lado.`
       : `Datos de la ficha técnica oficial del GWM ${esc(modelo.nombre)}.`;
@@ -290,7 +291,7 @@ function htmlTecnica(modelo, ficha, tecnica) {
       <div class="ficha-tecnica__contenido">
         <h2>Especificaciones técnicas</h2>
         <p class="ficha-tecnica__bajada">${bajada}</p>
-        ${tecnica.referencia ? `<p class="ficha-tecnica__fuente"><a href="${esc(tecnica.referencia.fuente)}" target="_blank" rel="noopener">Consultar fuente oficial · GWM ${esc(tecnica.referencia.mercado)} ↗</a></p>` : ''}
+        ${tecnica.referencia ? `<p class="ficha-tecnica__fuente"><a href="${esc(tecnica.referencia.fuente)}" target="_blank" rel="noopener">Ficha oficial · GWM ${esc(tecnica.referencia.mercado)} ↗</a>${tecnica.referencia.pagina ? ` · <a href="${esc(tecnica.referencia.pagina)}" target="_blank" rel="noopener">Ver el modelo en GWM ${esc(tecnica.referencia.mercado)} ↗</a>` : ''}</p>` : ''}
         <div class="ficha-tecnica__acciones">
           ${pdf}
           <button type="button" class="ficha-tecnica__todo" data-accion="alternar">Expandir todo</button>
@@ -302,14 +303,14 @@ function htmlTecnica(modelo, ficha, tecnica) {
 
 function htmlMotorizaciones(modelo, ficha) {
   return `<section class="ficha-motores responsive__layout" id="motorizaciones" aria-labelledby="motores-titulo">
-    <div class="section-heading"><div><p class="eyebrow">DOS FORMAS DE MOVERTE</p><h2 id="motores-titulo">Eléctrico o híbrido.</h2></div><p>Conocé las diferencias de la gama ORA 5.</p></div>
-    <div class="ficha-motores__grid">${ficha.motorizaciones.map(m => `<article class="ficha-motor${m.slug === modelo.slug ? ' ficha-motor--activo' : ''}">
+    <div class="section-heading"><div><p class="eyebrow">GAMA ORA 5 · REFERENCIA MÉXICO</p><h2 id="motores-titulo">Tu energía. Tu camino.</h2></div><p>Eléctrico, híbrido o a gasolina.<br />Conocé qué distingue a cada motorización.</p></div>
+    <div class="ficha-motores__grid${ficha.motorizaciones.length === 3 ? " ficha-motores__grid--tres" : ""}">${ficha.motorizaciones.map(m => `<article class="ficha-motor${m.slug === modelo.slug ? ' ficha-motor--activo' : ''}">
       <div class="ficha-motor__cabecera"><span class="energy-tag">${esc(m.etiqueta)}</span>${m.slug === modelo.slug ? '<span class="ficha-motor__actual">Estás viendo este modelo</span>' : ''}</div>
-      <h3>${esc(m.nombre)}</h3><p>${esc(m.descripcion)}</p>
+      <h3>${esc(m.nombre)}</h3>${m.version ? `<p class="ficha-motor__version">${esc(m.version)}</p>` : ""}<p>${esc(m.descripcion)}</p>
       <dl>${m.datos.map(([k,v]) => `<div><dt>${esc(k)}</dt><dd>${esc(v)}</dd></div>`).join('')}</dl>
-      ${m.slug === modelo.slug ? '<button class="action action--line" type="button" data-scroll="especificaciones" aria-controls="especificaciones">Ver especificaciones <span aria-hidden="true">↗</span></button>' : `<a class="action action--dark" href="/modelos/${m.slug}">Conocé el ${esc(m.nombre)} <span aria-hidden="true">↗</span></a>`}
+      ${m.slug === modelo.slug ? '<button class="action action--line" type="button" data-scroll="especificaciones" aria-controls="especificaciones">Ver especificaciones <span aria-hidden="true">↗</span></button>' : m.slug ? `<a class="action action--dark" href="/modelos/${m.slug}">Conocé el ${esc(m.nombre)} <span aria-hidden="true">↗</span></a>` : `<a class="action action--line" href="${esc(ficha.fichaTecnica)}" target="_blank" rel="noopener">Ficha de referencia (PDF) <span aria-hidden="true">↗</span></a>`}
     </article>`).join('')}</div>
-    <p class="ficha-motores__nota">Referencia internacional: GWM Tailandia. La autonomía NEDC del EV es un valor de ensayo y cambia según uso, clima y carga. La potencia combinada del HEV es la declarada para el sistema, no la suma de sus motores.</p>
+    ${ficha.motorizacionesNota ? `<p class="ficha-motores__nota">${esc(ficha.motorizacionesNota)}</p>` : ""}
   </section>`;
 }
 

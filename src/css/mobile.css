@@ -58,17 +58,24 @@ html.vista-ficha .cmp__header.is-open { background: white; }
 .ficha-motores { padding-block: 80px; }
 .ficha-motores h2 { font-size: clamp(32px,4vw,48px); font-weight: 400; letter-spacing: -.04em; }
 .ficha-motores__grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 24px; }
-.ficha-motor { padding: 32px; border: 1px solid var(--linea); background: #fff; border-radius: 4px; }
+.ficha-motores__grid--tres { grid-template-columns: repeat(3,minmax(0,1fr)); }
+.ficha-motor { display: flex; flex-direction: column; padding: 28px; border: 1px solid var(--linea); background: #fff; border-radius: 4px; }
 .ficha-motor--activo { border-color: var(--tinta); background: #f6f7f3; }
 .ficha-motor__cabecera { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 24px; }
 .ficha-motor__actual { font-size: 10px; color: #586253; }
+.ficha-motor > .ficha-motor__version { min-height: 0; margin-bottom: 14px; font-size: 11px; letter-spacing: .05em; text-transform: uppercase; }
 .ficha-motor h3 { font-size: 29px; font-weight: 400; margin-bottom: 12px; letter-spacing: -.025em; }
 .ficha-motor > p { min-height: 3.2em; font-size: 15px; line-height: 1.6; color: var(--muted); }
 .ficha-motor dl { margin: 24px 0 28px; }
 .ficha-motor dl > div { display: flex; align-items: baseline; justify-content: space-between; gap: 20px; padding: 14px 0; border-bottom: 1px solid var(--linea); }
 .ficha-motor dt { font-size: 12px; color: var(--muted); }
 .ficha-motor dd { margin: 0; font-size: 15px; text-align: right; }
-.ficha-motor .action { width: 100%; }
+.ficha-motor .action { width: 100%; margin-top: auto; }
+.ficha-grupo__nota { margin: 8px 0 18px; color: var(--muted); font-size: 12px; line-height: 1.65; }
+@media (min-width:768px) and (max-width:1099px) {
+  .ficha-motores__grid--tres { grid-template-columns: repeat(2,minmax(0,1fr)); }
+  .ficha-motores__grid--tres > :last-child { grid-column: 1 / -1; }
+}
 .ficha-motores__nota { margin-top: 24px; font-size: 12px; line-height: 1.7; color: var(--muted); max-width: 950px; }
 .ficha-tecnica__fuente { font-size: 12px; text-align: center; margin: 0 0 28px; text-decoration: underline; text-underline-offset: 4px; }
 .lead-honeypot { position: absolute; width: 1px; height: 1px; opacity: 0; overflow: hidden; pointer-events: none; }
