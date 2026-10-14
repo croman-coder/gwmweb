@@ -1,14 +1,20 @@
 /* ==========================================================================
-   GWM Paraguay — Landing
+   GWM Paraguay — Landing y cabecera/pie de las fichas
 
-   Estructura y estilos replicados de gwm.com.uy: mismo marcado Bootstrap 5,
-   mismo slider Splide y las mismas clases propias (.slide, .hero-model-price,
-   .model-category-button, .model, .home-link, .ws-link, #footer-links).
-   Contenido, catálogo e imágenes: relevados del sitio anterior y servidos
-   desde public/. El sitio no depende de ningún dominio externo.
+   Sigue la arquitectura de gwm-mx.com: cabecera inmersiva sobre el hero, hero de slides, selector de
+   modelos (car-swiper), tarjetas, slider de postventa, barra de herramientas, banners, "Hello, Tomorrow",
+   tarjetas de dos columnas y un pie negro con columnas. Los nombres de clase son los de ese sitio
+   (cmp__*, kvswiper-*, car-*, assemble-item...) para poder cotejar cada pieza.
+
+   Las medidas (escala tipográfica 112/56/32/24/16/14/12, ancho de 1200 px, bordes de 8 px, botones
+   de 3 px con flecha roja) se midieron en la página en funcionamiento. Sin Bootstrap: lo poco que daba
+   (reset, [hidden], márgenes de párrafos y listas) está en la sección "Base".
+
+   Contenido, catálogo e imágenes: servidos desde public/. El sitio no depende de ningún dominio externo.
    ========================================================================== */
+@import './concesionarios.css';
 
-/* --- Tipografía de marca (misma declaración que gwm.com.uy) -------------- */
+/* --- Tipografía de marca ------------------------------------------------- */
 @font-face {
   font-family: 'GWMSans';
   font-weight: 300;
@@ -31,14 +37,159 @@
   src: url('/fonts/GWMSans-Bold.woff2') format('woff2');
 }
 
-/* La barra de navegación es sticky (80px): sin esto, al ir a una sección desde el
-   menú el título queda tapado. */
-html {
-  scroll-padding-top: 80px;
+:root {
+  --negro: #000;
+  --blanco: #fff;
+  --fondo: #f3f3f1;
+  --fondo-herramientas: #f2f2f7;
+  --borde: #d1d1d6;
+  --texto-suave: #48484a;
+  --gris-claro: #cacacf;
+  --gris-pie: #3a3a3c;
+  --rojo: #d7000f;
+  --ancho: 1200px;
+  --cab: 97px; /* alto de la cabecera */
+  --gutter: 16px;
+  --flecha: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M19 12H5' stroke='%23D7000F' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M14 17L19 12' stroke='%23D7000F' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M14 7L19 12' stroke='%23D7000F' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
 }
 
-/* Páginas de ficha (/modelos/<slug>): un script del <head> marca <html> con .vista-ficha y se
-   oculta la landing desde el primer pintado; ficha.js rellena #ficha (ver ficha.css). */
+@media (min-width: 768px) {
+  :root {
+    --gutter: 24px;
+  }
+}
+
+/* ==========================================================================
+   Base
+   ========================================================================== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+body {
+  margin: 0;
+  background: #fff;
+  color: #000;
+  font-family: 'GWMSans', Arial, Helvetica, sans-serif;
+  font-size: 16px;
+  line-height: 1.47;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+img,
+svg {
+  vertical-align: middle;
+}
+
+img,
+video {
+  max-width: 100%;
+  height: auto;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font: inherit;
+  cursor: pointer;
+}
+
+p,
+ul,
+ol {
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
+ul,
+ol {
+  padding-left: 2rem;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+th {
+  text-align: inherit;
+}
+
+fieldset {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+legend {
+  float: left;
+  width: 100%;
+  padding: 0;
+  margin-bottom: 0.5rem;
+}
+
+legend + * {
+  clear: left;
+}
+
+label {
+  display: inline-block;
+}
+
+textarea {
+  resize: vertical;
+}
+
+summary {
+  cursor: pointer;
+}
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  margin: -1px !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+/* Fichas (/modelos/<slug>): un script del <head> marca <html> con .vista-ficha y se oculta la landing
+   desde el primer pintado; ficha.js rellena #ficha (ver ficha.css). */
 html.vista-ficha main > :not(#ficha) {
   display: none !important;
 }
@@ -64,912 +215,1588 @@ html.vista-ficha main {
   flex: 1 0 auto;
 }
 
-body {
-  padding: 0;
-  margin: 0;
-  font-family: 'GWMSans', Arial, Helvetica, sans-serif;
-}
-
-/* Utilitarias de gwm.com.uy */
-.bg {
-  background-position: center;
-  background-size: cover;
-}
-
-.bg-red {
-  background-color: #d7000f;
-}
-
-.text-shadow {
-  text-shadow: 0 0 5px black;
-}
-
-.ellipsis {
-  text-transform: uppercase;
-  white-space: nowrap;
+/* Con el menú del celular abierto la página de atrás no se mueve. */
+html.menu-abierto {
   overflow: hidden;
-  text-overflow: ellipsis;
+}
+
+/* --- Escala tipográfica (los mismos nombres y medidas que gwm-mx.com) ---- */
+.fs-title-h0 {
+  font-size: 48px;
+  line-height: 48px;
+}
+.fs-title-h1 {
+  font-size: 32px;
+  line-height: 32px;
+}
+.fs-title-h2 {
+  font-size: 24px;
+  line-height: 24px;
+}
+.fs-title-h3 {
+  font-size: 20px;
+  line-height: 22px;
+}
+.fs-subtitle {
+  font-size: 16px;
+  line-height: 24px;
+}
+.fs-text-body {
+  font-size: 16px;
+  line-height: 24px;
+}
+.fs-button-m {
   font-size: 14px;
+  line-height: 20px;
 }
-
-/* ==========================================================================
-   Navbar
-   ========================================================================== */
-.navbar {
-  height: 80px;
-}
-
-.navbar-toggler {
-  border: 0;
-}
-
-.navbar-toggler:active,
-.navbar-toggler:focus {
-  box-shadow: none !important;
-}
-
-.navbar-dark.bg-dark {
-  background-color: #000 !important;
-}
-
-.nav-item {
-  overflow-y: hidden;
-}
-
-.nav-link {
-  color: white;
-  transition: transform 0.3s;
-  padding: 25px 26px !important;
-}
-
-.nav-link:hover {
-  color: #eee;
-  transform: translateY(2px);
-}
-
-#navbarSupportedContent {
-  max-height: 100vh;
-  overflow-y: auto;
-}
-
-.dropdown-menu {
-  width: 100vw;
-  min-height: fit-content;
-}
-
-@media (min-width: 992px) {
-  .dropdown-menu {
-    position: fixed !important;
-    top: 78px !important;
-    left: 0 !important;
-  }
-}
-
-.header-model {
-  text-decoration: none;
-  color: black;
-  text-align: center;
-  width: 25%;
-}
-
-/* Blanco puro, igual que el panel de fotos: la categoría activa se fusiona con él.
-   Las fotos de modelo traen fondo blanco opaco, así que sobre cualquier gris se
-   verían como un recuadro. */
-.brand-item:hover,
-.brand-item.active {
-  background-color: #fff !important;
-  color: #212529 !important;
-}
-
-.list-group-item {
-  border-color: transparent !important;
-  border: none !important;
-}
-
-@media (max-width: 992px) {
-  .header-model {
-    width: 45%;
-  }
-}
-
-@media (max-width: 575px) {
-  .header-model {
-    width: 95%;
-  }
-}
-
-/* ==========================================================================
-   Hero slider (Splide)
-   ========================================================================== */
-.slide {
-  height: 80vh;
-  /* En monitores muy altos 80vh deja un hero desproporcionado. */
-  max-height: 760px;
-  color: white;
-  position: relative;
-}
-
-.slide-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(
-    to bottom,
-    rgba(0, 0, 0, 0) 0%,
-    rgba(0, 0, 0, 0.1) 60%,
-    rgba(0, 0, 0, 0.7) 95%,
-    rgba(0, 0, 0, 0.9) 100%
-  );
-  pointer-events: none;
-  z-index: 1;
-}
-
-.slide .position-relative {
-  z-index: 2;
-}
-
-.hero-model-price {
+.fs-text-mentions {
   font-size: 12px;
-  line-height: 1;
-  padding: 1px 16px;
-  border-left: 1px solid white;
+  line-height: 18px;
 }
 
-.hero-model-price-amount {
-  font-size: 30px;
+@media (min-width: 768px) {
+  .fs-title-h0 {
+    font-size: 112px;
+    line-height: 112px;
+  }
+  .fs-title-h1 {
+    font-size: 56px;
+    line-height: 56px;
+  }
+  .fs-title-h2 {
+    font-size: 32px;
+    line-height: 32px;
+  }
+  .fs-title-h3 {
+    font-size: 24px;
+    line-height: 24px;
+  }
 }
 
-.btn-white {
-  color: white;
-  border: 1px solid white;
-  transition: background-color 0.3s, border 0.3s;
+.fw-regular {
+  font-weight: 400;
 }
-
-.btn-white:hover {
-  background-color: white !important;
-  color: black !important;
-  border-color: white !important;
-}
-
-/* Video de fondo del slide y de la banda de marca (spots de gwm-mx.com) */
-.slide-media {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  z-index: 0;
-}
-
-.banda-marca-overlay {
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.6) 100%);
-  z-index: 1;
-}
-
-/* Columna de categorías del megamenú */
-#models-dropdown .brand-list {
-  background-color: #000;
-}
-
-#models-dropdown .list-group-item {
-  background-color: transparent;
-  color: #fff;
-}
-
-/* ==========================================================================
-   Modelos
-   ========================================================================== */
-/* --- Selector de submarcas ------------------------------------------------
-   Pestañas con subrayado. El indicador rojo es el mismo recurso que usan los
-   accesos (.home-link) y el "+" de las tarjetas, así que se lee como parte del
-   sistema. Reemplaza las pestañas colgantes de gwm.com.uy: con cinco submarcas
-   dejaban muescas en las uniones y en celular se comprimían a 76 px cada una. */
-.model-tabs {
-  display: flex;
-  max-width: 920px;
-  margin: 0 auto;
-  padding: 0 12px;
-  overflow-x: auto;
-  scrollbar-width: none;
-  box-shadow: inset 0 -1px 0 #e2e2e2;
-}
-
-.model-tabs::-webkit-scrollbar {
-  display: none;
-}
-
-/* margin:auto en los extremos centra el grupo cuando sobra lugar y lo deja
-   alineado a la izquierda, con scroll, cuando no entra. */
-.model-tabs > :first-child {
-  margin-left: auto;
-}
-
-.model-tabs > :last-child {
-  margin-right: auto;
-}
-
-/* Si hay pestañas fuera de pantalla, el borde correspondiente se desvanece para
-   avisar que se puede deslizar. Las clases las pone marcarDesborde() en main.js,
-   así que sin scroll no hay degradé. */
-.model-tabs.hay-mas-der {
-  -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 36px), transparent);
-  mask-image: linear-gradient(to right, #000 calc(100% - 36px), transparent);
-}
-
-.model-tabs.hay-mas-izq {
-  -webkit-mask-image: linear-gradient(to left, #000 calc(100% - 36px), transparent);
-  mask-image: linear-gradient(to left, #000 calc(100% - 36px), transparent);
-}
-
-.model-tabs.hay-mas-izq.hay-mas-der {
-  -webkit-mask-image: linear-gradient(to right, transparent, #000 36px, #000 calc(100% - 36px), transparent);
-  mask-image: linear-gradient(to right, transparent, #000 36px, #000 calc(100% - 36px), transparent);
-}
-
-.model-category-button {
-  position: relative;
-  flex: 0 0 auto;
-  padding: 26px 28px 22px;
-  background: none;
-  border: 0;
-  border-radius: 4px; /* solo redondea el aro de foco */
-  color: #6c757d;
-  font-size: 15px;
+.fw-bold,
+.fw-extrabold {
   font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  white-space: nowrap;
-  -webkit-tap-highlight-color: transparent;
-  transition: color 0.3s;
+}
+/* La tipografía del sitio trae Light, Regular y Bold: el "black" de los títulos se aproxima engrosando el Bold. */
+.fw-black {
+  font-weight: 700;
+  -webkit-text-stroke: 0.035em currentColor;
 }
 
-.model-category-button::after {
-  content: '';
-  position: absolute;
-  left: 28px;
-  right: 28px;
-  bottom: 0;
-  height: 4px;
-  background: #d0d0d0;
-  transform: scaleX(0);
-  transition: transform 0.3s ease, background-color 0.3s;
+.pt56 {
+  padding-top: 56px;
+}
+.pb56 {
+  padding-bottom: 56px;
+}
+.pt88 {
+  padding-top: 88px;
+}
+.pb88 {
+  padding-bottom: 88px;
 }
 
-.model-category-button.active {
+@media (max-width: 767px) {
+  .pt88 {
+    padding-top: 56px;
+  }
+  .pb88 {
+    padding-bottom: 56px;
+  }
+}
+
+/* Ancho de contenido de todas las secciones. */
+.responsive__layout {
+  max-width: var(--ancho);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+@media (min-width: 1248px) {
+  .responsive__layout {
+    padding-inline: 0;
+  }
+}
+
+/* --- Botones -------------------------------------------------------------- */
+/* Primario: negro, con la flecha roja que sale en diagonal (red-arrow-above). */
+.button--primary {
+  display: inline-flex;
+  align-items: center;
+  min-height: 48px;
+  padding: 12px 12px 12px 24px;
+  border: 0;
+  border-radius: 3px;
+  background: #000;
+  color: #fff;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background-color 0.2s;
+}
+
+.button--primary.light {
+  background: #fff;
   color: #000;
 }
 
-.model-category-button.active::after {
-  background: #d7000f;
-  transform: scaleX(1);
+.red-arrow-above {
+  position: relative;
+  display: inline-block;
+  padding-right: 36px;
+  line-height: 24px;
 }
 
-/* El hover solo donde existe: en táctil se queda "pegado" tras el toque. */
+.red-arrow-above::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 0;
+  width: 24px;
+  height: 24px;
+  margin-top: -12px;
+  background: var(--flecha) center / contain no-repeat;
+  transform: rotate(-45deg);
+}
+
+/* Terciario: enlace en negrita con la flecha roja a la derecha. */
+.button--tertiary {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  min-height: 24px;
+  padding-right: 32px;
+  color: #000;
+  text-decoration: none;
+}
+
+.red-arrow {
+  position: relative;
+}
+
+.red-arrow::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 0;
+  width: 24px;
+  height: 24px;
+  margin-top: -12px;
+  background: var(--flecha) center / contain no-repeat;
+  transition: transform 0.2s;
+}
+
 @media (hover: hover) {
-  .model-category-button:hover {
-    color: #000;
+  .button--primary:hover {
+    background: #1c1c1e;
   }
 
-  .model-category-button:hover::after {
-    transform: scaleX(1);
-  }
-}
-
-/* Offset negativo: el contenedor tiene overflow y recortaría un aro exterior. */
-.model-category-button:focus-visible {
-  outline: 2px solid #000;
-  outline-offset: -6px;
-}
-
-/* En tablet el filtro de ciudades (cuatro pestañas largas) necesitaba 707 px y
-   había 696: con menos padding entra sin scroll. */
-@media (min-width: 576px) and (max-width: 991px) {
-  .model-category-button {
-    padding-inline: 20px;
+  .button--primary.light:hover {
+    background: #f2f2f7;
   }
 
-  .model-category-button::after {
-    left: 20px;
-    right: 20px;
+  .red-arrow:hover::after {
+    transform: translateX(4px);
+  }
+
+  .button--primary:hover .red-arrow-above::after {
+    transform: rotate(-45deg) translateX(3px);
   }
 }
 
-/* En celular el padding y el tamaño se ajustan al ancho de pantalla: las cinco
-   pestañas tienen que entrar sin scroll desde 360 px (el ancho más común en
-   Android). Por debajo de eso queda el scroll interno como último recurso. */
-@media (max-width: 575px) {
-  .model-tabs {
-    padding: 0 4px;
-  }
-
-  .model-category-button {
-    --pad: clamp(8px, 3.2vw, 13px);
-    padding: 22px var(--pad) 18px;
-    font-size: clamp(12px, 3.4vw, 13px);
-    letter-spacing: 0.05em;
-  }
-
-  .model-category-button::after {
-    left: var(--pad);
-    right: var(--pad);
-  }
-}
-
-.model {
-  text-decoration: none;
-  flex: 0 0 400px;
-  max-width: 400px;
-}
-
-.model-name {
-  font-size: 24px;
-  text-transform: uppercase;
-  font-weight: bold;
-}
-
-/* El "+" rojo circular junto al nombre del modelo */
-.model-name > .icon-plus {
-  background-color: #d7000f;
-  border-radius: 50%;
-  font-size: 8px;
-  line-height: 1;
-  padding: 4px 5px;
-}
-
-.model-price {
-  font-size: 16px;
-}
-
-.model-versiones {
-  margin-top: 2px;
-  font-size: 14px;
-  font-weight: 300;
-  color: #6c757d;
-}
-
-/* Bootstrap fija el ancho con .w-100 pero no toca el alto, así que sin esto
-   gana el atributo height="190" del <img> y la foto sale estirada. */
-.model img,
-.header-model img {
-  height: auto;
+.button--primary:focus-visible,
+.button--tertiary:focus-visible,
+.assemble-item:focus-visible,
+.btn-item:focus-visible,
+.item-btn:focus-visible,
+.top-btn:focus-visible,
+.btn-wraper:focus-visible {
+  outline: 2px solid var(--rojo);
+  outline-offset: 3px;
 }
 
 /* ==========================================================================
-   Accesos (home-link)
+   Cabecera (cmp__header)
+
+   Sobre el hero: transparente, texto blanco, y el hero sube por debajo (margen negativo). Los paneles
+   y el menú abierto la pasan a blanco con texto negro. En las fichas es negra.
    ========================================================================== */
-.home-link {
-  border: 1px solid white;
-  border-radius: 12px;
-  width: 220px;
-  text-decoration: none;
+.cmp__header {
+  position: relative;
+  z-index: 50;
+  height: var(--cab);
+  color: #fff;
+  transition: background-color 0.3s, color 0.3s;
 }
 
-/* ==========================================================================
-   Controles de formulario y botones
-   ========================================================================== */
-.form-control:focus {
-  border-color: #d7000f;
-  box-shadow: none;
+html.vista-ficha .cmp__header {
+  background: #000;
 }
 
-.btn-primary {
-  background-color: #d7000f;
-  border: 1px solid white;
+.cmp__header.is-open {
+  background: #fff;
+  color: #000;
 }
 
-.btn-primary:hover,
-.btn-primary:focus,
-.btn-primary:active {
-  background-color: #b40009;
-  border: 1px solid white;
+.header__layout,
+.header__layout-pc,
+.header__layout-mob {
+  height: 100%;
 }
 
-/* ==========================================================================
-   Banda de Instagram
-   ========================================================================== */
-/* Queda pegada al bloque negro de Postventa: una línea fina marca el corte. */
-.banda-instagram {
-  border-top: 1px solid rgba(255, 255, 255, 0.15);
+.header__layout-pc {
+  display: none;
+  align-items: center;
+  justify-content: space-between;
+  padding-inline: clamp(24px, 3vw, 48px);
 }
 
-/* ==========================================================================
-   Footer y WhatsApp flotante
-   ========================================================================== */
-#footer-links a {
-  text-decoration: none;
-  color: #888;
-  font-size: 0.9rem;
+.header__layout-mob {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-inline: var(--gutter);
 }
 
-#footer-links a:hover {
-  color: white;
-}
+@media (min-width: 1024px) {
+  .header__layout-pc {
+    display: flex;
+  }
 
-.ws-link {
-  position: fixed;
-  right: 24px;
-  bottom: 40px;
-  z-index: 9999999;
-}
-
-/* El botón flotante (a 40px del borde, de 56px de alto) queda sobre el final de la página: el pie reserva ese
-   espacio abajo para que no tape el logo de Santa Rosa. En celular el logo es lo último de la columna única
-   y necesita más. */
-.footer-con-ws {
-  padding-bottom: 5rem;
-}
-
-@media (max-width: 767.98px) {
-  .footer-con-ws {
-    padding-bottom: 7rem;
+  .header__layout-mob {
+    display: none;
   }
 }
 
-.ws-logo {
+.cmp__header .logo {
+  display: inline-flex;
+  align-items: center;
+}
+
+.cmp__header .logo img {
   width: auto;
+  height: 34px;
+  transition: filter 0.3s;
 }
 
-/* ==========================================================================
-   Responsive (mismos cortes que gwm.com.uy)
-   ========================================================================== */
-@media (max-width: 768px) {
-  .model {
-    flex: 0 0 100%;
-    max-width: 100%;
+/* El único logo es el blanco: con la cabecera clara se invierte a negro. */
+.cmp__header.is-open .header__layout-pc .logo img {
+  filter: invert(1);
+}
+
+.nav-menu {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.nav-list {
+  display: flex;
+  align-items: center;
+}
+
+/* El panel se posiciona respecto de la cabecera (no de cada item) para ocupar todo el ancho. */
+.list-item {
+  position: static;
+}
+
+.primary-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 12px;
+  border: 0;
+  background: none;
+  color: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 20px;
+  letter-spacing: 0.02em;
+}
+
+.primary-link:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+.primary-link .chevron {
+  transition: transform 0.2s;
+}
+
+.list-item.is-open .primary-link .chevron {
+  transform: rotate(180deg);
+}
+
+.nav-feature {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.feature-link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px 8px 8px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  color: inherit;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 20px;
+}
+
+.feature-link.stroke {
+  border-color: rgba(255, 255, 255, 0.6);
+}
+
+.cmp__header.is-open .feature-link.stroke {
+  border-color: #000;
+}
+
+@media (hover: hover) {
+  .feature-link:hover {
+    background: rgba(255, 255, 255, 0.14);
   }
 
-  .home-link {
-    width: 100%;
+  .cmp__header.is-open .feature-link:hover {
+    background: rgba(0, 0, 0, 0.06);
   }
+}
 
-  .servicio-tile {
-    height: 240px !important;
-  }
+/* --- Paneles desplegables ------------------------------------------------- */
+.secondary-wrapper-full {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  left: 0;
+  max-height: 0;
+  overflow: hidden;
+  background: #fff;
+  color: #000;
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.18);
+  visibility: hidden;
+  transition: max-height 0.35s ease, visibility 0s 0.35s;
+}
+
+.list-item.is-open > .secondary-wrapper-full {
+  max-height: calc(100vh - var(--cab) - 16px);
+  overflow-y: auto;
+  visibility: visible;
+  transition: max-height 0.35s ease;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    transition-duration: 0.01ms !important;
+  .secondary-wrapper-full {
+    transition: none;
+  }
+}
+
+/* Oscurece la página debajo de la cabecera (no la cabecera misma, que queda blanca). */
+.header-mask {
+  position: fixed;
+  inset: var(--cab) 0 0;
+  z-index: -1;
+  background: rgba(0, 0, 0, 0.4);
+}
+
+/* MODELOS: filtros a la izquierda, modelos por submarca a la derecha. */
+.sub-list-container {
+  display: flex;
+  gap: 56px;
+  padding: 32px clamp(24px, 3vw, 48px) 40px;
+}
+
+.filter-panel {
+  display: grid;
+  flex: 0 0 240px;
+  align-content: start;
+  gap: 28px;
+}
+
+.filter-title {
+  margin: 0 0 10px;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 24px;
+}
+
+.filter-item ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.filter-item button {
+  padding: 7px 14px;
+  border: 1px solid var(--borde);
+  border-radius: 20px;
+  background: #fff;
+  color: #000;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 20px;
+  transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+}
+
+.filter-item button[aria-pressed='true'] {
+  border-color: #000;
+  background: #000;
+  color: #fff;
+}
+
+.filter-item button:focus-visible {
+  outline: 2px solid var(--rojo);
+  outline-offset: 2px;
+}
+
+.tools-module {
+  display: grid;
+  gap: 12px;
+  justify-items: start;
+}
+
+.secondray-list-panel {
+  flex: 1;
+  min-width: 0;
+}
+
+.panel-title {
+  margin: 0 0 16px;
+  color: var(--texto-suave);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 20px;
+  letter-spacing: 0.06em;
+}
+
+.brand-group {
+  margin-bottom: 24px;
+}
+
+.brand-title {
+  margin: 0 0 14px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--borde);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 20px;
+  letter-spacing: 0.1em;
+}
+
+.brand-cars {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 12px 20px;
+}
+
+.car-card {
+  display: block;
+  color: #000;
+}
+
+.car-card img {
+  width: 100%;
+  height: auto;
+  background: #fff;
+}
+
+.car-card__nombre {
+  display: block;
+  margin-top: 4px;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 18px;
+}
+
+.car-card__precio {
+  display: block;
+  color: var(--texto-suave);
+  font-size: 12px;
+  line-height: 16px;
+}
+
+@media (hover: hover) {
+  .car-card:hover .car-card__nombre {
+    text-decoration: underline;
+    text-decoration-color: var(--rojo);
+    text-underline-offset: 3px;
+  }
+}
+
+.no-data-text {
+  color: var(--texto-suave);
+}
+
+/* POSTVENTA: columnas de enlaces. */
+.secondray-list {
+  padding: 32px clamp(24px, 3vw, 48px) 40px;
+}
+
+.secondray-group {
+  display: flex;
+  gap: 72px;
+}
+
+.secondray-title {
+  margin: 0 0 12px;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 24px;
+}
+
+.secondray-ul {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.secondray-link {
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 20px;
+}
+
+@media (hover: hover) {
+  .secondray-link:hover {
+    text-decoration: underline;
+    text-decoration-color: var(--rojo);
+    text-underline-offset: 3px;
+  }
+}
+
+/* --- Celular: menú hamburguesa -------------------------------------------- */
+.header__layout-mob .nav-menu {
+  gap: 4px;
+}
+
+.menu-icon,
+.square-btn {
+  display: inline-grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 0;
+  border-radius: 4px;
+  background: none;
+  color: inherit;
+}
+
+.header__layout-mob .nav-feature {
+  gap: 0;
+}
+
+.menu-popup-container {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  background: #000;
+  color: #fff;
+}
+
+.back-bar {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 4px;
+  height: var(--cab);
+  padding-inline: var(--gutter);
+}
+
+.nav-content {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 32px;
+  padding: 8px var(--gutter) 32px;
+}
+
+.menu-popup-container .nav-list {
+  display: block;
+}
+
+.menu-popup-container .primary-btn-box {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 20px 0;
+  border: 0;
+  border-bottom: 1px solid var(--gris-pie);
+  background: none;
+  color: #fff;
+  text-align: left;
+}
+
+.menu-popup-container .primary-link {
+  padding: 0;
+  font-size: 16px;
+}
+
+.menu-popup-container .mas {
+  flex: none;
+  transition: transform 0.2s;
+}
+
+.menu-popup-container .primary-btn-box[aria-expanded='true'] .mas {
+  transform: rotate(45deg);
+}
+
+.menu-popup-container .secondary-wrapper-full {
+  position: static;
+  max-height: none;
+  padding: 8px 0 8px 12px;
+  overflow: visible;
+  background: none;
+  color: #fff;
+  box-shadow: none;
+  visibility: visible;
+  transition: none;
+}
+
+.menu-popup-container .secondray-item {
+  padding: 12px 0;
+}
+
+.menu-popup-container .secondray-title {
+  color: var(--gris-claro);
+  font-size: 14px;
+}
+
+.menu-popup-container .secondray-link {
+  display: block;
+  padding: 4px 0;
+  font-size: 16px;
+  font-weight: 400;
+}
+
+.nav-feature-btn {
+  display: grid;
+  gap: 12px;
+}
+
+.nav-feature-btn .nav-btn--secondary {
+  display: block;
+  padding: 13px 16px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  background: #fff;
+  color: #000;
+  font-size: 16px;
+  font-weight: 500;
+  text-align: center;
+}
+
+.nav-feature-btn .nav-btn--secondary.stroke {
+  border-color: #fff;
+  background: none;
+  color: #fff;
+}
+
+/* ==========================================================================
+   Hero (kvswiper)
+   ========================================================================== */
+.hero-banner {
+  margin-top: calc(var(--cab) * -1);
+}
+
+.cmp__hero-banner,
+.kvbanner__layout,
+.kvswiper-container {
+  height: 100vh;
+  height: 100svh;
+  min-height: 560px;
+  max-height: 1100px;
+}
+
+.kvswiper-container {
+  position: relative;
+  background: #000;
+}
+
+.kvswiper-container .splide__track,
+.kvswiper-container .splide__list {
+  height: 100%;
+}
+
+.kvswiper-slide {
+  height: 100%;
+  overflow: hidden;
+  background: #000;
+  color: #fff;
+}
+
+.video-box {
+  position: absolute;
+  inset: 0;
+}
+
+.video-box img,
+.video-box video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.video-box video {
+  position: absolute;
+  inset: 0;
+}
+
+/* Degradés: el de la izquierda sostiene el texto y el de arriba, la cabecera transparente. */
+.video-box::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.5) 0, rgba(0, 0, 0, 0) 24%),
+    linear-gradient(90deg, rgba(0, 0, 0, 0.55) 0, rgba(0, 0, 0, 0.18) 48%, rgba(0, 0, 0, 0) 72%);
+  pointer-events: none;
+}
+
+.video-m {
+  display: none;
+}
+
+@media (max-width: 767px) {
+  .video-d {
+    display: none;
+  }
+
+  .video-m {
+    display: block;
+  }
+
+  .video-box::after {
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.5) 0, rgba(0, 0, 0, 0) 24%),
+      linear-gradient(0deg, rgba(0, 0, 0, 0.6) 0, rgba(0, 0, 0, 0) 55%);
+  }
+}
+
+/* El texto va abajo a la izquierda: los banners de muchos modelos traen su propio título en la parte de arriba. */
+.content-box {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: flex-end;
+  height: 100%;
+  padding-top: var(--cab);
+  padding-bottom: 120px;
+}
+
+.content-box .responsive__layout {
+  width: 100%;
+}
+
+.kv-swiper-content {
+  max-width: 640px;
+}
+
+.kv-title {
+  margin: 0 0 4px;
+  text-transform: uppercase;
+}
+
+.kv-subtitle {
+  margin: 0 0 24px;
+}
+
+.content-btn {
+  margin-right: 24px;
+}
+
+.kvswiper-control {
+  position: absolute;
+  right: 0;
+  bottom: 32px;
+  left: 0;
+  z-index: 3;
+}
+
+.kvswiper-control .responsive__layout {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dot-list {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Cada punto mide 4 px de alto y 24 de zona táctil; el activo se alarga y muestra el avance. */
+.dot-item button {
+  position: relative;
+  width: 12px;
+  height: 24px;
+  padding: 0;
+  border: 0;
+  background: none;
+  transition: width 0.4s;
+}
+
+.dot-item button::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 0;
+  left: 0;
+  height: 4px;
+  margin-top: -2px;
+  border-radius: 1px;
+  background: rgba(209, 209, 214, 0.7);
+}
+
+.dot-item.is-active button {
+  width: 64px;
+}
+
+.dot-item.is-active button::before {
+  background: rgba(255, 255, 255, 0.35);
+}
+
+.dot-progreso {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  height: 4px;
+  margin-top: -2px;
+  border-radius: 1px;
+  background: var(--rojo);
+}
+
+.dot-item button:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 1px;
+}
+
+.btn-box {
+  display: flex;
+  align-items: center;
+}
+
+.btn-wraper {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  margin-left: 16px;
+  padding: 0;
+  border: 0;
+  border-radius: 3px;
+  background: #000;
+  color: #fff;
+}
+
+.btn-wraper .icono-play,
+.btn-wraper.is-paused .icono-pausa {
+  display: none;
+}
+
+.btn-wraper.is-paused .icono-play {
+  display: block;
+}
+
+/* ==========================================================================
+   Títulos de sección (gwm-common-title)
+   ========================================================================== */
+.cmp__gwm-title {
+  background: var(--fondo);
+}
+
+.cmp__gwm-title .responsive__layout.left {
+  text-align: left;
+}
+
+/* ==========================================================================
+   Nuestros modelos (car-swiper)
+   ========================================================================== */
+.cmp__car-swiper {
+  background: var(--fondo);
+}
+
+.car-stage {
+  position: relative;
+  height: clamp(420px, 46vw, 660px);
+  overflow: hidden;
+  background: #111;
+  color: #fff;
+}
+
+.car-film img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: opacity 0.45s;
+}
+
+.cmp__car-swiper.is-cambiando .car-film img {
+  opacity: 0;
+}
+
+.car-context {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  height: 100%;
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0.72) 0, rgba(0, 0, 0, 0.3) 45%, rgba(0, 0, 0, 0) 70%);
+}
+
+.car-context .responsive__layout {
+  width: 100%;
+}
+
+.context-wrap {
+  max-width: 420px;
+}
+
+.title-mark {
+  margin: 0 0 4px;
+  color: var(--gris-claro);
+}
+
+.car-context .title {
+  margin: 0 0 8px;
+  text-transform: uppercase;
+}
+
+.car-context .subtitle {
+  margin: 0 0 8px;
+}
+
+.car-context .precio {
+  margin: 0 0 24px;
+}
+
+@media (max-width: 767px) {
+  /* Celular: la foto arriba, con su proporción, y el texto debajo. */
+  .car-stage {
+    display: flex;
+    flex-direction: column;
+    height: auto;
+  }
+
+  .car-film {
+    display: block;
+    aspect-ratio: 900 / 394;
+  }
+
+  .car-film img {
+    position: static;
+    height: 100%;
+  }
+
+  .car-context {
+    padding: 24px 0 28px;
+    background: #000;
+  }
+}
+
+.control-list {
+  background: var(--fondo);
+}
+
+.list-content-swiper {
+  display: flex;
+  overflow-x: auto;
+  scrollbar-width: none;
+  border-bottom: 1px solid var(--borde);
+}
+
+.list-content-swiper::-webkit-scrollbar {
+  display: none;
+}
+
+.list-item-swiper {
+  flex: 0 0 auto;
+}
+
+.item-btn {
+  display: block;
+  padding: 20px 24px 16px;
+  border: 0;
+  border-bottom: 4px solid transparent;
+  background: none;
+  color: #6c6c70;
+  text-align: left;
+  white-space: nowrap;
+  transition: color 0.2s, border-color 0.2s;
+}
+
+.item-btn[aria-selected='true'] {
+  border-bottom-color: #000;
+  color: #000;
+}
+
+@media (hover: hover) {
+  .item-btn:hover {
+    color: #000;
+  }
+}
+
+/* Si la lista tiene modelos fuera de pantalla, el borde se desvanece para avisar que se desliza. */
+.list-content-swiper.hay-mas-der {
+  -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 48px), transparent);
+  mask-image: linear-gradient(to right, #000 calc(100% - 48px), transparent);
+}
+
+.list-content-swiper.hay-mas-izq {
+  -webkit-mask-image: linear-gradient(to left, #000 calc(100% - 48px), transparent);
+  mask-image: linear-gradient(to left, #000 calc(100% - 48px), transparent);
+}
+
+.list-content-swiper.hay-mas-izq.hay-mas-der {
+  -webkit-mask-image: linear-gradient(to right, transparent, #000 48px, #000 calc(100% - 48px), transparent);
+  mask-image: linear-gradient(to right, transparent, #000 48px, #000 calc(100% - 48px), transparent);
+}
+
+/* ==========================================================================
+   Modelos destacados (car-models-custom)
+   ========================================================================== */
+.cmp__car-models-custom {
+  background: var(--fondo);
+}
+
+.car-models-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 24px;
+}
+
+@media (min-width: 1024px) {
+  .car-models-list {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.car-models-list .list-item {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid var(--borde);
+  border-radius: 8px;
+  background: #fff;
+}
+
+.car-models-list .tag {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  color: var(--texto-suave);
+}
+
+.item-img {
+  padding: 40px 24px 0;
+}
+
+.item-img img {
+  width: 100%;
+  height: auto;
+}
+
+.list-item-content {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 16px 24px 24px;
+}
+
+.list-item-content .content-box {
+  display: block;
+  height: auto;
+  padding: 0;
+}
+
+.list-item-content p {
+  margin: 0;
+}
+
+.list-item-content .nombre {
+  margin-top: 16px;
+  text-transform: uppercase;
+}
+
+.cmp__gwm-atom-button {
+  background: var(--fondo);
+  text-align: center;
+}
+
+/* ==========================================================================
+   Postventa GWM (immersive-slider)
+   ========================================================================== */
+.cmp__immersive-slider {
+  position: relative;
+  overflow: hidden;
+  padding: 88px 0;
+  background: #000;
+  color: #fff;
+}
+
+.bg-text {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  left: 0;
+  text-align: center;
+  transform: translateY(-50%);
+  pointer-events: none;
+  user-select: none;
+}
+
+.bg-text .title {
+  margin: 0;
+  color: rgba(255, 255, 255, 0.05);
+  font-size: clamp(72px, 17vw, 260px);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: 0.04em;
+}
+
+.immersive-slider-wrap {
+  position: relative;
+}
+
+.msl-subtitle {
+  margin: 0 0 32px;
+}
+
+.msl-swiper-box {
+  display: flex;
+  gap: 24px;
+  padding-bottom: 16px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-color: #3a3a3c transparent;
+  scrollbar-width: thin;
+}
+
+.msl-swiper-box:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 4px;
+}
+
+.msl-swiper-item {
+  flex: 0 0 min(560px, 86%);
+  scroll-snap-align: start;
+}
+
+.item-box {
+  position: relative;
+  height: 480px;
+  overflow: hidden;
+  border-radius: 8px;
+  background: #111;
+}
+
+.source-box,
+.source-box img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.msl-swiper .source-box img {
+  object-fit: cover;
+}
+
+.msl-swiper .item-box::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.88) 0, rgba(0, 0, 0, 0.4) 55%, rgba(0, 0, 0, 0.05) 100%);
+}
+
+.msl-swiper .context {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 2;
+  padding: 32px;
+}
+
+.msl-swiper .context .title {
+  margin: 0;
+}
+
+.msl-swiper .context .subtitle {
+  margin: 8px 0 12px;
+}
+
+.msl-swiper .context .des {
+  margin: 0 0 24px;
+  color: #e5e5ea;
+}
+
+/* ==========================================================================
+   ¿Cómo podemos ayudarte? (tools-bar)
+   ========================================================================== */
+.cmp__tools-bar {
+  background: var(--fondo-herramientas);
+}
+
+.tools-subtitle {
+  margin: 10px 0 0;
+}
+
+.tools-card-assemble {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 32px;
+}
+
+@media (min-width: 768px) {
+  .tools-card-assemble {
+    flex-direction: row;
+    gap: 24px;
+  }
+}
+
+.assemble-item {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 74px;
+  padding: 24px;
+  border: 1px solid #fff;
+  border-radius: 8px;
+  background: #fff;
+  color: #000;
+  transition: border-color 0.2s;
+}
+
+.assemble-item .text {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.assemble-item .card-title {
+  margin: 0;
+}
+
+.tools-btn {
+  position: relative;
+  flex: none;
+  width: 32px;
+  height: 24px;
+  margin-left: 16px;
+}
+
+@media (hover: hover) {
+  .assemble-item:hover {
+    border-color: #000;
+  }
+
+  .assemble-item:hover .tools-btn::after {
+    transform: translateX(4px);
   }
 }
 
 /* ==========================================================================
-   Secciones nuevas: cabecera común
+   banner-image-simple-b: texto a la izquierda, imagen a la derecha
    ========================================================================== */
-.seccion {
-  padding: 88px 0;
+.cmp__banner-image-simple-b {
+  background: #fff;
 }
 
-.seccion--gris {
-  background-color: #f8f9fa;
+.banner-wrapper {
+  display: grid;
+  gap: 32px;
+  align-items: center;
+  padding-block: 56px;
 }
 
-.seccion--negra {
-  background-color: #000;
+@media (min-width: 900px) {
+  .banner-wrapper {
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    padding-block: 72px;
+  }
+
+  .simple-b-text {
+    order: -1;
+  }
+}
+
+.simple-b-media img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+}
+
+.simple-b-text-title {
+  margin: 0 0 16px;
+}
+
+.simple-b-text-des {
+  margin: 0 0 24px;
+}
+
+/* ==========================================================================
+   image-card: banner de ancho completo con texto y llamado a la acción
+   ========================================================================== */
+.cmp__image-card {
+  background: #fff;
+}
+
+.image-card-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  min-height: 420px;
+  overflow: hidden;
+  border-radius: 8px;
+  background: #111;
   color: #fff;
 }
 
-.seccion__cabecera {
-  margin-bottom: 40px;
+.full-image {
+  position: absolute;
+  inset: 0;
+}
+
+.full-image picture,
+.full-image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.image-card-item::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0.7) 0, rgba(0, 0, 0, 0.25) 55%, rgba(0, 0, 0, 0) 100%);
+}
+
+.card-content {
+  position: relative;
+  z-index: 2;
+  max-width: 520px;
+  padding: 40px 24px;
+}
+
+@media (min-width: 768px) {
+  .card-content {
+    padding: 48px;
+  }
+}
+
+.card-text .title {
+  margin: 0 0 8px;
+}
+
+.card-text .subtitle {
+  margin: 0 0 24px;
+}
+
+/* ==========================================================================
+   full-video-scroll-card: "Hello, TOMORROW"
+   ========================================================================== */
+.cmp__full-video-scroll-card {
+  position: relative;
+  height: min(768px, 90vh);
+  min-height: 420px;
+  overflow: hidden;
+  background: #000;
+  color: #fff;
+}
+
+.video-scroll-wrap,
+.cmp__full-video-scroll-card .source-box {
+  position: relative;
+  height: 100%;
+}
+
+/* Si el video no se puede reproducir (sin conexión, códec no soportado) queda su imagen. */
+.cmp__full-video-scroll-card .source-box {
+  background: #000 url('/img/poster/hello-tomorrow.webp') center / cover no-repeat;
+}
+
+.full-video-scroll-ele {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.cmp__full-video-scroll-card .source-box::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle, rgba(0, 0, 0, 0.35) 0%, rgba(0, 0, 0, 0.6) 100%);
+}
+
+.full-video-scroll-text {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  left: 0;
+  z-index: 2;
   text-align: center;
+  transform: translateY(-50%);
+}
+
+.full-video-scroll-text p {
+  margin: 0;
+}
+
+/* ==========================================================================
+   simple-card-a: dos tarjetas con texto e imagen
+   ========================================================================== */
+.cmp__simple-card-a {
+  background: #fff;
+}
+
+.cardGroup {
+  display: grid;
+  gap: 24px;
+}
+
+@media (min-width: 900px) {
+  .cardGroup {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.cardR,
+.cardL {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid var(--borde);
+  border-radius: 8px;
+  background: #fff;
+}
+
+.textR,
+.textL {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 32px;
+}
+
+.textR > div,
+.textL > div {
+  margin: 0;
+}
+
+.imgR img,
+.imgL img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+
+.cmp__simple-card-a .cardGroup > div {
+  height: 100%;
+}
+
+/* ==========================================================================
+   Puntos de venta y agendamiento de service
+   ========================================================================== */
+.seccion {
+  padding: 72px 0;
+}
+
+@media (min-width: 768px) {
+  .seccion {
+    padding: 96px 0;
+  }
+}
+
+.seccion--clara {
+  background: var(--fondo);
+}
+
+.seccion--blanca {
+  background: #fff;
+}
+
+.seccion__cabecera {
+  margin-bottom: 32px;
 }
 
 .seccion__etiqueta {
-  margin: 0 0 10px;
-  color: #d7000f;
-  font-size: 13px;
+  margin: 0 0 8px;
+  color: var(--rojo);
+  font-size: 14px;
   font-weight: 700;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.14em;
+  line-height: 20px;
   text-transform: uppercase;
 }
 
 .seccion__titulo {
   margin: 0;
-  font-size: clamp(28px, 4vw, 40px);
-  font-weight: 700;
-  line-height: 1.15;
+  font-size: 32px;
+  font-weight: 400;
+  line-height: 36px;
 }
 
-/* La barra roja corta es el mismo recurso de los accesos (.home-link). */
-.seccion__barra {
-  display: block;
-  width: 40px;
-  height: 4px;
-  margin: 20px auto 0;
-  background-color: #d7000f;
+@media (min-width: 768px) {
+  .seccion__titulo {
+    font-size: 56px;
+    line-height: 56px;
+  }
 }
 
 .seccion__bajada {
   max-width: 560px;
-  margin: 22px auto 0;
-  color: #b8bcc1;
-  font-weight: 300;
+  margin: 16px 0 0;
+  color: var(--texto-suave);
 }
 
-/* ==========================================================================
-   Puntos de venta: slider de concesionarias
-   ========================================================================== */
-
-/* El filtro de ciudades reutiliza las pestañas con subrayado de los modelos
-   (.model-tabs / .model-category-button). */
-.dealers {
-  margin-top: 8px;
-}
-
-/* El padding vertical deja lugar a la sombra y al "levantado" de la tarjeta,
-   que de otro modo el overflow del track recortaría. */
-.dealers .splide__track {
-  padding-block: 28px 24px;
-}
-
-/* Con pocas tarjetas (un filtro de ciudad) no hay nada que deslizar: se centran
-   y se ocultan los controles. */
-.dealers:not(.is-overflow) .splide__list {
-  justify-content: center;
-}
-
-.dealers:not(.is-overflow) .dealers__controles {
-  display: none;
-}
-
-/* Splide separa las tarjetas con un margin-right inline en cada slide, también
-   en el último. Si todas entran, ese margen sobrante hace que el grupo mida más
-   que la lista y, al centrarlo, lo desplaza y lo recorta. Tampoco hace falta el
-   "asomo" de la tarjeta siguiente que reserva el padding en celular. */
-.dealers:not(.is-overflow) .splide__slide:last-child {
-  margin-right: 0 !important;
-}
-
-.dealers:not(.is-overflow) .splide__track {
-  padding-inline: 0 !important;
-}
-
-/* En celular hay una tarjeta por página y sus alturas difieren (PAMOSA lista
-   cinco teléfonos). Estiradas al alto de la más larga, las cortas quedan con un
-   hueco enorme antes de los botones, así que cada una conserva su alto y el
-   track sigue a la activa (seguirAlto() en main.js). En escritorio se mantiene
-   el estirado: alinea los botones de las tres tarjetas de una fila. */
-@media (max-width: 700px) {
-  .dealers .splide__list {
-    align-items: flex-start;
-  }
-
-  .dealer {
-    height: auto;
-  }
-
-  .dealers .splide__track {
-    transition: height 0.3s ease;
-  }
-}
-
-.dealer {
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-  overflow: hidden;
-  background-color: #fff;
-  border: 1px solid #e6e6e6;
-  border-radius: 16px;
-  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.06);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-@media (hover: hover) {
-  .dealer:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.14);
-  }
-}
-
-.dealer__cabecera {
-  position: relative;
-  overflow: hidden;
-  padding: 26px 28px 34px;
-  background: linear-gradient(135deg, #1c1c1c 0%, #000 72%);
-  color: #fff;
-}
-
-/* Barra roja corta en la base de la cabecera. */
-.dealer__cabecera::after {
-  content: '';
-  position: absolute;
-  left: 28px;
-  bottom: 0;
-  width: 40px;
-  height: 4px;
-  background-color: #d7000f;
-}
-
-.dealer__ciudad {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-}
-
-.dealer__ciudad::before {
-  content: '';
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background-color: #d7000f;
-}
-
-.dealer__marca {
-  margin: 22px 0 2px;
-  color: #a9adb2;
-  font-size: 12px;
-  font-weight: 300;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-}
-
-.dealer__nombre {
-  position: relative;
-  margin: 0;
-  font-size: 24px;
-  font-weight: 700;
-  line-height: 1.15;
-}
-
-/* Pin gigante de fondo: ocupa el lugar de la foto, que el origen no trae. */
-.dealer__deco {
-  position: absolute;
-  right: -18px;
-  top: -14px;
-  width: 132px;
-  height: 132px;
-  color: #fff;
-  opacity: 0.07;
-  pointer-events: none;
-}
-
-.dealer__cuerpo {
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  padding: 24px 28px 28px;
-}
-
-.dealer__tipos {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin: 0 0 20px;
-  padding: 0;
-  list-style: none;
-}
-
-.dealer__tipos li {
-  padding: 4px 12px;
-  border: 1px solid #000;
-  border-radius: 32px;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-}
-
-.dealer__datos {
-  display: grid;
-  gap: 14px;
-  margin: 0 0 26px;
-  padding: 0;
-  list-style: none;
-  color: #212529;
-  font-size: 15px;
-  line-height: 1.4;
-}
-
-.dealer__datos li {
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-}
-
-.dealer__icono {
-  display: grid;
-  flex: none;
-  place-items: center;
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background-color: #f1f1f1;
-  color: #000;
-}
-
-.dealer__icono svg {
-  width: 15px;
-  height: 15px;
-}
-
-.dealer__datos > li > span:last-child {
-  padding-top: 5px;
-}
-
-.dealer__telefonos {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 2px 14px;
-}
-
-.dealer__telefonos a {
-  color: inherit;
-  text-decoration: none;
-  transition: color 0.3s;
-}
-
-.dealer__telefonos a:hover {
-  color: #d7000f;
-}
-
-.dealer__acciones {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-top: auto;
-}
-
-.dealer__boton {
-  flex: 1 1 auto;
-  padding: 12px 20px;
-  border: 1px solid #000;
-  border-radius: 32px;
-  color: #000;
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-align: center;
-  text-decoration: none;
-  text-transform: uppercase;
-  transition: background-color 0.3s, border-color 0.3s, color 0.3s;
-}
-
-.dealer__boton--solido {
-  background-color: #000;
-  color: #fff;
-}
-
-.dealer__boton:hover,
-.dealer__boton:focus-visible {
-  background-color: #000;
-  color: #fff;
-}
-
-.dealer__boton--solido:hover,
-.dealer__boton--solido:focus-visible {
-  background-color: #d7000f;
-  border-color: #d7000f;
-}
-
-/* Controles propios: flecha - puntos - flecha, centrados bajo el slider.
-   .splide__arrows se aplana (display: contents) para ordenar los hijos. */
-.dealers__controles {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 20px;
-}
-
-.dealers .splide__arrows {
-  display: contents;
-}
-
-.dealers .splide__arrow--prev {
-  order: 0;
-}
-
-.dealers .splide__pagination {
-  order: 1;
-}
-
-.dealers .splide__arrow--next {
-  order: 2;
-}
-
-/* El proyecto importa el tema por defecto de Splide (lo necesita el slider del
-   hero), que posiciona flechas y puntos en absoluto, les baja la opacidad y
-   voltea el SVG de la flecha "anterior". Acá se neutraliza todo eso. */
-.dealers .splide__arrow {
-  position: static;
-  z-index: auto;
-  display: grid;
-  place-items: center;
-  width: 48px;
-  height: 48px;
-  padding: 0;
-  background-color: #fff;
-  border: 1px solid #000;
-  border-radius: 50%;
-  color: #000;
-  cursor: pointer;
-  opacity: 1;
-  transform: none;
-  transition: background-color 0.3s, color 0.3s, opacity 0.3s;
-}
-
-.dealers .splide__arrow svg {
-  width: 16px;
-  height: 16px;
-  fill: currentColor;
-  transform: none; /* el tema espeja el de "anterior"; el chevron ya apunta a la izquierda */
-}
-
-.dealers .splide__arrow:hover:not(:disabled) {
-  background-color: #000;
-  color: #fff;
-  opacity: 1;
-}
-
-.dealers .splide__arrow:disabled {
-  cursor: default;
-  opacity: 0.3;
-}
-
-.dealers .splide__arrow:focus-visible,
-.dealers.is-focus-in .splide__arrow:focus,
-.dealers .splide__pagination__page:focus-visible,
-.dealers.is-focus-in .splide__pagination__page:focus {
-  outline: 2px solid #000;
-  outline-offset: 3px;
-}
-
-.dealers .splide__pagination {
-  position: static;
-  z-index: auto;
-  display: flex;
-  gap: 8px;
+/* El selector de ciudades arranca pegado al borde izquierdo del contenido. */
+.seccion .model-tabs {
+  max-width: none;
   margin: 0;
   padding: 0;
-  list-style: none;
 }
 
-.dealers .splide__pagination__page {
-  width: 8px;
-  height: 8px;
-  margin: 0;
-  padding: 0;
-  background-color: #c7c9cc;
-  border: 0;
-  border-radius: 8px;
-  opacity: 1;
-  transition: width 0.3s, background-color 0.3s;
+.seccion .model-tabs > :first-child {
+  margin-left: 0;
 }
 
-.dealers .splide__pagination__page.is-active {
-  width: 28px;
-  background-color: #d7000f;
-  transform: none;
-}
-
-/* ==========================================================================
-   Postventa: formulario de agendamiento (sobre fondo negro)
-   ========================================================================== */
+/* --- Agendamiento de service ---------------------------------------------- */
 .agenda {
   max-width: 880px;
-  margin: 0 auto;
 }
 
 .agenda__grupo {
-  min-width: 0;
   margin: 0 0 40px;
-  padding: 0;
-  border: 0;
 }
 
-/* Bootstrap flota las <legend>; se aplanan para controlar el alineado. */
 .agenda__titulo {
   display: flex;
   align-items: center;
@@ -977,10 +1804,9 @@ body {
   float: none;
   width: 100%;
   margin: 0 0 20px;
-  padding: 0;
-  color: #fff;
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 700;
+  line-height: 28px;
 }
 
 .agenda__paso {
@@ -990,37 +1816,70 @@ body {
   width: 28px;
   height: 28px;
   border-radius: 50%;
-  background-color: #d7000f;
+  background: #000;
+  color: #fff;
   font-size: 14px;
 }
 
 .agenda__opcional {
-  color: #9aa0a6;
+  color: var(--texto-suave);
   font-size: 12px;
   font-weight: 300;
   letter-spacing: 0.1em;
   text-transform: uppercase;
 }
 
+.agenda__fila {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.agenda__col {
+  grid-column: span 12;
+}
+
+@media (min-width: 768px) {
+  .agenda__col--6 {
+    grid-column: span 6;
+  }
+  .agenda__col--4 {
+    grid-column: span 4;
+  }
+  .agenda__col--8 {
+    grid-column: span 8;
+  }
+}
+
 .agenda__label {
   display: block;
-  margin: 0 0 6px 8px;
-  color: #c9ccd0;
-  font-size: 13px;
-  letter-spacing: 0.04em;
+  margin: 0 0 6px;
+  color: var(--texto-suave);
+  font-size: 14px;
+  line-height: 20px;
 }
 
-.agenda .form-control {
-  padding: 11px 22px;
-  border: 1px solid transparent;
-  border-radius: 32px;
-  font-size: 15px;
+.agenda__campo {
+  display: block;
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid var(--borde);
+  border-radius: 8px;
+  background: #fff;
+  color: #000;
+  font: inherit;
+  font-size: 16px;
+  line-height: 24px;
 }
 
-.agenda textarea.form-control {
+.agenda__campo:focus-visible {
+  border-color: #000;
+  outline: 2px solid #000;
+  outline-offset: 1px;
+}
+
+textarea.agenda__campo {
   min-height: 96px;
-  border-radius: 20px;
-  resize: vertical;
 }
 
 /* Opciones de servicio: radios que se ven como botones. El input real cubre la
@@ -1048,96 +1907,305 @@ body {
 
 .agenda__chip span {
   display: inline-block;
-  padding: 12px 22px;
-  border: 1px solid rgba(255, 255, 255, 0.35);
-  border-radius: 32px;
-  color: #fff;
+  padding: 11px 20px;
+  border: 1px solid var(--borde);
+  border-radius: 8px;
+  background: #fff;
   font-size: 14px;
-  transition: background-color 0.3s, border-color 0.3s;
+  font-weight: 700;
+  line-height: 20px;
+  transition: background-color 0.2s, border-color 0.2s, color 0.2s;
 }
 
 .agenda__chip:hover span {
-  border-color: #fff;
+  border-color: #000;
 }
 
 .agenda__chip input:checked + span {
-  background-color: #d7000f;
-  border-color: #d7000f;
-  font-weight: 700;
+  border-color: #000;
+  background: #000;
+  color: #fff;
 }
 
 .agenda__chip input:focus-visible + span {
-  outline: 2px solid #fff;
+  outline: 2px solid var(--rojo);
   outline-offset: 3px;
 }
 
 .agenda__envio {
-  text-align: center;
-}
-
-.agenda__enviar {
-  padding: 14px 64px;
-  border-radius: 32px;
-  font-size: 14px;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
 }
 
 .agenda__estado {
   min-height: 1.5em;
-  margin: 16px 0 0;
-  color: #fff;
+  margin: 0;
+  color: var(--texto-suave);
   font-size: 14px;
 }
 
 .agenda__reclamos {
   max-width: 880px;
-  margin: 48px auto 0;
+  margin: 48px 0 0;
   padding-top: 28px;
-  border-top: 1px solid rgba(255, 255, 255, 0.15);
-  color: #9aa0a6;
+  border-top: 1px solid var(--borde);
+  color: var(--texto-suave);
   font-size: 14px;
-  text-align: center;
 }
 
 .agenda__reclamos a {
-  color: #fff;
-  text-decoration: none;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.35);
+  color: #000;
+  border-bottom: 1px solid var(--borde);
 }
 
 .agenda__reclamos a:hover {
-  border-bottom-color: #d7000f;
+  border-bottom-color: var(--rojo);
 }
 
 @media (max-width: 767px) {
-  .seccion {
-    padding: 64px 0;
-  }
-
-  .seccion__cabecera {
-    margin-bottom: 28px;
-  }
-
-  .dealer__cabecera {
-    padding: 22px 22px 30px;
-  }
-
-  .dealer__cabecera::after {
-    left: 22px;
-  }
-
-  .dealer__cuerpo {
-    padding: 22px;
-  }
-
   .agenda__enviar {
     width: 100%;
-    padding-inline: 24px;
   }
+}
 
-  .agenda__chip span {
-    padding: 11px 18px;
+/* ==========================================================================
+   Botones fijos (cmp__bottom-right-btn): volver arriba y WhatsApp
+   ========================================================================== */
+.cmp__bottom-right-btn {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  z-index: 40;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+@media (min-width: 768px) {
+  .cmp__bottom-right-btn {
+    right: 24px;
+    bottom: 24px;
   }
+}
+
+.top-btn {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  padding: 0 0 4px;
+  border: 0;
+  border-radius: 3px;
+  background: rgba(241, 241, 241, 0.92);
+  color: #000;
+  font-size: 11px;
+  line-height: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.18);
+}
+
+.ws-link {
+  display: block;
+  line-height: 0;
+  filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.3));
+  transition: transform 0.2s;
+}
+
+@media (hover: hover) {
+  .ws-link:hover {
+    transform: scale(1.06);
+  }
+}
+
+.ws-link:focus-visible {
+  outline: 2px solid #000;
+  outline-offset: 3px;
+  border-radius: 50%;
+}
+
+/* ==========================================================================
+   Pie (cmp__footer)
+   ========================================================================== */
+.cmp__footer {
+  background: #000;
+  color: #fff;
+}
+
+.cmp__footer .responsive__layout {
+  padding-top: 56px;
+}
+
+.cmp__footer .logo img {
+  width: auto;
+  height: 34px;
+}
+
+.btns-list {
+  display: grid;
+  gap: 16px;
+  margin: 40px 0 8px;
+}
+
+@media (min-width: 900px) {
+  .btns-list {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+}
+
+.btn-item {
+  display: flex;
+  align-items: center;
+  min-height: 72px;
+  padding: 0 24px;
+  border-radius: 8px;
+  background: var(--gris-pie);
+  color: #fff;
+  transition: background-color 0.2s;
+}
+
+.btn-item .red-arrow {
+  width: 100%;
+  padding-right: 32px;
+}
+
+.no-wrap {
+  white-space: nowrap;
+}
+
+@media (hover: hover) {
+  .btn-item:hover {
+    background: #48484a;
+  }
+}
+
+.footer-menu {
+  margin-top: 48px;
+}
+
+.menu-container {
+  display: grid;
+  gap: 0;
+}
+
+@media (min-width: 768px) {
+  .menu-container {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 32px;
+  }
+}
+
+.menu-item {
+  border-bottom: 1px solid var(--gris-pie);
+}
+
+@media (min-width: 768px) {
+  .menu-item {
+    border-bottom: 0;
+  }
+}
+
+.menu-dt {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin: 0;
+  padding: 24px 0 24px;
+  border: 0;
+  background: none;
+  color: var(--gris-claro);
+  text-align: left;
+}
+
+.menu-dt:disabled {
+  padding: 0 0 18px;
+  cursor: default;
+}
+
+.menu-dt .dropdown-btns {
+  flex: none;
+  transition: transform 0.2s;
+}
+
+.menu-dt:disabled .dropdown-btns {
+  display: none;
+}
+
+.menu-item.is-open .menu-dt:not(:disabled) .dropdown-btns {
+  transform: rotate(180deg);
+}
+
+.menu-dd-lista {
+  display: none;
+  margin: 0;
+  padding: 0 0 16px;
+  list-style: none;
+}
+
+.menu-item.is-open .menu-dd-lista {
+  display: block;
+}
+
+.menu-dd {
+  margin: 0 0 10px;
+}
+
+.menu-dd a {
+  color: #fff;
+}
+
+@media (hover: hover) {
+  .menu-dd a:hover {
+    text-decoration: underline;
+    text-decoration-color: var(--rojo);
+    text-underline-offset: 3px;
+  }
+}
+
+.footer-related {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px 24px;
+  margin-top: 40px;
+  padding: 24px 0;
+  border-top: 1px solid var(--gris-pie);
+  border-bottom: 1px solid var(--gris-pie);
+}
+
+.related-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.related-stages {
+  gap: 20px;
+}
+
+.term-link {
+  display: inline-grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  color: #fff;
+}
+
+.santarosa img {
+  width: 220px;
+  max-width: 100%;
+  height: auto;
+  /* Wordmark a color de santarosa.com.py: el filtro lo pasa a blanco sobre el pie negro, igual que en su sitio. */
+  filter: brightness(0) invert(1);
+}
+
+.footer-desc {
+  padding: 16px 0 40px;
+  color: #aeaeb2;
 }

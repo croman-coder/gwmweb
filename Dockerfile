@@ -10,13 +10,21 @@ COPY package.json package-lock.json ./
 RUN npm ci
 
 COPY . .
+ARG VITE_SITE_URL=https://gwmweb.santarosa.lat
+ARG VITE_NOINDEX=false
+ARG VITE_LEADS_ENDPOINT
+ARG VITE_GA_ID
+ENV VITE_SITE_URL=$VITE_SITE_URL VITE_NOINDEX=$VITE_NOINDEX VITE_LEADS_ENDPOINT=$VITE_LEADS_ENDPOINT VITE_GA_ID=$VITE_GA_ID
 RUN npm run build
 
 # ---- Runtime --------------------------------------------------------------
 FROM nginx:1.27-alpine
 
 COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY nginx-seguridad.inc /etc/nginx/conf.d/seguridad.inc
 COPY --from=build /app/dist /usr/share/nginx/html
+COPY --from=build /app/dist/nginx-redirects.inc /etc/nginx/conf.d/rutas.inc
+RUN rm /usr/share/nginx/html/nginx-redirects.inc
 
 EXPOSE 80
 

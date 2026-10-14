@@ -13,274 +13,17 @@
  * "atrás" y el scroll de la landing los resuelve el navegador.
  */
 import Splide from '@splidejs/splide';
-import { modeloPorSlug, formatearPrecio } from './modelos.js';
-import { whatsappModelo } from './whatsapp.js';
+import { modeloPorSlug } from './modelos.js';
+import { metaFicha } from './sitio.js';
 import '../css/ficha.css';
 
 // Un módulo por modelo: Vite los parte en archivos aparte y solo se descarga el de la ficha abierta.
 const MODULOS_TECNICA = import.meta.glob('./tecnica/*.js');
+// Datos del visor 3D de cada modelo que lo tiene (visor3d/modelos/<slug>.js). El motor (three.js) se
+// importa aparte y recién al tocar "Explorar en 3D": ver iniciarVisor3d.
+const MODULOS_VISOR = import.meta.glob('./visor3d/modelos/*.js');
 
-const SITIO = 'https://gwmweb.santarosa.lat';
-const NOTA_PRECIOS =
-  '* Precios de referencia en dólares americanos, sujetos a cambio sin previo aviso. Las imágenes son ilustrativas y pueden no corresponder a la versión comercializada.';
-
-const ESCAPES = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' };
-const esc = (texto) => String(texto).replace(/[&<>"']/g, (c) => ESCAPES[c]);
-const parrafos = (lineas = []) => lineas.map((l) => `<p>${esc(l)}</p>`).join('');
-
-const FLECHA =
-  '<svg viewBox="0 0 16 16" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true" focusable="false"><path d="M5.5 2.5 11 8l-5.5 5.5"/></svg>';
-
-/* ==========================================================================
-   Piezas de la ficha
-   ========================================================================== */
-
-function menuSecciones(ficha, tecnica) {
-  const items = [];
-  if (ficha.versiones?.length) items.push({ id: 'versiones', texto: 'Versiones' });
-  if (ficha.diseno) items.push({ id: 'diseno', texto: ficha.diseno.titulo });
-  if (ficha.tecnologia) items.push({ id: 'tecnologia', texto: ficha.tecnologia.titulo });
-  if (ficha.galeria?.length) items.push({ id: 'galeria', texto: 'Galería' });
-  if (tecnica) items.push({ id: 'especificaciones', texto: 'Especificaciones' });
-  return items;
-}
-
-function htmlBarra(modelo, ficha, tecnica) {
-  const enlaces = menuSecciones(ficha, tecnica)
-    .map((s) => `<a href="#${s.id}" data-seccion="${s.id}">${esc(s.texto)}</a>`)
-    .join('');
-  const pdf = ficha.fichaTecnica
-    ? `<a href="${esc(ficha.fichaTecnica)}" target="_blank" rel="noopener">Ficha técnica</a>`
-    : '';
-  return `
-    <nav class="ficha-nav" aria-label="Secciones de ${esc(modelo.nombre)}">
-      <div class="ficha-nav__inicio">
-        <a class="ficha-nav__modelo" href="#ficha-inicio">${esc(modelo.nombre)}</a>
-      </div>
-      <div class="ficha-nav__items">${enlaces}${pdf}</div>
-    </nav>`;
-}
-
-function precioDesde(modelo, ficha) {
-  if (ficha.versiones?.length) return Math.min(...ficha.versiones.map((v) => v.precio));
-  return modelo.precio;
-}
-
-function htmlPortada(modelo, ficha) {
-  const precio = precioDesde(modelo, ficha);
-  const tienePrecio = precio !== null && precio !== undefined;
-  const bloquePrecio = tienePrecio
-    ? `<p class="ficha-portada__precio"><span>Desde</span><strong>${formatearPrecio(precio)}*</strong></p>`
-    : '<p class="ficha-portada__precio"><strong>Consultar precio</strong></p>';
-  const boton = tienePrecio ? 'Cotizar ahora' : 'Consultar por WhatsApp';
-  const enlace = whatsappModelo(modelo.nombre, { consulta: !tienePrecio });
-  const movil = ficha.portada.movil ? `<source media="(max-width: 767px)" srcset="${esc(ficha.portada.movil)}" />` : '';
-  return `
-    <header class="ficha-portada" id="ficha-inicio">
-      <picture>
-        ${movil}
-        <img class="ficha-portada__imagen" src="${esc(ficha.portada.escritorio)}" alt="GWM ${esc(modelo.nombre)}" fetchpriority="high" />
-      </picture>
-      <div class="ficha-portada__contenido">
-        <h1>${ficha.titular.map(esc).join('<br />')}</h1>
-        ${ficha.bajada ? `<p class="ficha-portada__bajada">${esc(ficha.bajada)}</p>` : ''}
-        ${bloquePrecio}
-        <a class="ficha-btn ficha-btn--claro" href="${enlace}" target="_blank" rel="noopener">${boton}</a>
-      </div>
-    </header>`;
-}
-
-function htmlEspecificaciones(v) {
-  if (v.descripcion) return `<p>${esc(v.descripcion)}</p>`;
-  return (v.especificaciones || [])
-    .map((e) => (Array.isArray(e) ? `<p><strong>${esc(e[0])}:</strong> ${esc(e[1])}</p>` : `<p>${esc(e)}</p>`))
-    .join('');
-}
-
-function htmlVersiones(modelo, ficha) {
-  const versiones = ficha.versiones;
-  const pestanas = versiones
-    .map(
-      (v, i) => `
-        <li role="presentation">
-          <button type="button" role="tab" id="ficha-tab-${i}" aria-controls="ficha-panel-${i}"
-                  aria-selected="${i === 0}" tabindex="${i === 0 ? 0 : -1}">${esc(v.nombre)}</button>
-        </li>`
-    )
-    .join('');
-  const paneles = versiones
-    .map(
-      (v, i) => `
-      <div class="ficha-version" role="tabpanel" id="ficha-panel-${i}" aria-labelledby="ficha-tab-${i}"${i === 0 ? '' : ' hidden'}>
-        <div class="ficha-version__specs">${htmlEspecificaciones(v)}</div>
-        <div class="ficha-version__nombre">
-          <small>Versión</small>
-          <strong>${esc(v.nombre)}</strong>
-        </div>
-        <div class="ficha-version__precio">
-          <span>Precio desde:</span>
-          <strong>${formatearPrecio(v.precio)}*</strong>
-        </div>
-        <div class="ficha-version__acciones">
-          <a class="ficha-btn ficha-btn--oscuro" href="${whatsappModelo(modelo.nombre, { version: v.nombre })}" target="_blank" rel="noopener">Cotizá ahora ${FLECHA}</a>
-          ${
-            ficha.fichaTecnica
-              ? `<a class="ficha-btn ficha-btn--contorno" href="${esc(ficha.fichaTecnica)}" target="_blank" rel="noopener">Ficha técnica</a>`
-              : ''
-          }
-        </div>
-      </div>`
-    )
-    .join('');
-  return `
-    <section class="ficha-versiones" id="versiones">
-      <h2>Elige tu ${esc(modelo.nombre)}</h2>
-      <ul class="ficha-tabs" role="tablist" aria-label="Versiones">${pestanas}</ul>
-      ${paneles}
-    </section>`;
-}
-
-function htmlBloque(id, bloque, nombre) {
-  return `
-    <section class="ficha-bloque" id="${id}">
-      <div class="ficha-bloque__texto">
-        <h2>${esc(bloque.titulo)}</h2>
-        <div class="ficha-bloque__cuerpo">${parrafos(bloque.texto)}</div>
-      </div>
-      <div class="ficha-bloque__imagen">
-        <img src="${esc(bloque.imagen)}" alt="${esc(bloque.titulo)} del GWM ${esc(nombre)}" loading="lazy" />
-      </div>
-    </section>`;
-}
-
-function htmlGaleria(modelo, ficha) {
-  const imagenes = ficha.galeria;
-  const slides = imagenes
-    .map((src, i) => `<li class="splide__slide"><img src="${esc(src)}" alt="GWM ${esc(modelo.nombre)}, imagen ${i + 1} de ${imagenes.length}" loading="lazy" /></li>`)
-    .join('');
-  return `
-    <section class="ficha-galeria" id="galeria">
-      <h2>Galería de imágenes</h2>
-      <div class="splide ficha-galeria__slider" id="ficha-galeria" aria-label="Galería de imágenes"
-           style="--ficha-proporcion: ${esc(ficha.galeriaProporcion || '12 / 5')}">
-        <div class="splide__track"><ul class="splide__list">${slides}</ul></div>
-      </div>
-    </section>`;
-}
-
-function htmlInterior(modelo, bloque) {
-  return `
-    <section class="ficha-interior" id="interior">
-      <div class="ficha-interior__grilla">
-        <div class="ficha-interior__texto">
-          <p class="ficha-etiqueta">Diseño interior</p>
-          <h2>${esc(bloque.titulo)}</h2>
-          ${bloque.subtitulo ? `<p class="ficha-subtitulo">${esc(bloque.subtitulo)}</p>` : ''}
-          ${parrafos(bloque.texto)}
-        </div>
-        <img src="${esc(bloque.imagen)}" alt="Diseño interior del GWM ${esc(modelo.nombre)}" loading="lazy" />
-      </div>
-    </section>`;
-}
-
-function htmlExterior(modelo, bloque) {
-  return `
-    <section class="ficha-exterior" id="exterior">
-      <div class="ficha-exterior__cuerpo">
-        <p class="ficha-etiqueta">Diseño exterior</p>
-        <h2>${esc(bloque.titulo)}</h2>
-        ${bloque.subtitulo ? `<p class="ficha-subtitulo">${esc(bloque.subtitulo)}</p>` : ''}
-        ${parrafos(bloque.texto)}
-      </div>
-      <img src="${esc(bloque.imagen)}" alt="Diseño exterior del GWM ${esc(modelo.nombre)}" loading="lazy" />
-    </section>`;
-}
-
-/* --- Especificaciones técnicas ------------------------------------------------
-   tecnica = { columnas: [versiones], secciones: [{ titulo, filas: [[etiqueta, valor]] }] }
-   valor: texto | true (incluido) | false (no incluido) | [un valor por columna] si difiere entre versiones.
-   Un texto o un "incluido" común a todas las versiones llega como valor simple. */
-const ICONO_SI =
-  '<svg class="ficha-si__icono" viewBox="0 0 20 20" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="m4.5 10.5 3.5 3.5 7.5-8"/></svg>';
-
-function htmlCeldaTecnica(valor, atributos = '') {
-  if (valor === true) return `<td class="ficha-si"${atributos}><span class="visually-hidden">Incluido</span>${ICONO_SI}</td>`;
-  if (valor === false) return `<td class="ficha-no"${atributos}><span class="visually-hidden">No incluido</span><span aria-hidden="true">—</span></td>`;
-  return `<td${atributos}>${esc(valor)}</td>`;
-}
-
-function htmlFilaTecnica([etiqueta, valor], columnas) {
-  const n = columnas.length;
-  let celdas;
-  if (Array.isArray(valor)) celdas = valor.map((v) => htmlCeldaTecnica(v)).join('');
-  else if (n > 1 && typeof valor === 'string') celdas = htmlCeldaTecnica(valor, ` colspan="${n}"`); // el mismo texto en todas las versiones
-  else celdas = Array.from({ length: Math.max(n, 1) }, () => htmlCeldaTecnica(valor)).join('');
-  return `<tr><th scope="row">${esc(etiqueta)}</th>${celdas}</tr>`;
-}
-
-function htmlGrupoTecnica(grupo, columnas, abierto) {
-  const encabezado = columnas.length
-    ? `<thead><tr><th scope="col"><span class="visually-hidden">Característica</span></th>${columnas.map((c) => `<th scope="col">${esc(c)}</th>`).join('')}</tr></thead>`
-    : '';
-  return `
-    <details class="ficha-grupo"${abierto ? ' open' : ''}>
-      <summary><span class="ficha-grupo__titulo">${esc(grupo.titulo)}</span><span class="ficha-grupo__cantidad" aria-hidden="true">${grupo.filas.length}</span></summary>
-      <table class="ficha-tabla${columnas.length > 1 ? ' ficha-tabla--versiones' : ''}">
-        <caption class="visually-hidden">${esc(grupo.titulo)}</caption>
-        ${encabezado}
-        <tbody>${grupo.filas.map((f) => htmlFilaTecnica(f, columnas)).join('')}</tbody>
-      </table>
-    </details>`;
-}
-
-function htmlTecnica(modelo, ficha, tecnica) {
-  const pdf = ficha.fichaTecnica
-    ? `<a class="ficha-tecnica__pdf" href="${esc(ficha.fichaTecnica)}" target="_blank" rel="noopener">Descargar ficha técnica (PDF)</a>`
-    : '<span></span>';
-  const bajada = tecnica.columnas.length > 1
-    ? `Datos de la ficha técnica oficial del GWM ${esc(modelo.nombre)}, con las versiones lado a lado.`
-    : `Datos de la ficha técnica oficial del GWM ${esc(modelo.nombre)}.`;
-  return `
-    <section class="ficha-tecnica" id="especificaciones">
-      <div class="ficha-tecnica__contenido">
-        <h2>Especificaciones técnicas</h2>
-        <p class="ficha-tecnica__bajada">${bajada}</p>
-        <div class="ficha-tecnica__acciones">
-          ${pdf}
-          <button type="button" class="ficha-tecnica__todo" data-accion="alternar">Expandir todo</button>
-        </div>
-        ${tecnica.secciones.map((g, i) => htmlGrupoTecnica(g, tecnica.columnas, i === 0)).join('')}
-      </div>
-    </section>`;
-}
-
-function htmlFicha(modelo, ficha, tecnica) {
-  const hayPrecios = Boolean(ficha.versiones?.length) || (modelo.precio !== null && modelo.precio !== undefined);
-  return `
-    <article class="ficha">
-      ${htmlBarra(modelo, ficha, tecnica)}
-      ${htmlPortada(modelo, ficha)}
-      ${ficha.aviso ? `<section class="ficha-aviso"><p>${esc(ficha.aviso)}</p></section>` : ''}
-      ${ficha.versiones?.length ? htmlVersiones(modelo, ficha) : ''}
-      ${ficha.diseno ? htmlBloque('diseno', ficha.diseno, modelo.nombre) : ''}
-      ${ficha.tecnologia ? htmlBloque('tecnologia', ficha.tecnologia, modelo.nombre) : ''}
-      ${ficha.galeria?.length ? htmlGaleria(modelo, ficha) : ''}
-      ${ficha.interior ? htmlInterior(modelo, ficha.interior) : ''}
-      ${ficha.exterior ? htmlExterior(modelo, ficha.exterior) : ''}
-      ${tecnica ? htmlTecnica(modelo, ficha, tecnica) : ''}
-      ${hayPrecios ? `<p class="ficha-nota">${esc(NOTA_PRECIOS)}</p>` : ''}
-      <p class="ficha-volver"><a href="/#modelos">Ver todos los modelos</a></p>
-    </article>`;
-}
-
-function htmlNoEncontrada() {
-  return `
-    <section class="ficha-vacia">
-      <h1>No encontramos ese modelo</h1>
-      <p>Puede que el enlace esté desactualizado. Podés ver todos los modelos de GWM desde el listado.</p>
-      <a class="ficha-btn ficha-btn--oscuro" href="/#modelos">Ver modelos</a>
-    </section>`;
-}
+import { htmlFicha, htmlNoEncontrada } from './render/ficha.js';
 
 /* ==========================================================================
    Metadatos de la pestaña y de las vistas previas al compartir el enlace
@@ -290,15 +33,15 @@ function ponerMeta(selector, atributo, valor) {
   if (el) el.setAttribute(atributo, valor);
 }
 
+// El HTML de cada ficha ya sale del build con estos mismos datos (scripts/seo.js); esto los repite en la
+// pestaña por si la página se sirvió desde index.html (por ejemplo en el servidor de desarrollo).
 function actualizarMeta(modelo, ficha) {
-  const titulo = `${modelo.nombre} | GWM Paraguay`;
-  const descripcion = [ficha.bajada, ...ficha.titular].filter(Boolean)[0];
-  const url = `${SITIO}/modelos/${modelo.slug}`;
-  const imagen = SITIO + ficha.portada.escritorio;
+  const { titulo, descripcion, url, imagen } = metaFicha(modelo, ficha);
   document.title = titulo;
   ponerMeta('meta[name="description"]', 'content', descripcion);
   ponerMeta('meta[property="og:title"]', 'content', titulo);
   ponerMeta('meta[property="og:description"]', 'content', descripcion);
+  ponerMeta('meta[property="og:url"]', 'content', url);
   ponerMeta('meta[property="og:image"]', 'content', imagen);
   let canonical = document.head.querySelector('link[rel="canonical"]');
   if (!canonical) {
@@ -386,6 +129,49 @@ function iniciarTecnica(raiz) {
   rotular();
 }
 
+function hayWebGL() {
+  try {
+    const c = document.createElement('canvas');
+    return Boolean(c.getContext('webgl2') || c.getContext('webgl'));
+  } catch {
+    return false;
+  }
+}
+
+/**
+ * Visor 3D: no se descarga nada hasta que la persona toca "Explorar en 3D". Recién ahí se piden el
+ * motor (three.js, en su propio archivo), los datos del modelo y, desde el motor, el GLB y las texturas.
+ * Estados en data-estado del visor (los estilos están en ficha.css): reposo, cargando, listo, error,
+ * sin-webgl, y cargando-interior / error-interior que pone el propio motor.
+ */
+function iniciarVisor3d(raiz, slug) {
+  const visor = raiz.querySelector('.ficha-3d__visor');
+  if (!visor) return;
+  const estado = visor.querySelector('.ficha-3d__estado');
+  const cargarConfig = MODULOS_VISOR[`./visor3d/modelos/${slug}.js`];
+  if (!cargarConfig || !hayWebGL()) {
+    visor.dataset.estado = 'sin-webgl';
+    estado.textContent = 'Tu navegador no puede mostrar la vista 3D. Probá desde otro navegador o dispositivo.';
+    return;
+  }
+  let activo = null;
+  visor.addEventListener('click', async (e) => {
+    if (!e.target.closest('[data-accion="iniciar-3d"]') || visor.dataset.estado === 'cargando') return;
+    visor.dataset.estado = 'cargando';
+    estado.textContent = 'Cargando el modelo 3D…';
+    try {
+      activo?.destruir();
+      const [{ montarVisor }, config] = await Promise.all([import('./visor3d/motor.js'), cargarConfig().then((m) => m.default)]);
+      activo = await montarVisor(visor, config);
+      visor.dataset.estado = 'listo';
+    } catch (error) {
+      console.error('No se pudo iniciar el visor 3D', error);
+      visor.dataset.estado = 'error';
+      estado.textContent = 'No se pudo cargar la vista 3D. Revisá tu conexión e intentá de nuevo.';
+    }
+  });
+}
+
 /** Resalta en la barra la sección que está cruzando el centro de la pantalla. */
 function iniciarResaltado(raiz) {
   const enlaces = new Map([...raiz.querySelectorAll('.ficha-nav [data-seccion]')].map((a) => [a.dataset.seccion, a]));
@@ -423,11 +209,12 @@ export async function initFicha(slug) {
     return;
   }
 
-  contenedor.innerHTML = htmlFicha(modelo, ficha, tecnica);
+  if (!contenedor.querySelector('.ficha')) contenedor.innerHTML = htmlFicha(modelo, ficha, tecnica);
   actualizarMeta(modelo, ficha);
   iniciarVersiones(contenedor);
   iniciarGaleria(contenedor);
   iniciarTecnica(contenedor);
+  iniciarVisor3d(contenedor, slug);
   iniciarResaltado(contenedor);
 
   // El navegador intenta ir al ancla (#versiones) antes de que exista el contenido: se repite ya renderizado.

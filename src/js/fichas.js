@@ -14,7 +14,8 @@
  * Campos de cada ficha: titular (líneas del h1), bajada, portada {escritorio, movil}, versiones
  * [{nombre, precio, especificaciones | descripcion}], diseno / tecnologia {titulo, texto, imagen},
  * galeria [imágenes] (+ galeriaProporcion), interior / exterior {titulo, subtitulo, texto, imagen}
- * fichaTecnica (ruta del PDF) y aviso (texto que reemplaza a las secciones en una ficha mínima).
+ * fichaTecnica (ruta del PDF), aviso (texto que reemplaza a las secciones en una ficha mínima) y
+ * visor3d {titulo, texto, poster, aviso} (sección "Vista 3D": exige src/js/visor3d/modelos/<slug>.js).
  */
 
 export const FICHAS = {
@@ -50,7 +51,7 @@ export const FICHAS = {
     },
     exterior: {
       titulo: 'EXPLORA EL DISEÑO EXTERIOR DEL WINGLE 7',
-      subtitulo: 'Sumérgete en la expresión distintiva de Wingle 7',
+      subtitulo: 'Sumergite en la expresión distintiva de Wingle 7',
       texto: [
         'La Wingle 7 tiene un atractivo diseño, moderno y con excelentes terminaciones.',
         'En su exterior se presenta con una parrilla frontal cromada, faros delanteros eléctricos ajustables en altura, espejos retrovisores del color de la carrocería ajustables eléctricamente con luz de giro, protector de caja, barra antivuelco negra y llantas de aleación 16”',
@@ -69,7 +70,7 @@ export const FICHAS = {
     versiones: [
       {
         nombre: 'HIGH',
-        precio: 19990,
+        precio: 20990,
         especificaciones: [
           ['Motor', 'Híbrido autorrecargable (motor de combustión 1.5 + motor eléctrico)'],
           ['Transmisión', 'Automática (AT)'],
@@ -163,7 +164,7 @@ export const FICHAS = {
       titulo: 'NEW H6 HEV',
       subtitulo: 'LA MEJOR SUV CON NUEVO LOOK',
       texto: [
-        'Explora la sofisticación del HAVAL NEW H6 HEV. Su diseño interior respira confort: amplio espacio, materiales de calidad, y un sistema de infoentretenimiento intuitivo. El viaje es una experiencia única en este SUV.',
+        'Explorá la sofisticación del HAVAL NEW H6 HEV. Su diseño interior respira confort: amplio espacio, materiales de calidad, y un sistema de infoentretenimiento intuitivo. El viaje es una experiencia única en este SUV.',
       ],
       imagen: '/img/fichas/new-h6-hev/interior.webp',
     },
@@ -171,7 +172,7 @@ export const FICHAS = {
       titulo: 'DESCUBRE LA ELEGANCIA MODERNA DE LA HAVAL NEW H6',
       subtitulo: 'ESTILO QUE MARCA LA DIFERENCIA',
       texto: [
-        'Sumérgete en la elegancia del SUV automático HAVAL NEW H6 HEV con detalles únicos y totalmente Renovada en el diseño.',
+        'Sumergite en la elegancia del SUV automático HAVAL NEW H6 HEV con detalles únicos y totalmente Renovada en el diseño.',
       ],
       imagen: '/img/fichas/new-h6-hev/exterior.webp',
     },
@@ -217,7 +218,7 @@ export const FICHAS = {
       titulo: 'NEW H6 PHEV',
       subtitulo: 'Diseñado para ofrecer una experiencia de conducción premium, con materiales de alta calidad, un diseño elegante y detalles sofisticados.',
       texto: [
-        'Disfrute de un sistema de navegación intuitivo, asistentes de conducción avanzados y conectividad inteligente con Android Auto y Apple Carplay inalámbricos. Cada detalle ha sido pensado para garantizar comodidad, seguridad y practicidad para usted y su familia.',
+        'Disfrutá de un sistema de navegación intuitivo, asistentes de conducción avanzados y conectividad inteligente con Android Auto y Apple Carplay inalámbricos. Cada detalle ha sido pensado para garantizar comodidad, seguridad y practicidad para usted y su familia.',
       ],
       imagen: '/img/fichas/new-h6-phev/interior.webp',
     },
@@ -233,7 +234,7 @@ export const FICHAS = {
     titular: [
       'Una SUV deportiva de lujo y muy ecológica gracias a su sistema híbrido enchufable para más autonomía únicamente en modo eléctrico.',
     ],
-    bajada: 'Disfruta de una movilidad de lujo con el SUV H6 GT PHEV',
+    bajada: 'Disfrutá de una movilidad de lujo con el SUV H6 GT PHEV',
     portada: {
       escritorio: '/img/fichas/h6-gt-phev/portada.webp',
       movil: '/img/fichas/h6-gt-phev/portada-m.webp',
@@ -262,8 +263,8 @@ export const FICHAS = {
       titulo: 'Tecnología',
       texto: [
         'Conecta tu mundo al HAVAL H6 GT con Apple CarPlay y Android Auto en su pantalla Touch.',
-        'Accede a tus aplicaciones favoritas de forma intuitiva para un viaje más conectado y placentero.',
-        'Disfruta de la plataforma tecnológica modular del SUV H6 GT: flexible, potente, segura y ligera.',
+        'Accedé a tus aplicaciones favoritas de forma intuitiva para un viaje más conectado y placentero.',
+        'Disfrutá de la plataforma tecnológica modular del SUV H6 GT: flexible, potente, segura y ligera.',
       ],
       imagen: '/img/fichas/h6-gt-phev/tecnologia.webp',
     },
@@ -381,7 +382,7 @@ export const FICHAS = {
       titulo: 'H9 DIESEL 2.4',
       subtitulo: 'INTERIOR DE LUJO SIN PERDER LA COMODIDAD',
       texto: [
-        'Descubre la nueva Haval H9: una SUV robusta y sofisticada con capacidad para 7 pasajeros, ideal para familias que buscan comodidad sin renunciar a la emoción. Equipado con tecnología de alta seguridad y un diseño off-road, está listo para llevarte más lejos, en cualquier terreno y con total confianza.',
+        'Descubrí la nueva Haval H9: una SUV robusta y sofisticada con capacidad para 7 pasajeros, ideal para familias que buscan comodidad sin renunciar a la emoción. Equipado con tecnología de alta seguridad y un diseño off-road, está listo para llevarte más lejos, en cualquier terreno y con total confianza.',
       ],
       imagen: '/img/fichas/h9-diesel-24/interior.webp',
     },
@@ -456,6 +457,14 @@ export const FICHAS = {
         'Equipado para garantizar una conducción tranquila. El ORA 5 incluye 6 airbags y +20 asistencias avanzadas a la conducción (ADAS). Cuenta con cámara de visión periférica 360°, control de crucero adaptativo (ACC), frenado autónomo de emergencia, detector de punto ciego y alerta de colisión frontal, entre otros.',
       ],
       imagen: '/img/fichas/ora-5-ev/tecnologia.webp',
+    },
+    // Visor 3D (src/js/visor3d/modelos/ora-5-ev.js). Modelo y texturas del visor oficial de GWM México.
+    visor3d: {
+      titulo: 'Explorá el ORA 5 en 3D',
+      texto: ['Girá el SUV, cambiá su color, abrí las puertas y recorré el interior en 360°.'],
+      poster: '/img/fichas/ora-5-ev/galeria-1.webp',
+      aviso:
+        'Imagen virtual ilustrativa. Los colores y tapizados mostrados pueden variar según la versión y la disponibilidad en Paraguay: consultá con un asesor.',
     },
     galeria: [
       '/img/fichas/ora-5-ev/galeria-1.webp',
@@ -586,7 +595,7 @@ export const FICHAS = {
       titulo: 'POER P500',
       subtitulo: 'DETALLES QUE TRANSFORMAN CADA VIAJE EN UNA EXPERIENCIA ÚNICA',
       texto: [
-        'Control total al alcance de tus dedos con la gran pantalla táctil que integra navegación, Apple CarPlay y Android Auto para que siempre estés conectado y entretenido. Disfruta cada viaje con asientos delanteros que se ajustan eléctricamente, con calefacción, ventilación y masaje para un confort inigualable. Diseñado para el máximo confort, ideal para que tú y tus acompañantes viajen con total comodidad en cada aventura.',
+        'Control total al alcance de tus dedos con la gran pantalla táctil que integra navegación, Apple CarPlay y Android Auto para que siempre estés conectado y entretenido. Disfrutá cada viaje con asientos delanteros que se ajustan eléctricamente, con calefacción, ventilación y masaje para un confort inigualable. Diseñado para el máximo confort, ideal para que tú y tus acompañantes viajen con total comodidad en cada aventura.',
       ],
       imagen: '/img/fichas/poer-p500/interior.webp',
     },
@@ -726,7 +735,7 @@ export const FICHAS = {
       {
         nombre: '4x4 Híbrida',
         precio: 49990,
-        descripcion: 'Descubre el SUV de lujo Tank 500, donde la aventura se une a innovaciones de última generación y el lujo. El SUV de 3 hileras que destaca por su elegancia y modernidad.',
+        descripcion: 'Descubrí el SUV de lujo Tank 500, donde la aventura se une a innovaciones de última generación y el lujo. El SUV de 3 hileras que destaca por su elegancia y modernidad.',
       },
     ],
     diseno: {

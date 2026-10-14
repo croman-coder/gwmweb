@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>Inicio | GWM Paraguay</title>
+    <title>GWM Paraguay | SUVs, pickups, híbridos y eléctricos</title>
     <meta
       name="description"
       content="GWM en Paraguay: pick ups Wingle y Poer, SUVs Haval y todoterreno Tank. Ingresá y conocé nuestros vehículos híbridos y enchufables."
@@ -16,7 +16,7 @@
       // Páginas de ficha (/modelos/<slug>): se oculta la landing desde el primer pintado (ver styles.css).
       // Llegada a la landing con ancla (p. ej. desde el menú de una ficha): sin scroll suave hasta alinear (ver main.js).
       var raiz = document.documentElement;
-      if (location.pathname.indexOf('/modelos/') === 0) raiz.classList.add('vista-ficha');
+      if (location.pathname !== '/') raiz.classList.add('vista-ficha');
       else if (location.hash.length > 1) raiz.classList.add('llegada-con-ancla');
     </script>
     <meta name="theme-color" content="#000000" />
@@ -34,7 +34,10 @@
       property="og:description"
       content="Pick ups, SUVs Haval y todoterreno Tank. Descubrí la gama GWM en Paraguay."
     />
-    <meta property="og:image" content="/img/brand/og-gwm.jpg" />
+    <meta property="og:url" content="https://gwmweb.santarosa.lat/" />
+    <meta property="og:image" content="https://gwmweb.santarosa.lat/img/brand/og-gwm.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="627" />
     <meta name="twitter:card" content="summary_large_image" />
 
     <link rel="preload" href="/fonts/GWMSans-Bold.woff2" as="font" type="font/woff2" crossorigin />
@@ -59,206 +62,329 @@
   </head>
 
   <body>
+    <a class="skip-link" href="#inicio">Saltar al contenido</a>
     <!-- ====================================================================
-         Navbar
+         Cabecera — misma arquitectura que gwm-mx.com: sobre el hero, transparente y con texto blanco;
+         menú Modelos con panel de filtros + lista por submarca; Postventa con columnas; accesos
+         rápidos a la derecha; en celular, menú hamburguesa con secciones desplegables.
+         Los listados de modelos los arma main.js (cabecera.js) desde el catálogo.
          ==================================================================== -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top py-0">
-      <div class="container">
-        <a class="navbar-brand me-5" href="/#inicio">
-          <img style="height: 34px; width: auto" src="/img/brand/gwm-blanco.png" alt="GWM" width="392" height="80" />
-        </a>
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarSupportedContent"
-          aria-controls="navbarSupportedContent"
-          aria-expanded="false"
-          aria-label="Abrir navegación"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
+    <header class="cmp__header immersive-nav dark-theme" id="header">
+      <div class="header__layout">
+        <div class="header__layout-pc">
+          <div class="nav-menu">
+            <a class="logo" href="/" aria-label="GWM Paraguay, inicio">
+              <img src="/img/brand/gwm-blanco.png" alt="GWM" width="392" height="80" />
+            </a>
+            <nav class="nav-list" aria-label="Principal">
+              <div class="list-item" data-menu="modelos">
+                <button class="nav-btn--primary primary-link" type="button" aria-expanded="false" aria-controls="menu-modelos">
+                  MODELOS
+                  <svg class="chevron" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m2.5 4.5 3.5 3.5 3.5-3.5" /></svg>
+                </button>
+                <div class="secondary-wrapper-full" id="menu-modelos" data-menu-modelos></div>
+              </div>
+              <div class="list-item">
+                <a class="nav-btn--primary primary-link" href="/concesionarios">PUNTOS DE VENTA</a>
+              </div>
+              <div class="list-item" data-menu="postventa">
+                <button class="nav-btn--primary primary-link" type="button" aria-expanded="false" aria-controls="menu-postventa">
+                  POSTVENTA
+                  <svg class="chevron" width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m2.5 4.5 3.5 3.5 3.5-3.5" /></svg>
+                </button>
+                <div class="secondary-wrapper-full" id="menu-postventa">
+                  <div class="secondray-list">
+                    <div class="secondray-group">
+                      <div class="secondray-item">
+                        <p class="secondray-title">Clientes</p>
+                        <ul class="secondray-ul">
+                          <li><a class="secondray-link" href="/#postventa">Agendá tu mantenimiento</a></li>
+                          <li><a class="secondray-link" href="/#servicios">Servicios de postventa</a></li>
+                        </ul>
+                      </div>
+                      <div class="secondray-item">
+                        <p class="secondray-title">Contacto</p>
+                        <ul class="secondray-ul">
+                          <li><a class="secondray-link" href="/concesionarios">Puntos de venta</a></li>
+                          <li><a class="secondray-link" href="/#reclamos">Reclamos</a></li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </nav>
+          </div>
+          <div class="nav-feature sales-header">
+            <button class="action action--outline" type="button" data-lead="testdrive">Solicitá un test drive</button>
+            <button class="action action--light" type="button" data-lead="cotizacion">Cotizá tu GWM ↗</button>
+          </div>
+        </div>
 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav me-auto bg-black mb-2 mb-lg-0">
-            <li class="nav-item dropdown">
-              <a
-                class="nav-link dropdown-toggle"
-                href="#"
-                id="navbarDropdown"
-                role="button"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
-                >Modelos</a
-              >
-              <!-- Megamenú: lista de categorías + grilla de modelos (data-megamenu lo llena) -->
-              <div
-                id="models-dropdown"
-                class="dropdown-menu w-100 text-left py-0"
-                aria-labelledby="navbarDropdown"
-                data-megamenu
-              ></div>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/#servicios">Servicios</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/#concesionarios">Concesionarios</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/#postventa">Postventa</a>
-            </li>
-          </ul>
+        <div class="header__layout-mob">
+          <div class="nav-menu">
+            <button class="menu-icon" type="button" aria-expanded="false" aria-controls="menu-movil" aria-label="Abrir el menú">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18" /></svg>
+            </button>
+            <a class="logo" href="/" aria-label="GWM Paraguay, inicio">
+              <img src="/img/brand/gwm-blanco.png" alt="GWM" width="392" height="80" />
+            </a>
+          </div>
+          <div class="nav-feature">
+            <a class="square-btn" href="/concesionarios" aria-label="Encontrá tu concesionaria">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M12 21s7-6.4 7-11a7 7 0 1 0-14 0c0 4.6 7 11 7 11Z" /><circle cx="12" cy="10" r="2.6" /></svg>
+            </a>
+            <a class="square-btn" href="/#postventa" aria-label="Agendá tu mantenimiento">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2" /><path d="M3 10h18M8 3v4M16 3v4" /></svg>
+            </a>
+          </div>
+          <div class="menu-popup-container" id="menu-movil" hidden>
+            <div class="back-bar">
+              <button class="square-btn back-btn" type="button" aria-label="Cerrar el menú">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" /></svg>
+              </button>
+              <a class="logo" href="/" aria-label="GWM Paraguay, inicio">
+                <img src="/img/brand/gwm-blanco.png" alt="GWM" width="392" height="80" />
+              </a>
+            </div>
+            <div class="nav-content" data-menu-movil></div>
+          </div>
         </div>
       </div>
-    </nav>
+      <div class="header-mask" hidden></div>
+    </header>
 
-    <main id="inicio">
+    <main id="inicio" class="gwm-container">
       <!-- Ficha de modelo (/modelos/<slug>): la arma ficha.js. En la landing queda vacío. -->
       <div id="ficha"></div>
+      <!-- HOME_START -->
 
       <!-- ==================================================================
-           Hero — slider Splide con los videos de gwm-mx.com
+           Hero — kvswiper: slides con el spot (video) o la imagen del modelo, título, subtítulo
+           y llamado a la acción; abajo, los puntos con el avance y el botón de pausa.
            ================================================================== -->
-      <section id="home-slider" class="splide" aria-label="Modelos destacados">
-        <div class="splide__track">
-          <div class="splide__list" data-slides></div>
+      <section class="hero-banner" aria-label="Modelos destacados">
+        <div class="cmp__hero-banner">
+          <div class="kvbanner__layout">
+            <div class="splide kvswiper-container" id="home-slider" aria-label="Modelos destacados">
+              <div class="splide__track">
+                <div class="splide__list kvswiper-wrapper" data-slides></div>
+              </div>
+              <div class="kvswiper-control">
+                <div class="responsive__layout">
+                  <ul class="dot-list" data-puntos></ul>
+                  <div class="btn-box">
+                    <button class="btn-wraper" type="button" data-pausa aria-label="Pausar la rotación">
+                      <svg class="icono-pausa" width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><rect x="4" y="3" width="2.6" height="10" rx="0.6" /><rect x="9.4" y="3" width="2.6" height="10" rx="0.6" /></svg>
+                      <svg class="icono-play" width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M5 3.2v9.6a.5.5 0 0 0 .77.42l7.2-4.8a.5.5 0 0 0 0-.84l-7.2-4.8A.5.5 0 0 0 5 3.2Z" /></svg>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="home-intro responsive__layout" aria-labelledby="home-titulo">
+        <div><p class="eyebrow">EL CAMINO EMPIEZA CON VOS</p><h1 id="home-titulo">GWM Paraguay.<br /><span>Un modelo para cada camino.</span></h1></div>
+        <p>SUVs para todos tus planes. Pickups que van con vos. Tecnología híbrida y eléctrica para descubrir una nueva forma de moverte.</p>
+      </section>
+      <div class="trust-strip"><div class="responsive__layout"><a href="/modelos"><strong>16 modelos</strong><span>Una gama para elegir</span></a><a href="/guia/hev-vs-phev"><strong>Más formas de moverte</strong><span>HEV · PHEV · Eléctricos · Diésel</span></a><a href="/concesionarios"><strong>6 puntos de venta</strong><span>Encontranos en Paraguay ↗</span></a></div></div>
+      <!-- CATALOG_START --><div data-catalogo-home></div><!-- CATALOG_END -->
+      <!-- GUIDES_START --><div data-guias-home></div><!-- GUIDES_END -->
+
+      <!-- ==================================================================
+           Postventa GWM — immersive-slider (en México, "GWM Care")
+           ================================================================== -->
+      <section class="immersive-slider" id="servicios" aria-labelledby="postventa-gwm">
+        <div class="cmp__immersive-slider">
+          <div class="bg-text" aria-hidden="true">
+            <p class="title fs-title-h3 fw-bold">POSTVENTA</p>
+          </div>
+          <div class="immersive-slider-wrap">
+            <div class="responsive__layout">
+              <div class="immersive-slider-box">
+                <div class="msl-swiper">
+                  <h2 class="msl-subtitle fs-title-h2 fw-bold" id="postventa-gwm">Postventa GWM</h2>
+                  <div class="msl-swiper-wrap">
+                    <div class="msl-swiper-box" data-postventa tabindex="0" role="group" aria-label="Servicios de postventa"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
       <!-- ==================================================================
-           Modelos
+           ¿Cómo podemos ayudarte? — tools-bar
            ================================================================== -->
-      <div class="text-center bg-black text-white" style="padding: 2rem 0" id="modelos">
-        <span style="font-size: 24px">Conocé nuestros modelos</span>
-      </div>
-
-      <div class="model-tabs" data-categorias role="group" aria-label="Elegir submarca"></div>
-
-      <div class="container-fluid d-flex justify-content-center px-4 py-5">
-        <div class="d-flex flex-wrap justify-content-center gap-4 mt-0" style="max-width: 1200px" data-modelos></div>
-      </div>
-
-      <p class="text-center text-secondary px-4 mb-0" style="font-size: 12px">
-        * Precios de referencia en dólares americanos, sujetos a cambio sin previo aviso. Las
-        imágenes son ilustrativas y pueden no corresponder a la versión comercializada.
-      </p>
+      <section class="tools-bar" aria-labelledby="ayuda-titulo">
+        <div class="cmp__tools-bar flat-col3 light-theme pt88 pb88">
+          <div class="responsive__layout">
+            <div class="tools-header">
+              <h2 class="tools-subtitle fs-title-h3 fw-bold" id="ayuda-titulo">¿Cómo podemos ayudarte?</h2>
+            </div>
+            <div class="tools-card-assemble">
+              <a class="assemble-item" href="https://wa.me/595976955836?text=Hola.%20Quiero%20cotizar%20un%20GWM" target="_blank" rel="noopener">
+                <div class="text">
+                  <svg class="card-img" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M20 12a8 8 0 1 1-3.1-6.3L20 4.5l-1 3.4A8 8 0 0 1 20 12Z" /><path d="M9 9.5c.2 2.2 2.3 4.3 5 5l1.3-1.3-1.8-1-.8.6c-.9-.4-1.7-1.2-2.1-2.1l.6-.8-1-1.8L9 9.5Z" /></svg>
+                  <p class="card-title fs-text-body fw-bold">Cotizá tu GWM</p>
+                </div>
+                <span class="red-arrow tools-btn" aria-hidden="true"></span>
+              </a>
+              <a class="assemble-item" href="/concesionarios">
+                <div class="text">
+                  <svg class="card-img" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><path d="M12 21s7-6.4 7-11a7 7 0 1 0-14 0c0 4.6 7 11 7 11Z" /><circle cx="12" cy="10" r="2.6" /></svg>
+                  <p class="card-title fs-text-body fw-bold">Encontrá tu concesionaria</p>
+                </div>
+                <span class="red-arrow tools-btn" aria-hidden="true"></span>
+              </a>
+              <a class="assemble-item" href="/#postventa">
+                <div class="text">
+                  <svg class="card-img" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2" /><path d="M3 10h18M8 3v4M16 3v4" /></svg>
+                  <p class="card-title fs-text-body fw-bold">Agendá tu mantenimiento</p>
+                </div>
+                <span class="red-arrow tools-btn" aria-hidden="true"></span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
 
       <!-- ==================================================================
-           Accesos
+           banner-image-simple-b — texto a la izquierda, imagen a la derecha
            ================================================================== -->
-      <div class="d-flex flex-wrap justify-content-center bg-black p-5 pt-1 mt-5">
-        <a
-          href="#concesionarios"
-          class="home-link d-flex flex-column align-items-center p-4 mx-3 mt-5"
-        >
-          <svg height="60" width="60" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.2" aria-hidden="true">
-            <path d="M12 21s7-6.4 7-11a7 7 0 1 0-14 0c0 4.6 7 11 7 11Z" />
-            <circle cx="12" cy="10" r="2.6" />
-          </svg>
-          <span class="text-white mt-2 mb-1 mt-4" style="font-size: 22px">Concesionarios</span>
-          <div class="d-inline-block bg-red" style="width: 40px; height: 4px"></div>
-        </a>
-
-        <a
-          href="#postventa"
-          class="home-link d-flex flex-column align-items-center p-4 mx-3 mt-5"
-        >
-          <svg height="60" width="60" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.2" aria-hidden="true">
-            <path d="M14.7 6.3a4 4 0 0 1 5.3 5.1l-8.6 8.6a2.2 2.2 0 0 1-3.1-3.1l8-8" />
-            <path d="M9.3 17.7a4 4 0 0 1-5.3-5.1l8.6-8.6a2.2 2.2 0 0 1 3.1 3.1l-8 8" />
-          </svg>
-          <span class="text-white mt-2 mb-1 mt-4" style="font-size: 22px">Servicios</span>
-          <div class="d-inline-block bg-red" style="width: 40px; height: 4px"></div>
-        </a>
-
-        <a
-          href="#postventa"
-          class="home-link d-flex flex-column align-items-center p-4 mx-3 mt-5"
-        >
-          <svg height="60" width="60" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.2" aria-hidden="true">
-            <rect x="3" y="5" width="18" height="16" rx="2" />
-            <path d="M3 10h18M8 3v4M16 3v4" />
-          </svg>
-          <span class="text-white mt-2 mb-1 mt-4" style="font-size: 22px">Agendá tu mantenimiento</span>
-          <div class="d-inline-block bg-red" style="width: 40px; height: 4px"></div>
-        </a>
-      </div>
+      <section class="banner-image-simple-b" aria-labelledby="banner-futuro">
+        <div class="cmp__banner-image-simple-b image-right-1">
+          <div class="responsive__layout">
+            <div class="banner-wrapper">
+              <div class="simple-b-media">
+                <div class="media-wrapper">
+                  <img class="simple-img" src="/img/hero/vive-el-futuro.webp" alt="Interior de un Haval, con su tablero digital" width="897" height="480" loading="lazy" />
+                </div>
+              </div>
+              <div class="simple-b-text">
+                <p class="simple-b-text-title fs-title-h2 fw-bold" id="banner-futuro">Viví la tecnología, todos los días</p>
+                <p class="simple-b-text-des fs-text-body">
+                  Las líneas de vehículos SUV Haval han evolucionado para ofrecerte tecnología y una
+                  conducción más segura y placentera. Transformá tus viajes en experiencias inolvidables.
+                </p>
+                <a class="button--primary size-medium simple-b-text-btn" href="/modelos?buscar=Haval">
+                  <span class="red-arrow-above fs-button-m fw-bold">Conocé la línea Haval</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
       <!-- ==================================================================
-           Banda de marca — video institucional de gwm-mx.com
+           image-card — banner de ancho completo con texto y llamado a la acción
            ================================================================== -->
-      <div
-        class="bg text-center text-white text-shadow position-relative overflow-hidden"
-        style="
-          background-image: radial-gradient(circle, rgba(0, 0, 0, 0.5) 0%, rgba(0, 0, 0, 0.6) 100%),
-            url('/img/poster/hello-tomorrow.webp');
-          padding: 180px 0;
-          line-height: 1.1;
-        "
-      >
-        <video
-          class="slide-media"
-          data-video-fondo
-          muted
-          loop
-          playsinline
-          preload="none"
-          poster="/img/poster/hello-tomorrow.webp"
-          data-src="/video/hello-tomorrow.mp4"
-          aria-hidden="true"
-        ></video>
-        <div class="banda-marca-overlay"></div>
-        <div class="position-relative">
-          <div style="font-size: 36px"><span>Conocé más sobre</span></div>
-          <div style="font-size: 56px"><span>GWM</span></div>
+      <section class="image-card" aria-labelledby="estrena-titulo">
+        <div class="cmp__image-card bgColor-white pt56 pb56">
+          <div class="responsive__layout">
+            <div class="image-card-wrapper">
+              <div class="image-card-item light-theme">
+                <div class="full-image imgCardCover">
+                  <picture class="image">
+                    <source media="(max-width: 767px)" srcset="/img/poster/tank-500.webp" />
+                    <img src="/img/poster/tank-500.webp" alt="" width="1920" height="955" loading="lazy" />
+                  </picture>
+                </div>
+                <div class="card-content">
+                  <div class="card-text">
+                    <p class="title fs-title-h2 fw-bold" id="estrena-titulo">¡Estrená<br />hoy un GWM!</p>
+                    <p class="subtitle fs-subtitle fw-extrabold">Tu próximo vehículo<br />te está esperando</p>
+                  </div>
+                  <a class="button--primary size-medium" href="https://wa.me/595976955836?text=Hola.%20Quiero%20cotizar%20un%20GWM" target="_blank" rel="noopener">
+                    <span class="red-arrow-above fs-button-m fw-bold">Cotizá ahora</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================================================================
+           full-video-scroll-card — "Hello, TOMORROW" con el video institucional
+           ================================================================== -->
+      <section class="full-video-scroll-card" aria-label="Hello, Tomorrow">
+        <div class="cmp__full-video-scroll-card">
+          <div class="video-scroll-wrap">
+            <div class="source-box">
+              <video
+                class="full-video-scroll-ele normal-video"
+                data-video-fondo
+                muted
+                loop
+                playsinline
+                preload="none"
+                poster="/img/poster/hello-tomorrow.webp"
+                data-src="/video/hello-tomorrow.mp4"
+                aria-hidden="true"
+              ></video>
+              <div class="full-video-scroll-text">
+                <p class="title fs-title-h2 fw-bold">Hello,</p>
+                <p class="subtitle fs-title-h0 fw-black">TOMORROW</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ==================================================================
+           Diseñando el futuro — simple-card-a
+           ================================================================== -->
+      <div class="gwm-common-title">
+        <div class="cmp__gwm-title pb56 pt56">
+          <div class="responsive__layout fs-title-h2 fw-regular left">Diseñando el futuro</div>
         </div>
       </div>
-
-      <!-- ==================================================================
-           Servicios
-           ================================================================== -->
-      <div class="text-center bg-black text-white py-4" id="servicios">
-        <span style="font-size: 24px">Servicios GWM</span>
-      </div>
-      <div class="container-fluid p-0 overflow-hidden">
-        <div class="row justify-content-center g-2 bg-black">
-          <a
-            href="#postventa"
-            class="col-12 col-md-6"
-            aria-label="Agendar mantenimiento"
-          >
-            <div
-              class="bg servicio-tile d-flex align-items-end p-4"
-              style="background-image: url('/img/hero/agenda-mantenimiento.jpg'); height: 320px"
-            >
-              <span class="btn btn-light rounded-pill px-4">Agendar mantenimiento</span>
+      <section class="simple-card-a" aria-label="Diseñando el futuro">
+        <div class="cmp__simple-card-a bgColor-white-border pb56">
+          <div class="responsive__layout">
+            <div class="cardGroup">
+              <div class="cardR">
+                <div class="textR">
+                  <div class="fs-title-h2 fw-bold">Seguridad y<br />tecnología</div>
+                  <div class="fs-text-mentions fw-regular">Tecnología y seguridad como nunca antes, en cada modelo de la línea GWM.</div>
+                  <div class="card-btn">
+                    <a class="button--tertiary red-arrow fs-button-m fw-bold simple-b-text-btn" href="/#modelos">Conocé los modelos</a>
+                  </div>
+                </div>
+                <div class="imgR">
+                  <img class="simple-img" src="/img/fichas/new-h6-phev/tecnologia.webp" alt="Tecnología a bordo del Haval New H6 PHEV" width="992" height="992" loading="lazy" />
+                </div>
+              </div>
+              <div class="cardL">
+                <div class="textL">
+                  <div class="fs-title-h2 fw-bold">Conocé la<br />nueva energía</div>
+                  <div class="fs-text-mentions fw-regular">Híbridos, híbridos enchufables y 100% eléctricos para moverte de una forma más eficiente.</div>
+                  <div class="card-btn">
+                    <a class="button--tertiary red-arrow fs-button-m fw-bold simple-b-text-btn" href="/modelos/ora-5-ev">Ver el Ora 5</a>
+                  </div>
+                </div>
+                <div class="imgL">
+                  <img class="simple-img" src="/img/fichas/ora-5-ev/diseno.webp" alt="Diseño del GWM Ora 5" width="992" height="992" loading="lazy" />
+                </div>
+              </div>
             </div>
-          </a>
-          <a
-            href="#concesionarios"
-            class="col-12 col-md-6"
-            aria-label="Puntos de venta"
-          >
-            <div
-              class="bg servicio-tile d-flex align-items-end p-4"
-              style="background-image: url('/img/hero/puntos-de-venta.webp'); height: 320px"
-            >
-              <span class="btn btn-light rounded-pill px-4">Puntos de venta</span>
-            </div>
-          </a>
+          </div>
         </div>
-      </div>
+      </section>
 
       <!-- ==================================================================
-           Puntos de venta
+           Puntos de venta (en México, "Encuentra a tu distribuidor")
            ================================================================== -->
-      <section class="seccion seccion--gris" id="concesionarios" aria-labelledby="concesionarios-titulo">
-        <div class="container">
+      <section class="seccion seccion--clara" id="concesionarios" aria-labelledby="concesionarios-titulo">
+        <div class="responsive__layout">
           <header class="seccion__cabecera">
             <p class="seccion__etiqueta">Puntos de venta</p>
             <h2 class="seccion__titulo" id="concesionarios-titulo">Encontrá tu concesionaria</h2>
-            <span class="seccion__barra" aria-hidden="true"></span>
           </header>
 
           <div class="model-tabs" data-ciudades role="group" aria-label="Filtrar por ciudad"></div>
@@ -288,48 +414,48 @@
       </section>
 
       <!-- ==================================================================
-           Postventa: agendamiento de service
+           Postventa: agendamiento de service (en México, "Agenda tu prueba de manejo")
            ================================================================== -->
-      <section class="seccion seccion--negra" id="postventa" aria-labelledby="postventa-titulo">
-        <div class="container">
+      <section class="seccion seccion--blanca" id="postventa" aria-labelledby="postventa-titulo">
+        <div class="responsive__layout">
           <header class="seccion__cabecera">
             <p class="seccion__etiqueta">Postventa</p>
             <h2 class="seccion__titulo" id="postventa-titulo">Agendá tu service</h2>
-            <span class="seccion__barra" aria-hidden="true"></span>
             <p class="seccion__bajada">Completá tus datos y elegí el servicio que necesitás para tu GWM.</p>
           </header>
 
+          <p class="agenda-privacidad">Tu fecha es una preferencia: el equipo confirma el turno. Consultá cómo usamos tus datos en nuestra <a href="/privacidad">política de privacidad</a>.</p>
           <form class="agenda" id="agenda" data-form-agenda novalidate>
             <fieldset class="agenda__grupo">
               <legend class="agenda__titulo"><span class="agenda__paso" aria-hidden="true">1</span>Tus datos</legend>
-              <div class="row g-3">
-                <div class="col-12 col-md-6">
+              <div class="agenda__fila">
+                <div class="agenda__col agenda__col--6">
                   <label class="agenda__label" for="ag-nombre">Nombre y apellido</label>
-                  <input class="form-control" id="ag-nombre" name="nombre" type="text" autocomplete="name" required />
+                  <input class="agenda__campo" id="ag-nombre" name="nombre" type="text" autocomplete="name" required />
                 </div>
-                <div class="col-12 col-md-6">
+                <div class="agenda__col agenda__col--6">
                   <label class="agenda__label" for="ag-telefono">Teléfono / celular</label>
-                  <input class="form-control" id="ag-telefono" name="telefono" type="tel" autocomplete="tel" required />
+                  <input class="agenda__campo" id="ag-telefono" name="telefono" type="tel" autocomplete="tel" required />
                 </div>
-                <div class="col-12">
+                <div class="agenda__col agenda__col--12">
                   <label class="agenda__label" for="ag-email">Email</label>
-                  <input class="form-control" id="ag-email" name="email" type="email" autocomplete="email" required />
+                  <input class="agenda__campo" id="ag-email" name="email" type="email" autocomplete="email" required />
                 </div>
               </div>
             </fieldset>
 
             <fieldset class="agenda__grupo">
               <legend class="agenda__titulo"><span class="agenda__paso" aria-hidden="true">2</span>Tu vehículo</legend>
-              <div class="row g-3">
-                <div class="col-12 col-md-8">
+              <div class="agenda__fila">
+                <div class="agenda__col agenda__col--8">
                   <label class="agenda__label" for="ag-modelo">Modelo</label>
-                  <select class="form-control" id="ag-modelo" name="modelo" required>
+                  <select class="agenda__campo" id="ag-modelo" name="modelo" required>
                     <option value="">Seleccioná un modelo...</option>
                   </select>
                 </div>
-                <div class="col-12 col-md-4">
+                <div class="agenda__col agenda__col--4">
                   <label class="agenda__label" for="ag-anio">Año</label>
-                  <input class="form-control" id="ag-anio" name="anio" type="number" inputmode="numeric" placeholder="Ej: 2024" required />
+                  <input class="agenda__campo" id="ag-anio" name="anio" type="number" inputmode="numeric" placeholder="Ej: 2024" required />
                 </div>
               </div>
             </fieldset>
@@ -344,109 +470,156 @@
                 <span class="agenda__paso" aria-hidden="true">4</span>Fecha y comentarios
                 <span class="agenda__opcional">opcional</span>
               </legend>
-              <div class="row g-3">
-                <div class="col-12 col-md-4">
+              <div class="agenda__fila">
+                <div class="agenda__col agenda__col--4">
                   <label class="agenda__label" for="ag-fecha">Fecha preferida</label>
-                  <input class="form-control" id="ag-fecha" name="fecha" type="date" />
+                  <input class="agenda__campo" id="ag-fecha" name="fecha" type="date" />
                 </div>
-                <div class="col-12 col-md-8">
+                <div class="agenda__col agenda__col--8">
                   <label class="agenda__label" for="ag-comentarios">Comentarios</label>
-                  <textarea class="form-control" id="ag-comentarios" name="comentarios" rows="3"></textarea>
+                  <textarea class="agenda__campo" id="ag-comentarios" name="comentarios" rows="3"></textarea>
                 </div>
               </div>
             </fieldset>
 
             <div class="agenda__envio">
-              <button class="btn btn-primary agenda__enviar" type="submit">Agendar</button>
+              <button class="button--primary size-medium agenda__enviar" type="submit">
+                <span class="red-arrow-above fs-button-m fw-bold">Agendar</span>
+              </button>
               <p class="agenda__estado" data-estado role="status" aria-live="polite"></p>
             </div>
           </form>
 
-          <p class="agenda__reclamos" data-reclamos></p>
+          <p class="agenda__reclamos" id="reclamos" data-reclamos></p>
         </div>
       </section>
-
-      <!-- ==================================================================
-           Instagram
-           ================================================================== -->
-      <div class="banda-instagram text-center bg-black text-white py-4">
-        <a href="https://www.instagram.com/gwmpy/" style="color: white; text-decoration: none" target="_blank" rel="noopener">
-          <svg height="22" width="22" viewBox="0 0 16 16" fill="currentColor" class="align-middle me-2" aria-hidden="true">
-            <path d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.9 3.9 0 0 0-1.417.923A3.9 3.9 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.9 3.9 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.9 3.9 0 0 0-.923-1.417A3.9 3.9 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599s.453.546.598.92c.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.5 2.5 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.5 2.5 0 0 1-.92-.598 2.5 2.5 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233s.008-2.388.046-3.231c.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92s.546-.453.92-.598c.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92m-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217m0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334" />
-          </svg>
-          <span class="align-middle">Seguinos en Instagram</span>
-        </a>
-      </div>
+      <!-- HOME_END -->
     </main>
 
     <!-- ====================================================================
-         Footer
+         Botones fijos — cmp__bottom-right-btn: WhatsApp y volver arriba
          ==================================================================== -->
-    <footer class="px-5 px-sm-0 pt-5 footer-con-ws" style="background-color: black">
-      <div class="container">
-        <div class="row justify-content-center align-items-center">
-          <div class="col-12 col-md-4 order-2 order-lg-0 text-center mt-5 mt-md-0">
-            <img class="mb-3" style="height: 34px; width: auto" src="/img/brand/gwm-blanco.png" alt="GWM" width="392" height="80" />
-            <div class="d-flex justify-content-center">
-              <a href="https://www.facebook.com/GreatWallPamosa/" target="_blank" rel="noopener" class="text-white me-4" aria-label="Facebook">
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
-                  <path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951" />
-                </svg>
-              </a>
-              <a href="https://www.instagram.com/gwmpy/" target="_blank" rel="noopener" class="text-white" aria-label="Instagram">
-                <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
-                  <path d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.9 3.9 0 0 0-1.417.923A3.9 3.9 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.9 3.9 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.9 3.9 0 0 0-.923-1.417A3.9 3.9 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599s.453.546.598.92c.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.5 2.5 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.5 2.5 0 0 1-.92-.598 2.5 2.5 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233s.008-2.388.046-3.231c.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92s.546-.453.92-.598c.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92m-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217m0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334" />
-                </svg>
-              </a>
-            </div>
-          </div>
+    <div class="cmp__bottom-right-btn">
+      <div class="cmp__gotop" hidden>
+        <button class="top-btn" type="button" aria-label="Volver arriba">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m3 10 5-5 5 5" /></svg>
+          <span>Top</span>
+        </button>
+      </div>
+      <a
+        href="https://wa.me/595976955836?text=Hola.%20Quiero%20hacer%20una%20consulta%20desde%20la%20p%C3%A1gina%20de%20GWM"
+        target="_blank"
+        rel="noopener"
+        title="Contactanos por WhatsApp"
+        class="ws-link"
+        aria-label="Contactanos por WhatsApp"
+      >
+        <svg class="ws-logo" width="56" height="56" viewBox="0 0 32 32" aria-hidden="true">
+          <circle cx="16" cy="16" r="16" fill="#25d366" />
+          <path
+            transform="translate(8 8)"
+            fill="#fff"
+            d="M13.601 2.326A7.85 7.85 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.9 7.9 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.9 7.9 0 0 0 13.6 2.326zM7.994 14.521a6.6 6.6 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.56 6.56 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592m3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.73.73 0 0 0-.529.247c-.182.198-.691.677-.691 1.654s.71 1.916.81 2.049c.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232"
+          />
+        </svg>
+      </a>
+    </div>
 
-          <div class="col-12 col-md-4 order-1 order-lg-0 d-flex justify-content-center">
-            <table id="footer-links">
-              <tbody>
-                <tr>
-                  <td class="px-3 pb-2"><a href="/#inicio">Inicio</a></td>
-                  <td class="px-3 pb-2"><a href="/#modelos">Modelos</a></td>
-                </tr>
-                <tr>
-                  <td class="px-3 pb-2"><a href="/#concesionarios">Concesionarias</a></td>
-                  <td class="px-3 pb-2"><a href="/#postventa">Postventa</a></td>
-                </tr>
-                <tr>
-                  <td class="px-3"><a href="/#servicios">Servicios</a></td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+    <!-- ====================================================================
+         Pie — cmp__footer: logo y accesos, columnas de enlaces, redes y aviso
+         ==================================================================== -->
+    <footer class="cmp__footer" id="footer">
+      <div class="responsive__layout">
+        <div class="logo">
+          <a class="logo" href="/" aria-label="GWM Paraguay, inicio">
+            <img src="/img/brand/gwm-blanco.png" alt="GWM" width="392" height="80" loading="lazy" />
+          </a>
+        </div>
 
-          <div class="col-12 col-md-4 order-3 order-lg-0 text-center">
-            <a href="https://www.santarosa.com.py/" class="mt-3 d-inline-block" target="_blank" rel="noopener">
+        <div class="btns-list">
+          <a class="btn-item" href="https://wa.me/595976955836?text=Hola.%20Quiero%20cotizar%20un%20GWM" target="_blank" rel="noopener">
+            <div class="red-arrow fs-button-m fw-bold no-wrap">Cotizá tu GWM</div>
+          </a>
+          <a class="btn-item" href="/concesionarios">
+            <div class="red-arrow fs-button-m fw-bold no-wrap">Encontrá tu concesionaria</div>
+          </a>
+          <a class="btn-item" href="/#postventa">
+            <div class="red-arrow fs-button-m fw-bold no-wrap">Agendá tu mantenimiento</div>
+          </a>
+        </div>
+
+        <div class="footer-menu">
+          <div class="menu-container" data-menu-pie></div>
+        </div>
+
+        <div class="footer-related bottom-line top-line">
+          <span class="related-item related-languages fs-text-mentions">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="9" /><path d="M3 12h18M12 3c2.5 2.6 3.8 5.6 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.6-3.8-9S9.5 5.6 12 3Z" /></svg>
+            <a href="/">Paraguay</a>
+          </span>
+          <span class="related-item related-stages">
+            <a class="term-link" href="https://www.facebook.com/GreatWallPamosa/" target="_blank" rel="noopener" aria-label="Facebook">
+              <svg width="18" height="18" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+                <path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951" />
+              </svg>
+            </a>
+            <a class="term-link" href="https://www.instagram.com/gwmpy/" target="_blank" rel="noopener" aria-label="Instagram">
+              <svg width="18" height="18" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+                <path d="M8 0C5.829 0 5.556.01 4.703.048 3.85.088 3.269.222 2.76.42a3.9 3.9 0 0 0-1.417.923A3.9 3.9 0 0 0 .42 2.76C.222 3.268.087 3.85.048 4.7.01 5.555 0 5.827 0 8.001c0 2.172.01 2.444.048 3.297.04.852.174 1.433.372 1.942.205.526.478.972.923 1.417.444.445.89.719 1.416.923.51.198 1.09.333 1.942.372C5.555 15.99 5.827 16 8 16s2.444-.01 3.298-.048c.851-.04 1.434-.174 1.943-.372a3.9 3.9 0 0 0 1.416-.923c.445-.445.718-.891.923-1.417.197-.509.332-1.09.372-1.942C15.99 10.445 16 10.173 16 8s-.01-2.445-.048-3.299c-.04-.851-.175-1.433-.372-1.941a3.9 3.9 0 0 0-.923-1.417A3.9 3.9 0 0 0 13.24.42c-.51-.198-1.092-.333-1.943-.372C10.443.01 10.172 0 7.998 0zm-.717 1.442h.718c2.136 0 2.389.007 3.232.046.78.035 1.204.166 1.486.275.373.145.64.319.92.599s.453.546.598.92c.11.281.24.705.275 1.485.039.843.047 1.096.047 3.231s-.008 2.389-.047 3.232c-.035.78-.166 1.203-.275 1.485a2.5 2.5 0 0 1-.599.919c-.28.28-.546.453-.92.598-.28.11-.704.24-1.485.276-.843.038-1.096.047-3.232.047s-2.39-.009-3.233-.047c-.78-.036-1.203-.166-1.485-.276a2.5 2.5 0 0 1-.92-.598 2.5 2.5 0 0 1-.6-.92c-.109-.281-.24-.705-.275-1.485-.038-.843-.046-1.096-.046-3.233s.008-2.388.046-3.231c.036-.78.166-1.204.276-1.486.145-.373.319-.64.599-.92s.546-.453.92-.598c.282-.11.705-.24 1.485-.276.738-.034 1.024-.044 2.515-.045zm4.988 1.328a.96.96 0 1 0 0 1.92.96.96 0 0 0 0-1.92m-4.27 1.122a4.109 4.109 0 1 0 0 8.217 4.109 4.109 0 0 0 0-8.217m0 1.441a2.667 2.667 0 1 1 0 5.334 2.667 2.667 0 0 1 0-5.334" />
+              </svg>
+            </a>
+          </span>
+          <div class="related-item rights">
+            <a class="santarosa" href="https://www.santarosa.com.py/" target="_blank" rel="noopener" aria-label="Grupo Santa Rosa (se abre en una pestaña nueva)">
               <!-- Wordmark a color de santarosa.com.py: el filtro lo pasa a blanco sobre el pie negro, igual que en su sitio. -->
-              <img style="width: 300px; max-width: 100%; height: auto; filter: brightness(0) invert(1)" src="/img/brand/logo-santarosa-color.webp" alt="Grupo Santa Rosa" width="1400" height="145" loading="lazy" />
+              <img src="/img/brand/logo-santarosa-color.webp" alt="Grupo Santa Rosa" width="1400" height="145" loading="lazy" />
             </a>
           </div>
+        </div>
+
+        <div class="footer-legal"><a href="/privacidad">Privacidad</a><a href="/cookies">Política de cookies</a><button type="button" data-cookies-preferencias>Configurar cookies</button><a href="/postventa">Garantía y mantenimiento</a></div>
+        <div class="footer-desc fs-text-mentions">
+          Todas las imágenes de este sitio son de carácter ilustrativo y pueden no corresponder a la versión comercializada.
+          Los precios son de referencia, en dólares americanos, y están sujetos a cambio sin previo aviso.
         </div>
       </div>
     </footer>
 
-    <a
-      href="https://wa.me/595976955836?text=Hola.%20Quiero%20hacer%20una%20consulta%20desde%20la%20p%C3%A1gina%20de%20GWM"
-      target="_blank"
-      rel="noopener"
-      title="Contactanos por WhatsApp"
-      class="ws-link"
-      aria-label="Contactanos por WhatsApp"
-    >
-      <svg class="ws-logo" width="56" height="56" viewBox="0 0 32 32" aria-hidden="true">
-        <circle cx="16" cy="16" r="16" fill="#25d366" />
-        <path
-          transform="translate(8 8)"
-          fill="#fff"
-          d="M13.601 2.326A7.85 7.85 0 0 0 7.994 0C3.627 0 .068 3.558.064 7.926c0 1.399.366 2.76 1.057 3.965L0 16l4.204-1.102a7.9 7.9 0 0 0 3.79.965h.004c4.368 0 7.926-3.558 7.93-7.93A7.9 7.9 0 0 0 13.6 2.326zM7.994 14.521a6.6 6.6 0 0 1-3.356-.92l-.24-.144-2.494.654.666-2.433-.156-.251a6.56 6.56 0 0 1-1.007-3.505c0-3.626 2.957-6.584 6.591-6.584a6.56 6.56 0 0 1 4.66 1.931 6.56 6.56 0 0 1 1.928 4.66c-.004 3.639-2.961 6.592-6.592 6.592m3.615-4.934c-.197-.099-1.17-.578-1.353-.646-.182-.065-.315-.099-.445.099-.133.197-.513.646-.627.775-.114.133-.232.148-.43.05-.197-.1-.836-.308-1.592-.985-.59-.525-.985-1.175-1.103-1.372-.114-.198-.011-.304.088-.403.087-.088.197-.232.296-.346.1-.114.133-.198.198-.33.065-.134.034-.248-.015-.347-.05-.099-.445-1.076-.612-1.47-.16-.389-.323-.335-.445-.34-.114-.007-.247-.007-.38-.007a.73.73 0 0 0-.529.247c-.182.198-.691.677-.691 1.654s.71 1.916.81 2.049c.098.133 1.394 2.132 3.383 2.992.47.205.84.326 1.129.418.475.152.904.129 1.246.08.38-.058 1.171-.48 1.338-.943.164-.464.164-.86.114-.943-.049-.084-.182-.133-.38-.232"
-        />
-      </svg>
-    </a>
-
+    <section class="cookies-banner" id="cookies-banner" aria-labelledby="cookies-banner-titulo" hidden>
+      <h2 id="cookies-banner-titulo">Respetamos tu privacidad</h2>
+      <p>Usamos almacenamiento necesario para que el sitio funcione y para recordar tus preferencias. Si lo autorizás, también podemos medir cómo usás nuestra web. Podés aceptar, usar solo lo necesario o configurar tu elección. <a href="/cookies">Política de cookies</a>.</p>
+      <div class="cookies-banner__bottom"><span>GWM Paraguay · Tu privacidad, tu elección</span><div class="cookies-actions"><button class="cookie-button cookie-button--config" type="button" data-cookies-preferencias>Configuración</button><button class="cookie-button cookie-button--necessary" type="button" data-cookies-necesarias>Solo cookies necesarias</button><button class="cookie-button cookie-button--accept" type="button" data-cookies-aceptar>Aceptar cookies</button></div></div>
+    </section>
+    <dialog class="gwm-dialog cookies-dialog" id="cookies-dialogo" aria-labelledby="cookies-config-titulo" aria-describedby="cookies-config-descripcion">
+      <button class="dialog-close" type="button" data-cookies-cerrar aria-label="Cerrar configuración de cookies">×</button>
+      <p class="eyebrow">TU PRIVACIDAD, TU ELECCIÓN</p><h2 id="cookies-config-titulo">Configuración de cookies</h2>
+      <p id="cookies-config-descripcion">Elegí qué querés permitir. Las opciones adicionales están desactivadas hasta que las aceptes. Podés cambiar tu decisión en cualquier momento desde el pie de página.</p>
+      <form>
+        <div class="cookie-category"><div><h3>Cookies necesarias</h3><p>Guardan tu elección de privacidad y permiten funciones que solicitás, como comparar vehículos. Siempre están activas.</p></div><label class="cookie-switch"><input type="checkbox" checked disabled aria-label="Cookies necesarias, siempre activas" /><span aria-hidden="true"></span></label></div>
+        <div class="cookie-category"><div><h3>Cookies analíticas</h3><p>Nos ayudan a entender la navegación y mejorar la web. La analítica, cuando está habilitada, solo se carga con tu permiso. No recibe los datos personales de tus formularios.</p></div><label class="cookie-switch"><input type="checkbox" name="analytics" aria-label="Permitir cookies analíticas" /><span aria-hidden="true"></span></label></div>
+        <p class="cookies-config-note">No utilizamos cookies publicitarias ni de personalización. <a href="/cookies">Consultá la política de cookies</a>.</p>
+        <div class="cookies-config-actions"><button class="cookie-button cookie-button--necessary" type="button" data-cookies-necesarias>Solo cookies necesarias</button><button class="cookie-button cookie-button--accept" type="submit">Guardar preferencias</button></div>
+      </form>
+    </dialog>
+    <p class="visually-hidden" role="status" aria-live="polite" data-cookies-estado></p>
+    <nav class="mobile-sales" aria-label="Consultas comerciales"><button type="button" data-lead="cotizacion">Cotizá tu GWM <span aria-hidden="true">↗</span></button><button type="button" data-lead="testdrive">Solicitá test drive</button></nav>
+    <dialog class="gwm-dialog" id="consulta-dialogo" aria-labelledby="consulta-titulo">
+      <button class="dialog-close" type="button" data-cerrar-consulta aria-label="Cerrar consulta">×</button>
+      <p class="eyebrow">HABLEMOS DE TU PRÓXIMO GWM</p><h2 id="consulta-titulo">Tu próximo GWM empieza acá.</h2><p data-lead-canales></p>
+      <form class="lead-form">
+        <label>Modelo<select name="modelo" required></select></label>
+        <label>Versión<select name="version"></select></label>
+        <label>Nombre y apellido<input name="nombre" autocomplete="name" maxlength="100" required /></label>
+        <label>Teléfono / WhatsApp<input name="telefono" type="tel" autocomplete="tel" maxlength="30" required /></label>
+        <label>Ciudad de atención<select name="ciudad" required></select></label>
+        <label>Email <span>(opcional)</span><input name="email" type="email" autocomplete="email" maxlength="150" /></label>
+        <label hidden>Fecha preferida <span>(opcional)</span><input name="fecha" type="date" /></label>
+        <label class="lead-form__full">Tu consulta <span>(opcional)</span><textarea name="comentarios" rows="2" maxlength="1000"></textarea></label>
+        <p class="lead-privacy lead-form__full">Usaremos tus datos para responder esta solicitud. Conocé nuestra <a href="/privacidad">política de privacidad</a>. El test drive está sujeto a disponibilidad y confirmación.</p>
+        <button class="action action--dark lead-form__full" type="submit">Continuar en WhatsApp</button><p class="lead-form__full lead-status" role="status" aria-live="polite" data-estado-lead></p>
+      </form>
+    </dialog>
+    <dialog class="gwm-dialog gwm-dialog--wide" id="comparacion-dialogo" aria-labelledby="comparacion-titulo"><button class="dialog-close" type="button" data-cerrar-comparacion aria-label="Cerrar comparación">×</button><p class="eyebrow">ELEGÍ CON MÁS INFORMACIÓN</p><h2 id="comparacion-titulo">Compará tus favoritos.</h2><div data-comparacion></div></dialog>
     <script type="module" src="/src/js/main.js"></script>
   </body>
 </html>

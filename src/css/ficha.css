@@ -11,8 +11,9 @@
    ========================================================================== */
 
 .ficha {
-  /* Alto de la barra fija del sitio y de la barra de secciones de la ficha. */
-  --ficha-menu: 80px;
+  /* Alto de la barra fija del sitio (0: la cabecera, como la de gwm-mx.com, se va con el scroll) y de la
+     barra de secciones de la ficha, que se pega al borde de la pantalla. */
+  --ficha-menu: 0px;
   --ficha-nav: 45px;
   --ficha-gris: #f1f1f1;
   color: #111;
@@ -36,7 +37,7 @@
   margin: 0;
 }
 
-/* html ya reserva el alto de la barra del sitio (scroll-padding-top): acá solo falta la de la ficha. */
+/* La barra del sitio no es fija: al ir a una sección solo hay que dejar lugar a la barra de la ficha. */
 .ficha [id] {
   scroll-margin-top: var(--ficha-nav);
 }
@@ -976,6 +977,326 @@
 
 @media (prefers-reduced-motion: reduce) {
   .ficha-grupo > summary::after {
+    transition: none;
+  }
+}
+
+/* --- Visor 3D ------------------------------------------------------------- */
+/* data-estado del .ficha-3d__visor: reposo | cargando | listo | error | sin-webgl
+   (más cargando-interior | error-interior, que pone el motor al cambiar de vista). */
+.ficha-3d {
+  padding: 60px 15px;
+  background: #000;
+  color: #fff;
+}
+
+.ficha-3d__cabecera {
+  max-width: 760px;
+  margin: 0 auto 28px;
+  text-align: center;
+}
+
+.ficha-3d h2 {
+  margin-bottom: 14px;
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.ficha-3d__cabecera p:not(.ficha-etiqueta) {
+  color: #d6d6d6;
+  font-size: 15px;
+  line-height: 1.8;
+}
+
+.ficha-3d__visor {
+  max-width: 1185px;
+  margin: 0 auto;
+}
+
+/* Alto acotado al de la pantalla: el escenario y los controles tienen que verse juntos. El degradé hace de
+   estudio (el canvas es transparente) y el auto se apoya en la sombra que trae el modelo. */
+.ficha-3d__escenario {
+  position: relative;
+  height: clamp(300px, 46vh, 420px);
+  overflow: hidden;
+  background: radial-gradient(ellipse 80% 55% at 50% 80%, #3b3b41 0%, #18181b 55%, #0a0a0b 100%);
+}
+
+.ficha-3d__poster,
+.ficha-3d__canvas {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.ficha-3d__poster {
+  object-fit: cover;
+  opacity: 0.5;
+}
+
+/* El canvas siempre tiene tamaño (para que el visor encuadre bien al arrancar); se ve recién al estar listo. */
+.ficha-3d__canvas {
+  opacity: 0;
+  cursor: grab;
+  touch-action: none;
+  outline-offset: -3px;
+  transition: opacity 0.4s;
+}
+
+.ficha-3d__canvas:active {
+  cursor: grabbing;
+}
+
+.ficha-3d__canvas:focus-visible {
+  outline: 2px solid #fff;
+}
+
+.ficha-3d__visor:is([data-estado='listo'], [data-estado='cargando-interior'], [data-estado='error-interior']) .ficha-3d__canvas {
+  opacity: 1;
+}
+
+.ficha-3d__visor:is([data-estado='listo'], [data-estado='cargando-interior'], [data-estado='error-interior']) .ficha-3d__poster {
+  display: none;
+}
+
+.ficha-3d__inicio {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  transform: translate(-50%, -50%);
+}
+
+.ficha-3d__visor[data-estado='reposo'] .ficha-3d__inicio {
+  display: flex;
+}
+
+.ficha-3d__inicio .ficha-btn {
+  width: auto;
+  min-width: 220px;
+}
+
+.ficha-3d__inicio small {
+  color: #d6d6d6;
+  font-size: 12px;
+}
+
+.ficha-3d__estado {
+  position: absolute;
+  right: 16px;
+  bottom: 16px;
+  left: 16px;
+  display: none;
+  margin: 0;
+  font-size: 13px;
+  letter-spacing: 0.75px;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.ficha-3d__visor:is([data-estado='cargando'], [data-estado='cargando-interior'], [data-estado='error'], [data-estado='error-interior'], [data-estado='sin-webgl'])
+  .ficha-3d__estado {
+  display: block;
+}
+
+.ficha-3d__visor:is([data-estado='cargando'], [data-estado='cargando-interior']) .ficha-3d__estado {
+  right: auto;
+  left: 50%;
+  width: max-content;
+  max-width: calc(100% - 32px);
+  padding: 8px 14px;
+  border-radius: 4px;
+  background: rgba(0, 0, 0, 0.55);
+  transform: translateX(-50%);
+}
+
+.ficha-3d__reintentar {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: none;
+  width: auto;
+  min-width: 180px;
+  transform: translate(-50%, -50%);
+}
+
+.ficha-3d__visor[data-estado='error'] .ficha-3d__reintentar {
+  display: inline-flex;
+}
+
+.ficha-3d__visor[data-estado='error'] .ficha-3d__estado {
+  bottom: 24%;
+}
+
+/* Controles */
+.ficha-3d__panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  padding: 24px 0 8px;
+}
+
+.ficha-3d__panel:empty {
+  display: none;
+}
+
+.ficha-3d__opciones {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+
+.ficha-3d__opciones[hidden] {
+  display: none;
+}
+
+.ficha-3d__colores {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 14px;
+}
+
+.ficha-3d__color {
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  background: var(--muestra);
+  cursor: pointer;
+  transition: box-shadow 0.2s, border-color 0.2s;
+}
+
+.ficha-3d__color--doble {
+  background: linear-gradient(135deg, var(--muestra) 50%, var(--muestra-2) 50%);
+}
+
+.ficha-3d__color[aria-pressed='true'] {
+  border-color: #fff;
+  box-shadow: 0 0 0 2px #000, 0 0 0 4px #fff;
+}
+
+.ficha-3d__nombre {
+  min-height: 1.4em;
+  margin: 0;
+  font-size: 14px;
+  letter-spacing: 0.75px;
+  text-transform: uppercase;
+}
+
+.ficha-3d__segmentos,
+.ficha-3d__acciones {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+}
+
+.ficha-3d__segmentos button,
+.ficha-3d__acciones button {
+  height: 40px;
+  padding: 0 18px;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 4px;
+  background: transparent;
+  color: #fff;
+  font-size: 13px;
+  letter-spacing: 0.75px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+}
+
+.ficha-3d__segmentos button[aria-pressed='true'],
+.ficha-3d__acciones button[aria-pressed='true'] {
+  border-color: #fff;
+  background: #fff;
+  color: #000;
+}
+
+@media (hover: hover) {
+  .ficha-3d__segmentos button:hover,
+  .ficha-3d__acciones button:hover,
+  .ficha-3d__color:hover {
+    border-color: #fff;
+  }
+}
+
+.ficha-3d__segmentos button:focus-visible,
+.ficha-3d__acciones button:focus-visible,
+.ficha-3d__color:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 3px;
+}
+
+.ficha-3d__ayuda,
+.ficha-3d__aviso {
+  margin: 0;
+  color: #a8a8a8;
+  font-size: 12px;
+  text-align: center;
+}
+
+.ficha-3d__aviso {
+  max-width: 760px;
+  margin: 14px auto 0;
+  line-height: 1.6;
+}
+
+@media (min-width: 768px) {
+  .ficha-3d__escenario {
+    height: clamp(420px, 66vh, 680px);
+  }
+
+  /* Escritorio: vista, colores y acciones en una fila, para que todo el visor entre en pantalla. */
+  .ficha-3d__panel {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 14px 40px;
+    padding-top: 20px;
+  }
+
+  .ficha-3d__opciones {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px 28px;
+  }
+
+  .ficha-3d__nombre {
+    min-width: 11em;
+    text-align: left;
+  }
+
+  .ficha-3d__ayuda {
+    flex-basis: 100%;
+  }
+}
+
+@media (min-width: 992px) {
+  .ficha-3d {
+    padding: 60px 36px;
+  }
+
+  .ficha-3d h2 {
+    font-size: 24px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ficha-3d__canvas,
+  .ficha-3d__color {
     transition: none;
   }
 }

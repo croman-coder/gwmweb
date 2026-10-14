@@ -38,7 +38,7 @@ export const MODELOS = [
     categoria: 'haval',
     nombre: 'Jolion Pro HEV',
     slug: 'jolion-pro-hev',
-    precio: 19990,
+    precio: 20990,
     imagen: '/img/modelos/jolion-pro-hev.webp',
     bajada: 'El SUV que re-evoluciona tu mundo.',
   },
@@ -165,6 +165,61 @@ export const MODELOS = [
   },
 ];
 
+/* --- Clasificación de los modelos (filtros del menú Modelos) -----------------
+   Tipo de motor y carrocería de cada uno, de sus fichas. Se agregan a cada entrada de MODELOS
+   para que un modelo nuevo se clasifique en un solo lugar. */
+export const TIPOS_MOTOR = [
+  { id: 'electrico', titulo: 'Eléctrico' },
+  { id: 'hev', titulo: 'Híbrido HEV' },
+  { id: 'phev', titulo: 'Enchufable PHEV' },
+  { id: 'diesel', titulo: 'Diésel' },
+];
+
+export const CARROCERIAS = [
+  { id: 'hatchback', titulo: 'Hatchback' },
+  { id: 'suv', titulo: 'SUV' },
+  { id: 'todoterreno', titulo: 'Todoterreno' },
+  { id: 'pickup', titulo: 'Pick up' },
+];
+
+const CLASIFICACION = {
+  'wingle-7': ['diesel', 'pickup'],
+  'jolion-pro-hev': ['hibrido', 'suv'],
+  'new-h6-hev': ['hibrido', 'suv'],
+  'new-h6-phev': ['hibrido', 'suv'],
+  'h6-gt-phev': ['hibrido', 'suv'],
+  'h7-phev': ['hibrido', 'suv'],
+  'h9-diesel-24': ['diesel', 'suv'],
+  'ora-03-skin': ['electrico', 'hatchback'],
+  'ora-5-ev': ['electrico', 'suv'],
+  'ora-5-hev': ['hibrido', 'suv'],
+  'poer-diesel': ['diesel', 'pickup'],
+  'poer-p500': ['hibrido', 'pickup'],
+  'tank-300-phev-4x4': ['hibrido', 'todoterreno'],
+  'tank-400-phev-4x4': ['hibrido', 'todoterreno'],
+  'tank-500-hev-4x4': ['hibrido', 'todoterreno'],
+  'tank-700-phev-4x4': ['hibrido', 'todoterreno'],
+};
+
+for (const modelo of MODELOS) {
+  [modelo.motor, modelo.carroceria] = CLASIFICACION[modelo.slug] ?? [];
+  if (modelo.motor === 'hibrido') modelo.motor = modelo.slug.includes('phev') || modelo.slug === 'poer-p500' ? 'phev' : 'hev';
+}
+
+export const nombreCompleto = (modelo) => modelo.categoria === 'haval' ? `Haval ${modelo.nombre}` : modelo.nombre;
+
+/** Modelos de la sección "Modelos destacados" de la landing, en este orden. */
+export const DESTACADOS = ['ora-5-ev', 'new-h6-hev', 'tank-500-hev-4x4'];
+
+/**
+ * Banner de una ficha (1600x700, y 900x394 para celular): es la imagen de cada modelo en el selector
+ * de la landing. El Ora 5 HEV todavía no tiene fotos propias y usa las del EV.
+ */
+export function portadaModelo(slug) {
+  const carpeta = slug === 'ora-5-hev' ? 'ora-5-ev' : slug;
+  return { escritorio: `/img/fichas/${carpeta}/portada.webp`, movil: `/img/fichas/${carpeta}/portada-m.webp` };
+}
+
 /**
  * Slides de la portada: la selección pedida por Marketing.
  *
@@ -181,6 +236,7 @@ export const SLIDES = [
     slug: 'tank-400-phev-4x4',
     precio: 50990,
     imagen: '/img/hero/tank-400.webp',
+    tituloIncrustado: true, // el banner ya trae el nombre del modelo escrito: el hero solo suma precio y botón
   },
   {
     modelo: 'Tank 700 PHEV 4x4',
@@ -194,6 +250,7 @@ export const SLIDES = [
     slug: 'new-h6-hev',
     precio: 24990,
     imagen: '/img/hero/new-h6-hev.webp',
+    tituloIncrustado: true,
   },
   {
     modelo: 'Haval New H6 PHEV',
@@ -223,11 +280,12 @@ export const SLIDES = [
     slug: 'h6-gt-phev',
     precio: 39990,
     imagen: '/img/hero/h6-gt-phev.webp',
+    tituloIncrustado: true,
   },
   {
     modelo: 'Jolion Pro HEV',
     slug: 'jolion-pro-hev',
-    precio: 19990,
+    precio: 20990,
     imagen: '/img/modelos/jolion-pro-hev.webp',
     pendiente: true, // falta banner y spot
   },

@@ -7,18 +7,23 @@ Grupo Santa Rosa.
 
 | Fuente | Qué se tomó |
 | --- | --- |
-| [gwm.com.uy](https://gwm.com.uy) | La estructura y el diseño: mismo marcado Bootstrap 5, mismo slider Splide y las mismas clases propias (`.slide`, `.hero-model-price`, `.model-category-button`, `.model`, `.home-link`, `#footer-links`, `.ws-link`), con la tipografía GWMSans y el acento rojo `#d7000f`. |
-| [gwm-mx.com/es](https://www.gwm-mx.com/es) | Los spots de video del hero, en sus dos recortes (16:9 desktop y 9:16 mobile), más el video institucional de la banda de marca. |
+| [gwm-mx.com/es](https://www.gwm-mx.com/es) | **La arquitectura de la home** (desde el 2026-10-14): cabecera inmersiva con megamenú, hero de slides, selector de modelos, tarjetas, slider de postventa, barra de herramientas, banners, "Hello, Tomorrow", tarjetas de dos columnas y pie con columnas, con los mismos nombres de clase (`cmp__*`, `kvswiper-*`, `car-*`, `assemble-item`...) y las medidas tomadas de la página en funcionamiento. Además, los spots de video del hero (16:9 y 9:16) y el video institucional. Ver [Arquitectura de gwm-mx.com](#arquitectura-de-gwm-mxcom-y-cómo-se-adaptó). |
+| [gwm-mx.com/mx-vr](https://www.gwm-mx.com/mx-vr/) | El **visor 3D del Ora 5 EV**: el modelo (GLB) y las texturas del interior en 360°. Se descargaron el 2026-10-14 y se sirven desde `public/3d/`. Ver [Visor 3D](#visor-3d). |
 | `www.gwm.com.py` | El contenido de partida: catálogo, precios, banners de campaña, logos, favicons y datos de contacto. Y las **fichas de modelo**: sus textos, versiones con precio, imágenes y PDF de ficha técnica, más el diseño de la ficha. Todo se descargó y se sirve desde `public/`; el sitio no lo consulta en runtime. |
+
+La experiencia actual suma catálogo, comparación y consultas comerciales; los detalles
+de la arquitectura original se conservan abajo como referencia de los materiales.
 
 ## Stack
 
-- **Bootstrap 5** — el marcado de gwm.com.uy es Bootstrap, así que se usa el mismo.
-- **Splide** — el mismo slider del hero, con las opciones del sitio de Uruguay
-  (`type: loop`, `focus: center`, sin paginación).
+- **Splide** — el hero (con fundido entre slides) y el slider de concesionarias.
+- **three.js** — solo para el [visor 3D](#visor-3d), en un archivo aparte que se baja al usarlo.
 - **Vite** — servidor de desarrollo y build.
 
-Sin frameworks de JS: la lógica propia es vanilla.
+Sin frameworks de JS: la lógica propia es vanilla. **Ya no se usa Bootstrap**: la
+home sigue la arquitectura de gwm-mx.com, que no lo usa, y el CSS pasó de 249 KB
+(35 KB comprimido) a 38 KB (8 KB). Lo poco que daba (reset, `[hidden]`, márgenes
+de párrafos y listas) está en la sección "Base" de `styles.css`.
 
 ## Puesta en marcha
 
@@ -38,17 +43,25 @@ El sitio queda en `http://localhost:5173`.
 ## Estructura
 
 ```
-index.html               Marcado de la landing, con la estructura de gwm.com.uy
-src/css/styles.css       @font-face de GWMSans y las clases propias del sitio de Uruguay
+index.html               Marcado de la landing, con la arquitectura de gwm-mx.com
+src/css/styles.css       Base, escala tipográfica y todos los componentes de la home, cabecera y pie
+src/css/concesionarios.css  Pestañas de ciudad y tarjetas de los puntos de venta
 src/css/ficha.css        Estilos de la ficha de modelo (solo se carga en las fichas)
+src/js/home/             Cabecera (megamenú y menú móvil), hero, selector de modelos, destacados, postventa y pie
 src/js/modelos.js        Catálogo: modelos (con su slug), categorías y slides del hero
 src/js/fichas.js         Contenido de las 16 fichas: textos, versiones, imágenes y PDF
 src/js/ficha.js          Arma la página /modelos/<slug> (se carga solo en las fichas)
 src/js/tecnica/          Especificaciones técnicas de cada modelo (<slug>.js), de las hojas en PDF
+src/js/sitio.js          URL pública y metadatos de cada ficha (los comparten el navegador y el build)
+src/js/visor3d/          Visor 3D: motor.js (three.js) y modelos/<slug>.js con los datos de cada modelo
+scripts/seo.js           Plugin de Vite: HTML por ficha, sitemap.xml y robots.txt al compilar
+scripts/generar-og.py    Genera public/img/og/<slug>.jpg, la imagen con que se comparte cada ficha
+nginx.conf               Servidor de producción (fichas, cache, cabeceras de seguridad)
+nginx-seguridad.inc      Cabeceras de seguridad, incluidas desde nginx.conf en cada location
 src/js/whatsapp.js       WhatsApp de ventas y armado de enlaces con el mensaje
 src/js/concesionarios.js Puntos de venta (datos) y helpers de teléfono y mapa
 src/js/postventa.js      Servicios del agendamiento, WhatsApp de Postventa y reclamos
-src/js/main.js           Megamenú, sliders Splide, filtros, formulario de agendamiento y enrutado
+src/js/main.js           Puntos de venta, formulario de agendamiento y enrutado (landing o ficha)
 public/video/            Spots de gwm-mx.com (16:9 y 9:16) + video institucional
 public/img/poster/       Posters de cada video (fallback y primer frame)
 public/img/modelos/      Fotos de modelos (webp): 15 archivos para 16 modelos,
@@ -56,6 +69,8 @@ public/img/modelos/      Fotos de modelos (webp): 15 archivos para 16 modelos,
 public/img/hero/         Banners de campaña y de servicios de gwm.com.py
 public/img/fichas/       Imágenes de las fichas (webp), una carpeta por modelo
 public/fichas/           PDF de ficha técnica, uno por modelo (<slug>.pdf)
+public/3d/               Modelo 3D y texturas del visor (ora-5-ev/) y decoder Draco (draco/)
+public/img/og/           Imagen JPG 1200x627 con que se comparte cada ficha (la genera scripts/generar-og.py)
 public/img/brand/        Logo GWM, wordmark de Grupo Santa Rosa e imagen Open Graph.
                          El de Santa Rosa es el original a color de santarosa.com.py:
                          el pie lo muestra en blanco con un filtro CSS (ver index.html)
@@ -66,8 +81,20 @@ public/favicon/          Set de favicons
 ## Cómo editar el catálogo
 
 Todo vive en [`src/js/modelos.js`](src/js/modelos.js): al tocar `MODELOS` se
-actualizan a la vez la grilla, el megamenú del nav y el `<select>` del
-formulario. Los enlaces del footer sí están escritos a mano en `index.html`.
+actualizan a la vez el selector "Nuestros modelos", el megamenú de la cabecera
+(con sus filtros), el menú del celular, las columnas del pie y el `<select>` del
+formulario. Los accesos fijos del pie (cotizar, concesionaria, mantenimiento)
+están escritos a mano en `index.html`.
+
+Además de los datos de cada modelo, el archivo define:
+
+- **`CLASIFICACION`**: tipo de motor (eléctrico, híbrido, diésel) y carrocería
+  (hatchback, SUV, todoterreno, pick up) de cada slug. Son los filtros del
+  megamenú; un modelo nuevo se clasifica ahí.
+- **`DESTACADOS`**: los slugs de "Modelos destacados" y, el primero, el modelo con
+  que arranca el selector. Hoy: Ora 5 EV, New H6 HEV y Tank 500 HEV.
+- **`portadaModelo(slug)`**: la imagen de cada modelo en el selector es el banner
+  de su ficha (`portada.webp` / `portada-m.webp`).
 
 Para agregar un modelo:
 
@@ -88,7 +115,9 @@ ficha del modelo, `/modelos/<slug>`.
 
 Para sumar un slide al hero, agregar una entrada a `SLIDES`. Si tiene `video` y
 `videoMobile` usa los recortes 16:9 y 9:16; si solo tiene `imagen`, queda como
-banner estático.
+banner estático. El título del slide sale del nombre del modelo; si el banner ya
+trae el nombre escrito en la imagen (Tank 400, New H6 HEV, H6 GT PHEV), se marca
+`tituloIncrustado: true` y el hero muestra solo el precio y el botón.
 
 ## Fichas de modelo
 
@@ -121,14 +150,13 @@ entrada parecida en `fichas.js`, poner las imágenes y el PDF con los nombres de
 arriba y correr `npm run build`. La estructura de cada ficha está explicada al
 principio de `fichas.js`.
 
-**Cómo funciona la ruta.** Es la misma `index.html`: nginx devuelve `index.html`
-para cualquier ruta (`try_files`) y `main.js` arma la ficha cuando la ruta es
-`/modelos/<slug>`, cargando `ficha.js`, `fichas.js`, `ficha.css` y el archivo de
-especificaciones del modelo aparte, de modo que la landing no paga su peso. Cada ficha es una navegación normal: el botón
-"atrás" y la posición de la landing los resuelve el navegador. Un script del
-`<head>` marca `<html>` con `vista-ficha` para ocultar la landing desde el primer
-pintado. Un slug inexistente muestra "No encontramos ese modelo" y `/modelos` lleva
-al listado de la landing.
+**Cómo funciona la ruta.** El build genera el contenido completo de cada ficha en
+`dist/modelos/<slug>.html`, con portada, versiones, tablas técnicas y metadatos.
+`src/js/render/ficha.js` comparte el HTML entre el build y el navegador. `ficha.js`
+activa las interacciones sin reemplazar el HTML estático; en desarrollo lo genera
+si no está presente. nginx devuelve 404 real para una ruta inexistente y redirige
+las direcciones antiguas de producto según `scripts/rutas.js`.
+`/modelos` ahora es un catálogo con filtros y comparación, con HTML propio.
 
 **Origen del contenido.** Salió de las fichas de gwm.com.py (relevadas el
 2026-10-06 a partir del HTML que aportó Marketing). Los textos están tal cual,
@@ -193,11 +221,131 @@ el corrector ortográfico en español sobre todo el texto. Las 13 tablas suman
 - Las versiones usan los nombres de la página (Jolion: HIGH = Elite y TOP = Deluxe
   en la hoja). La hoja del H6 es una sola para HEV y PHEV: cada ficha toma su columna.
 
-**Limitación conocida.** El título, la descripción y la imagen de vista previa
-(Open Graph) de cada ficha se ponen con JavaScript. Los buscadores que ejecutan JS
-los ven; WhatsApp y las redes, que leen solo el HTML estático, muestran la vista
-previa de la landing. Si hace falta una por modelo, hay que prerenderizar las
-fichas.
+## Visor 3D
+
+La ficha del **Ora 5 EV** (`/modelos/ora-5-ev`) tiene una sección "Vista 3D" (`#visor-3d`):
+
+- **Exterior:** el auto se gira con el mouse o el dedo, con 5 colores de carrocería y botones para
+  abrir las puertas y el baúl (son animaciones del propio modelo).
+- **Interior:** panorama de 360° del habitáculo con 3 tapizados y dos puntos de vista (primera
+  fila y fila trasera). Se recorre arrastrando; Ctrl + rueda (o el pellizco) acerca.
+- Las flechas del teclado giran la vista y todos los controles son botones con su estado
+  (`aria-pressed`). Sin WebGL, la sección muestra un aviso en lugar del visor.
+
+**Carga bajo demanda.** No se descarga nada hasta que la persona toca "Explorar en 3D": ahí
+se pide el motor (`src/js/visor3d/motor.js`, con three.js, ~172 KB comprimido, en su propio
+archivo), el modelo `ORA5.glb` (1,3 MB) y el decoder Draco. Las 6 caras del interior bajan
+recién al pasar a esa vista (~0,25 MB por tapizado y fila). La landing y las demás fichas no
+pagan nada. El visor solo dibuja cuando algo cambia y se pausa fuera de pantalla.
+
+**Origen.** El modelo y las texturas salen del visor oficial de GWM México
+(`gwm-mx.com/mx-vr`, variante `ORA5_BEV`, desde `mx-cdn-h5-html.gwmcloud.com`) y se
+descargaron el 2026-10-14. Se sirven desde `public/3d/`; el sitio no consulta a México.
+**Pendiente:** confirmar con Marketing/GWM que pueden usarse en el sitio de Paraguay, y cuáles
+de los 5 colores y 3 tapizados se comercializan acá (la ficha ya los marca como ilustrativos).
+
+**Cómo se prepararon los archivos.**
+
+- `ORA5.glb` se usa tal cual. Trae las tres variantes del Ora 5 (EV, HEV, ICE) con las piezas
+  de cada una a escala 0: `visor3d/modelos/ora-5-ev.js` activa las de la EV (`mostrar`).
+  La pintura es el material `car_body`; el cielo del archivo (`Sphere_2`) se quita.
+- Las caras del interior vienen en JPG de 2600 px y se pasaron a WebP de 1280 px (calidad 80):
+  8,2 MB → 1,5 MB. Las fotos de entorno del visor original (montaña y noche) no se usan: el
+  fondo es un degradé de estudio en CSS y los reflejos salen de `RoomEnvironment` de three.
+- El decoder Draco (`public/3d/draco/`) es copia de `node_modules/three/examples/jsm/libs/draco/gltf/`;
+  si se actualiza three, hay que volver a copiarlo.
+- **Orientación de las caras.** Las 6 imágenes de cada panorama no siguen el orden de three y
+  vienen volteadas verticalmente. Comparando sus bordes (los 12 cantos compartidos coinciden)
+  se determinó: 5 = frente, 6 = atrás, 1 = izquierda, 2 = derecha, 4 = techo, 3 = piso. De ahí
+  salen `caras: [2, 1, 4, 3, 6, 5]` y `carasVolteadas: true` en la configuración.
+
+**Agregar otro modelo.** El motor es genérico (el visor de México tiene otros: H6 PHEV, P500,
+Jolion...). Se necesita el GLB y las caras de su interior; después:
+
+1. Poner los archivos en `public/3d/<slug>/` (WebP para las texturas) y crear
+   `src/js/visor3d/modelos/<slug>.js` copiando `ora-5-ev.js`: nombre de la pieza de pintura,
+   piezas a mostrar, colores, tapizados, orden de caras y clips de animación.
+2. Sumar `visor3d: { titulo, texto, poster, aviso }` a la ficha en `fichas.js`.
+
+El Ora 5 HEV no tiene visor: su ficha es mínima. Con este mismo GLB sería otro archivo de
+configuración (`mostrar: ['SKYLIGHT_TAG00', '10_black_color_HEV', '49_car_trunk_mirror_HEV']`)
+y las caras `noSunroof` del visor de México.
+
+## SEO, contenido y conversión
+
+La portada muestra únicamente los tres modelos de `DESTACADOS`, sin filtros ni
+comparador. El catálogo completo y sus herramientas están en `/modelos`.
+
+`npm run build` genera 28 páginas con contenido y metadatos completos, además de
+`404.html`, `sitemap.xml`, `robots.txt` y las redirecciones de nginx. Las fichas
+entregan tablas técnicas y enlaces sin ejecutar JavaScript. Cada página tiene un
+único H1, canonical, Open Graph y JSON-LD; las fichas incluyen Product/Car y
+BreadcrumbList, y `/concesionarios` incluye las seis ubicaciones AutoDealer.
+No se inventan stock, reseñas ni horarios que no estén confirmados.
+
+- `/modelos`, `/hibridos`, `/electricos` y `/pickups`: catálogo filtrable por
+  tecnología (HEV y PHEV separados), carrocería y presupuesto, con búsqueda y
+  comparación de hasta tres modelos. Un precio desconocido se excluye del filtro
+  de presupuesto. La comparación se conserva solo en sessionStorage.
+- `/guia/hev-vs-phev`, `/guia/carga-en-casa`, `/guia/h6-hev-vs-phev`: guías de compra.
+- `/concesionarios`: direcciones y contactos de Paraguay.
+- `/postventa`: orientación sobre garantía y mantenimiento, sin trasladar plazos
+  de otro país. `/privacidad`: información de formularios y medición opcional. `/cookies`: política de cookies y acceso a configuración.
+- El material ORA sigue siendo ilustrativo: las cifras técnicas de otro mercado
+  no se muestran hasta disponer de la ficha para Paraguay. Se conserva el visor 3D.
+
+Las imágenes para compartir siguen en `public/img/og/<slug>.jpg` (1200×627).
+Si se agrega una portada: `python3 scripts/generar-og.py` (requiere Pillow).
+
+### Configuración del dominio y los servicios
+
+Copiar `.env.example` a `.env` para desarrollo o configurar argumentos de build
+con los mismos nombres para Docker/Coolify. Son valores públicos del navegador:
+**no colocar tokens ni secretos en variables `VITE_*`**.
+
+- `VITE_SITE_URL`: origen definitivo sin barra final. Actualiza todos los
+  canonical, sitemap, Open Graph y JSON-LD. Se conserva `https://gwmweb.santarosa.lat`
+  hasta definir otro dominio. Para trasladar el sitio a `www.gwm.com.py`, cambiar
+  este valor, recompilar y dirigir el dominio al despliegue.
+- `VITE_NOINDEX=true`: entorno de pruebas público; añade noindex a todas las
+  páginas. Mantiene el rastreo habilitado para que el buscador vea esa indicación.
+- `VITE_LEADS_ENDPOINT`: receptor POST JSON de solicitudes `cotizacion`,
+  `testdrive` y `agendamiento`. Debe admitir el origen del sitio mediante CORS si
+  está en otro dominio. Un 2xx confirma recepción; no confirma turno ni reserva.
+  Los datos incluyen modelo, versión, ciudad, contacto, página y campaña UTM.
+  El servidor receptor debe validar, limitar envíos y gestionar la retención.
+  **Sin endpoint el sitio prepara un mensaje y continúa en WhatsApp**; la persona
+  todavía debe enviarlo allí. No se contabiliza esa apertura como lead recibido.
+- `VITE_GA_ID`: ID público GA4 `G-…`. Sin ID no se carga ninguna analítica externa.
+  El menú de cookies se muestra siempre en la primera visita, incluso sin ID.
+  Con ID, GA4 solo se carga tras permitir las cookies analíticas. La preferencia
+  se guarda en la cookie propia `gwm_cookie_consent` durante hasta 180 días y se
+  puede revisar en Configurar cookies en el pie. Rechazar o revocar el permiso
+  desactiva el envío mediante `ga-disable-<ID>`, revoca el consentimiento y elimina
+  las cookies de GA legibles. No se atribuyen campañas UTM sin permiso analítico. Los campos personales del formulario no entran a analítica.
+
+Eventos: `consulta_abierta`, `consulta_preparada`, `consulta_recibida` (solo tras
+respuesta 2xx), `whatsapp_click`, `ficha_descarga`, `llamada_click`, `mapa_click`,
+`catalogo_filtrado` y `comparacion_abierta`. Se exponen también mediante el evento
+DOM `gwm:evento`. Los identificadores y el receptor comercial no se han inventado:
+requieren la configuración real de la empresa.
+
+### Servidor y verificaciones
+
+nginx sirve solo archivos y páginas existentes, devuelve 404/noindex para lo
+inexistente y hace 301 de las rutas antiguas con destinos relativos compatibles
+con un proxy HTTPS. El contenedor copia `nginx-redirects.inc` del build a
+`/etc/nginx/conf.d/rutas.inc` y lo retira de la carpeta pública. Una instalación
+manual debe copiar ese archivo al mismo destino.
+
+```bash
+npm run build
+npm run check
+SITE_TEST_URL=http://localhost:4180 npm run check
+```
+
+La última variante comprueba también respuestas HTTP, redirecciones y 404 en el
+servidor indicado. No manda consultas reales a WhatsApp ni al equipo comercial.
 
 ## Videos
 
@@ -208,7 +356,7 @@ H.264 1920×1080 y 1080×1920). Para que no pesen en la carga inicial:
   recién cuando el slide se activa.
 - De los dos recortes de un slide solo se carga el visible en ese breakpoint,
   nunca los dos.
-- El video de la banda de marca se carga con un `IntersectionObserver`, al
+- El video de "Hello, Tomorrow" se carga con un `IntersectionObserver`, al
   entrar en pantalla.
 
 Si el repositorio empieza a pesar demasiado, estos archivos son los candidatos
@@ -290,45 +438,71 @@ python -m fontTools.subset GWMSans-Regular.woff2 \
   --output-file=public/fonts/GWMSans-Regular.woff2
 ```
 
-## Diferencias deliberadas con gwm.com.uy
+## Arquitectura original de gwm-mx.com y cómo se adaptó
 
-- **Intervalo del slider**: Uruguay usa 3 s. Acá son 6 s, porque los spots duran
-  ~5 s y con 3 s se cortarían por la mitad.
-- **Grilla de Instagram**: Uruguay muestra sus últimas publicaciones. No hay un
-  set equivalente para Paraguay, así que queda solo la banda con el enlace al
-  perfil.
-- **Categorías**: Uruguay usa Hatch / SUV / Todo terreno / Pickup. Acá se usan
-  las submarcas definidas por Marketing: Wingle / Haval / Ora / Poer / Tank.
-- **Ficha de modelo**: Uruguay muestra una página por modelo con otro diseño
-  (portada con precio y botones "Ficha técnica" y "Test Drive", secciones
-  flotantes). Acá se replica la ficha de gwm.com.py con sus datos de Paraguay; la
-  de Uruguay solo se usó como fuente para Ora, que no tenía ficha en Paraguay.
-- **Selector de submarcas**: Uruguay usa pestañas colgantes de la banda negra,
-  con bordes redondeados y la activa en negro. Con cinco submarcas dejaban
-  muescas en las uniones y en celular se comprimían a 76 px cada una. Acá es un
-  selector subrayado: texto en mayúsculas, indicador rojo en la activa y hover
-  gris. Entra sin scroll desde 320 px de ancho. Se conserva el nombre de clase
-  `.model-category-button`, pero el estilo es propio.
+La home sigue, sección por sección y en el mismo orden, la arquitectura de la
+página de México. De ese sitio solo se tenía el HTML guardado (sin CSS ni JS): el
+marcado y los nombres de clase son los suyos, los estilos son propios y se
+midieron en la página en funcionamiento (escala tipográfica 112/56/32/24/16/14/12,
+ancho de 1200 px, tarjetas con borde de 8 px, botones negros de 3 px con flecha roja
+`#D7000F`, fondos `#f3f3f1`, `#f2f2f7` y negro). Cada sección usa solo datos reales
+de Paraguay: donde México muestra algo que acá no existe, se puso lo equivalente
+que sí hay.
+
+| México | Paraguay |
+| --- | --- |
+| Cabecera inmersiva (`cmp__header`): MODELOS con filtros y lista, OFERTA, POST VENTA, EXPLORA, "Encuentra a tu distribuidor" y "Agenda prueba de manejo" | MODELOS (filtros de motor y carrocería + modelos por submarca), PUNTOS DE VENTA, POSTVENTA (Clientes / Contacto) y los accesos "Encontrá tu concesionaria" y "Agendá tu mantenimiento". Sin OFERTA ni EXPLORA: no hay ofertas ni páginas corporativas para mostrar. |
+| Hero `kvswiper`: 6 slides con título, subtítulo y botón, puntos con avance y pausa | Los slides de `SLIDES_ACTIVOS` (spots en video o banners), con precio como subtítulo |
+| "Nuestros modelos" (`car-swiper`) | Los 16 modelos; el escenario es el banner de la ficha y la lista de abajo se desliza |
+| "Ofertas destacadas este mes" (`car-models-custom`) | **"Modelos destacados"**: no hay ofertas cargadas (ver Pendientes) |
+| "GWM CARE" (`immersive-slider`) | **"Postventa GWM"**: mantenimiento, servicios y puntos de venta, con los datos reales del agendamiento y las concesionarias. No hay garantías ni asistencia que contar todavía. |
+| "¿Cómo te podemos ayudar?" (`tools-bar`) | Cotizá por WhatsApp, concesionarias y agendamiento |
+| Banner "APP GWM" (`banner-image-simple-b`) | "Vive el futuro: desarrollo tecnológico de vanguardia adaptado a ti", el texto de gwm.com.py (no hay app) |
+| "¡Estrena hoy un GWM!" (`image-card`) | Igual, con el llamado a cotizar por WhatsApp |
+| "Hello, TOMORROW" (`full-video-scroll-card`) | Igual, con el video institucional (autoplay al entrar en pantalla; el original lo avanza con el scroll) |
+| "Diseñando el futuro" (`simple-card-a`) | Seguridad y tecnología / Nueva energía |
+| Botones fijos: Test Drive, Cotizar, Top | WhatsApp y Top |
+| Pie (`cmp__footer`): accesos, 4 columnas, país, redes, legales | Accesos, 4 columnas (Modelos, Compra, Postventa, Grupo Santa Rosa), país, redes y el aviso de imágenes ilustrativas |
+
+El sitio actual incorpora un menú propio de cookies con configuración por
+categoría y páginas de cookies y privacidad. No utiliza Usercentrics ni muestra
+sellos de ese proveedor. No se incorporó el asistente de chat. Propios de Paraguay, y por eso fuera de la arquitectura de
+México: los puntos de venta con filtro por ciudad, el agendamiento de service, las
+fichas de modelo y el visor 3D.
+
+- **Comportamiento de la cabecera**: igual que en México, no es fija: se va con el
+  scroll y no hay `scroll-padding`. En las fichas es negra y la barra de secciones
+  de la ficha se pega al borde de la pantalla.
+- **Tipografía**: México usa GWMSans en 100 a 900; acá hay Light, Regular y Bold.
+  El "black" de los títulos del hero se aproxima engrosando el Bold (`.fw-black`).
+  Para igualarlo exacto hay que sumar esos pesos a `public/fonts/`.
+- **Intervalo del hero**: 6 s, porque los spots duran ~5 s.
+- **Pestañas de ciudad**: conservan el estilo subrayado del sitio anterior
+  (`.model-category-button`), sobre el fondo claro de la sección.
 
 ## Sitio autocontenido
 
 No se referencia ningún dominio externo para funcionar: imágenes, videos,
-fuentes y favicons se sirven desde `public/`. Los únicos enlaces que salen del
+fuentes y favicons se sirven desde `public/`. GA4 y el receptor comercial son
+integraciones opcionales, desactivadas hasta configurarlas. Los enlaces que salen del
 sitio son los de WhatsApp, las redes sociales, Grupo Santa Rosa y Google Maps
 (el botón "Cómo llegar" de cada punto de venta).
 
 Las tarjetas de modelo, el megamenú y los CTA del hero llevan a la ficha del
-modelo (`/modelos/<slug>`). No hay sección ni formulario de contacto: los botones
-de cotizar de la ficha y el botón flotante de WhatsApp (`.ws-link`) abren el
-WhatsApp de ventas, con el modelo ya nombrado en el mensaje cuando corresponde
-(`whatsappModelo`, en `whatsapp.js`).
+modelo (`/modelos/<slug>`). Los botones comerciales abren un formulario de cotización o test drive con el
+modelo elegido. El botón flotante de WhatsApp (`.ws-link`) conserva su acceso
+directo. El envío se configura como se explica en la sección SEO, contenido y conversión.
 
-Los accesos de concesionarios y postventa (menú, banda de accesos, tarjetas de
-servicios y footer) llevan a sus secciones. Cuando existan los costos
+Los accesos de concesionarios y postventa (menú, "¿Cómo podemos ayudarte?", slider
+de postventa y pie) llevan a sus secciones. Cuando existan los costos
 de service y los talleres autorizados, se les suma su propia sección.
 
-El `scroll-padding-top` del `<html>` (80 px, el alto de la barra fija) evita que
-el título de una sección quede tapado al llegar desde el menú.
+Un enlace con `data-modelo="<slug>"` (el banner de Haval, las tarjetas finales y las
+columnas del pie) elige ese modelo en el selector "Nuestros modelos" y lleva a la
+sección.
+
+La cabecera no es fija, así que al ir a una sección no hace falta dejar lugar
+arriba (en las fichas, `ficha.css` reserva el de su barra de secciones).
 
 El menú y el pie apuntan a `/#seccion` (no a `#seccion`) para que también
 funcionen desde una ficha. Al llegar a la landing con un ancla, las secciones se
@@ -341,4 +515,22 @@ arman por JS y el salto del navegador quedaba corto; `alinearConAncla` (en
   contenido y assets. Está en `.gitignore`: sirve como referencia local, no se
   versiona.
 - Los precios del catálogo son de referencia en USD y salen del sitio actual;
-  conviene revisarlos antes de publicar.
+  conviene revisarlos antes de publicar. El del Jolion Pro HEV se actualizó a
+  USD 20.990 el 2026-10-14 (el HTML de Paraguay lo traía así).
+
+## Pendientes
+
+Datos que no existen en el repo ni en el HTML de Paraguay y que hay que pedirle a
+Marketing; sin ellos las secciones correspondientes no se pueden completar:
+
+- **Ora 5 EV (lanzado el 2026-10-13)**: precio, versiones, hoja técnica y fotos
+  oficiales de Paraguay. Las imágenes son ilustrativas; las cifras y el equipamiento de Uruguay quedan sin publicar hasta validarlos para Paraguay.
+- **Ofertas**: si hay promociones, se suma la sección "Ofertas destacadas" de México
+  (`car-models-custom`) con sus datos; la portada muestra tres modelos destacados y enlaza al catálogo completo, sin promociones inventadas.
+- **Garantía, repuestos, red de talleres, cotizador, código de cumplimiento y
+  "Santa Rosa"**: el HTML de Paraguay solo trae los enlaces a esas páginas de
+  gwm.com.py, sin su contenido. Con el texto, cada una puede ser una sección o un
+  acordeón del slider de postventa.
+- **Permiso de uso del modelo 3D** y qué colores y tapizados se venden en Paraguay
+  (ver [Visor 3D](#visor-3d)).
+- **Pesos de GWMSans** (Medium y Black) para igualar la tipografía de México.
