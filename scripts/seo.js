@@ -23,6 +23,7 @@ import { htmlMenuPie } from "../src/js/home/pie.js";
 import { htmlPagina, PAGINAS } from "../src/js/paginas.js";
 import { esc } from "../src/js/home/util.js";
 import { PRODUCTOS_ANTERIORES, redireccion } from "./rutas.js";
+import { optimizarImagenes } from "../src/js/imagenes.js";
 
 const jsonLd = (datos) =>
   `<script type="application/ld+json">${JSON.stringify(datos).replace(/</g, "\\u003c")}</script>`;
@@ -86,10 +87,10 @@ function metadata(
       "https://www.instagram.com/gwmpy/",
     ],
   };
-  return html.replace(
+  return optimizarImagenes(html.replace(
     "</head>",
     `${[organization, ...extra].map(jsonLd).join("\n")}\n</head>`,
-  );
+  ));
 }
 
 function navegacion(base) {
@@ -264,6 +265,7 @@ export function seo() {
     configurePreviewServer(server) {
       server.middlewares.use(middleware(server, true));
     },
+    transformIndexHtml(html) { return optimizarImagenes(html); },
     async closeBundle() {
       if (!existsSync(join(salida, "index.html"))) return;
       const original = readFileSync(join(salida, "index.html"), "utf8");

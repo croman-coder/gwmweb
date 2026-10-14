@@ -482,6 +482,27 @@ fichas de modelo y el visor 3D.
 
 ## Sitio autocontenido
 
+### Hero, menú y experiencia móvil (octubre de 2026)
+
+El hero y el menú visual por marcas toman como referencia
+[GWM Brasil](https://www.gwmmotors.com.br/pt). El H7 usa el clip original
+`haval-h7-banner-home-gwm.mov` del sitio oficial de Brasil, servido localmente
+como `public/video/h7-original-1080.mp4`: se cambió el contenedor a MP4 sin
+recomprimir el video de 1920 × 1080. El poster conserva esa resolución.
+Los precios y los datos comerciales siguen siendo los del catálogo de Paraguay.
+
+En celular el hero muestra una foto adaptada y navegación manual; no descarga
+los videos. Solo la imagen del primer slide tiene prioridad de carga. Los demás
+se solicitan al seleccionarlos. Las fichas separan texto y foto y la galería
+respeta las proporciones originales para evitar estirar archivos pequeños.
+
+`python3 scripts/optimizar-imagenes.py` (requiere Pillow) genera variantes WebP
+de 480 y 960 píxeles, sin ampliar ni sobrescribir originales. Descarta las que
+pesan más que la fuente y actualiza `src/js/imagenes-manifest.js`.
+El HTML estático y las vistas interactivas comparten `srcset` para que el navegador
+elija la resolución según pantalla y densidad. `mobile.css` contiene los ajustes
+de navegación táctil, formularios, cookies y ventanas con teclado abierto.
+
 No se referencia ningún dominio externo para funcionar: imágenes, videos,
 fuentes y favicons se sirven desde `public/`. GA4 y el receptor comercial son
 integraciones opcionales, desactivadas hasta configurarlas. Los enlaces que salen del

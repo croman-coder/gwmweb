@@ -1,0 +1,189 @@
+/* Presentación inspirada en GWM Brasil y ajustes de carga, nitidez y uso táctil. */
+.hero-banner { background: var(--tinta); }
+.cmp__hero-banner { max-width: 1920px; margin-inline: auto; }
+.hero-banner .content-box { align-items: flex-start; padding-top: calc(var(--cab) + 52px); }
+.hero-banner .kv-title { font-size: clamp(44px,4.4vw,64px); font-weight: 700; text-transform: uppercase; letter-spacing: -.025em; margin-bottom: 12px; }
+.hero-banner .hero-beneficio { max-width: 460px; font-size: 16px; line-height: 1.5; margin-bottom: 14px; }
+.hero-banner .kv-subtitle { font-size: 17px; margin-bottom: 24px; }
+.hero-banner .hero-eyebrow { margin-bottom: 16px; }
+.hero-banner .video-box video { max-width: 1920px; margin-inline: auto; }
+.hero-banner .video-box::after { background: linear-gradient(180deg,#07101588,transparent 55%),linear-gradient(90deg,#07101566,transparent 65%); }
+.hero-mobile-control { display: none; }
+.dot-list { grid-template-columns: repeat(7,minmax(0,1fr)); }
+/* Menú de gama: marcas arriba, filtros a la izquierda y tarjetas con acciones. */
+#menu-modelos .sub-list-container { max-width: 1600px; margin: auto; gap: 0; padding: 0; align-items: flex-start; }
+#menu-modelos .filter-panel { flex-basis: 205px; padding: 30px 24px; gap: 26px; border-right: 1px solid var(--linea); position: sticky; top: 0; }
+#menu-modelos .filter-title { font-size: 13px; margin-bottom: 10px; }
+#menu-modelos .filter-item ul { display: grid; gap: 4px; }
+#menu-modelos .filter-item button { width: 100%; min-height: 42px; text-align: left; padding: 10px; border: 0; border-radius: 2px; font-size: 12px; font-weight: 400; }
+#menu-modelos .filter-item button[aria-pressed=true] { color: white; background: var(--tinta); }
+#menu-modelos .tools-module a { font-size: 11px; }
+#menu-modelos .secondray-list-panel { padding: 0 30px 30px; }
+.marcas-menu { display: flex; overflow-x: auto; scrollbar-width: thin; gap: 24px; border-bottom: 1px solid var(--linea); padding-top: 20px; position: sticky; top: 0; z-index: 2; background: white; }
+.marcas-menu button { flex: 1 0 auto; padding: 20px 4px; min-height: 56px; font-size: 12px; text-transform: uppercase; font-weight: 700; border: 0; border-bottom: 3px solid transparent; background: white; color: #727779; }
+.marcas-menu button[aria-pressed=true] { color: var(--tinta); border-color: var(--tinta); }
+.menu-modelos-resumen { display: flex; justify-content: space-between; gap: 20px; padding: 22px 0; font-size: 11px; color: var(--muted); }
+.menu-modelos-resumen a { color: var(--tinta); }
+.menu-modelos-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 20px; }
+#menu-modelos .brand-group, #menu-modelos .brand-cars { display: contents; }
+#menu-modelos .brand-title { display: none; }
+#menu-modelos .car-card { display: flex; flex-direction: column; border: 1px solid var(--linea); border-radius: 4px; padding: 18px; min-width: 0; background: white; }
+.car-card__imagen { display: flex; height: 145px; align-items: center; justify-content: center; }
+#menu-modelos .car-card img { max-height: 145px; width: 100%; object-fit: contain; }
+.car-card__marca { font-size: 9px; color: var(--muted); text-transform: uppercase; letter-spacing: .14em; margin: 12px 0 8px; }
+#menu-modelos .car-card__nombre { font-size: 17px; letter-spacing: -.02em; line-height: 1.25; margin: 0 0 10px; }
+#menu-modelos .car-card__precio { font-size: 11px; margin: auto 0 18px; }
+.car-card__acciones { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.car-card__acciones > * { display: flex; align-items: center; justify-content: center; gap: 10px; font-size: 10px; font-weight: 700; min-height: 40px; padding: 8px; border: 1px solid var(--tinta); background: white; border-radius: 2px; }
+.car-card__acciones > button { background: var(--tinta); color: white; }
+.cmp__header.is-open .sales-header .action--outline { color: var(--tinta); border-color: #b9bec0; }
+html.vista-ficha .cmp__header.is-open { background: white; }
+.ficha .ficha-nav { z-index: 30; }
+/* Las fotos de las fichas tienen su propia columna: texto legible y vehículo completo. */
+.ficha .ficha-portada { display: grid; grid-template-columns: minmax(350px,.85fr) minmax(0,1.15fr); align-items: stretch; min-height: 0; padding: 0; max-width: 1920px; margin: auto; }
+.ficha .ficha-portada::before { display: none; }
+.ficha .ficha-portada picture { position: relative; inset: auto; grid-column: 2; grid-row: 1; display: flex; align-items: center; justify-content: center; height: auto; min-height: 470px; padding: 0; }
+.ficha .ficha-portada__imagen { position: static; height: auto; max-height: 650px; width: 100%; object-fit: contain; object-position: center; }
+.ficha .ficha-portada__contenido { grid-row: 1; grid-column: 1; width: 100%; max-width: none; padding: 64px clamp(28px,4vw,68px); align-self: center; }
+.ficha .ficha-portada h1 { font-size: clamp(38px,3.8vw,60px); }
+.ficha .ficha-portada .hero-actions { flex-direction: column; align-items: flex-start; }
+.ficha .ficha-portada .action { min-width: 220px; }
+.ficha .ficha-galeria { max-width: 1200px; margin-inline: auto; }
+.ficha .ficha-galeria .splide__list { align-items: center; }
+.ficha .ficha-galeria .splide__slide { display: flex; align-items: center; justify-content: center; background: #f5f5f2; }
+.ficha .ficha-galeria .splide__slide img { width: auto; max-width: 100%; max-height: 680px; height: auto; aspect-ratio: auto; object-fit: contain; }
+.brand-film video { object-fit: contain; max-width: 1200px; margin-inline: auto; }
+@media (max-width:1100px) and (min-width:1024px) {
+  #menu-modelos .filter-panel { flex-basis: 175px; padding: 24px 18px; }
+  #menu-modelos .secondray-list-panel { padding-inline: 22px; }
+  .menu-modelos-grid { gap: 14px; }
+  #menu-modelos .car-card { padding: 14px; }
+  .car-card__acciones { grid-template-columns: 1fr; }
+  .marcas-menu { gap: 14px; }
+}
+@media (max-width:1023px) {
+  .mobile-brand { border-bottom: 1px solid #ffffff26; }
+  .mobile-brand summary { min-height: 52px; display: flex; align-items: center; gap: 18px; justify-content: space-between; padding: 14px 0; font-size: 16px; cursor: pointer; list-style: none; }
+  .mobile-brand summary::-webkit-details-marker { display: none; }
+  .mobile-brand summary > span { color: #bbc1c4; font-size: 11px; margin-left: auto; }
+  .mobile-brand summary::after { content: '+'; font-size: 20px; font-weight: 300; }
+  .mobile-brand[open] summary::after { content: '−'; }
+  .mobile-brand .secondray-ul { padding: 4px 0 18px; gap: 4px; }
+  .menu-popup-container .menu-modelo-mobile { display: flex; align-items: center; gap: 12px; padding: 10px 8px; min-height: 70px; font-size: 14px; background: #ffffff0b; border-radius: 3px; }
+  .menu-modelo-mobile img { width: 90px; height: 50px; object-fit: contain; background: white; border-radius: 2px; }
+  .menu-modelo-mobile > span:last-child { margin-left: auto; font-size: 20px; }
+  html.menu-abierto .mobile-sales, html.menu-abierto .cmp__bottom-right-btn { visibility: hidden; }
+}
+@media (max-width:767px) {
+  :root { --cab: 64px; --gutter: 20px; }
+  body { padding-bottom: calc(72px + env(safe-area-inset-bottom)); }
+  .responsive__layout { padding-inline: max(20px,env(safe-area-inset-left)); }
+  .header__layout-mob { padding-inline: max(14px,env(safe-area-inset-left)); }
+  .menu-icon, .square-btn { width: 44px; height: 44px; }
+  .cmp__header .logo img { height: 22px; }
+  .cmp__hero-banner, .kvbanner__layout, .kvswiper-container { height: auto; min-height: 0; max-height: none; }
+  .kvswiper-container .splide__track, .kvswiper-container .splide__list { height: auto; }
+  .hero-banner .kvswiper-slide { height: auto; background: var(--tinta); }
+  .hero-banner .video-box, .hero-banner .hero--still .video-box { position: relative; inset: auto; height: clamp(205px,64vw,280px); margin-top: var(--cab); }
+  .hero-banner .video-box video { display: none; }
+  .hero-banner .video-box img { object-position: center; }
+  .hero-banner .video-box::after, .hero-banner .hero--still .video-box::after { background: linear-gradient(0deg,#171b1e,transparent 22%); }
+  .hero-banner .content-box, .hero-banner .hero--still .content-box { display: block; height: auto; padding: 24px 0 90px; }
+  .hero-banner .hero-eyebrow { font-size: 10px; margin-bottom: 14px; }
+  .hero-banner .kv-title { font-size: clamp(34px,9.3vw,42px); line-height: 1.06; min-height: 2.12em; max-width: 100%; margin-bottom: 14px; }
+  .hero-banner .hero-beneficio { font-size: 15px; line-height: 1.55; min-height: 3.1em; margin-bottom: 12px; }
+  .hero-banner .kv-subtitle { font-size: 17px; margin-bottom: 22px; }
+  .hero-banner .hero-actions { display: grid; grid-template-columns: 1.4fr 1fr; gap: 10px; }
+  .hero-banner .hero-actions .action { min-height: 48px; font-size: 12px; padding: 10px; gap: 12px; }
+  .kvswiper-control { bottom: 20px; }
+  .kvswiper-control .responsive__layout { justify-content: center; gap: 18px; }
+  .kvswiper-control .dot-list { display: none; }
+  .hero-mobile-control { display: flex; align-items: center; gap: 22px; }
+  .hero-mobile-control button, .kvswiper-control .btn-wraper { min-width: 44px; min-height: 44px; border: 1px solid #ffffff60; border-radius: 2px; color: white; background: transparent; }
+  .hero-mobile-control button { font-size: 20px; }
+  .hero-mobile-control > span { color: white; min-width: 44px; text-align: center; font-size: 12px; letter-spacing: .1em; }
+  .home-intro h1 { font-size: clamp(32px,9.5vw,40px); }
+  .home-intro > p, .section-heading > p, .home-experience__texto > p:not(.eyebrow), .page-intro__texto > p:not(.eyebrow), .editorial p { font-size: 15px; }
+  .home-destacados .modelo-card--editorial { flex-basis: 90%; }
+  .destacado-contenido .modelo-card__des { font-size: 14px; }
+  .modelo-card__acciones > *, .destacado-contenido .modelo-card__acciones > *, .catalogo .modelo-card__acciones > * { min-height: 48px; font-size: 12px; }
+  .home-destacados .catalogo-grid { scrollbar-width: thin; scroll-padding-inline: 0; }
+  .catalogo-filtros :is(input,select), .lead-form :is(input,select,textarea), .agenda__campo { font-size: 16px; min-height: 48px; }
+  .catalogo-filtros label, .lead-form label, .agenda__label { font-size: 12px; }
+  .catalogo-filtros { gap: 18px 12px; }
+  .reset-filtros { min-height: 44px; font-size: 13px; }
+  .compare-check { min-height: 44px; font-size: 12px; }
+  .compare-check input { width: 20px; height: 20px; }
+  .catalogo-resultados { font-size: 13px; }
+  .catalogo .modelo-card__des { font-size: 14px; }
+  .guia-card { grid-template-columns: 1fr; }
+  .guia-card:not(.guia-card--principal) > img { height: 180px; }
+  .guia-card__texto { padding: 26px; }
+  .guia-card h3 { font-size: 27px; }
+  .guia-card__link { min-height: 44px; font-size: 12px; }
+  .guia-card--principal .guia-card__texto { padding: 28px; }
+  .msl-swiper-item { flex-basis: 92%; }
+  .msl-swiper .context { padding: 24px; }
+  .msl-swiper .context .des { font-size: 14px; }
+  .msl-swiper .context .title { font-size: 29px; }
+  .msl-swiper .item-box { min-height: 440px; height: 440px; }
+  .seccion .model-category-button { min-height: 48px; font-size: 10px; }
+  .dealer__boton { min-height: 44px; font-size: 12px; }
+  .agenda__chip span { min-height: 44px; display: flex; align-items: center; font-size: 12px; }
+  .agenda__titulo { font-size: 17px; }
+  .agenda__opcional { font-size: 10px; }
+  .gwm-dialog { width: calc(100% - 24px); max-height: calc(var(--viewport-visible,100dvh) - 24px); top: 12px; bottom: auto; margin: 0 auto; padding: 30px 22px; scroll-padding-block: 20px; }
+  .gwm-dialog .dialog-close { width: 44px; height: 44px; top: 10px; right: 10px; }
+  .gwm-dialog h2 { font-size: 29px; margin-top: 16px; }
+  .lead-form { grid-template-columns: 1fr; gap: 20px; }
+  .lead-form .lead-form__full { grid-column: 1; }
+  .lead-form button[type=submit] { min-height: 50px; font-size: 14px; }
+  .lead-privacy { font-size: 12px; }
+  .mobile-sales { padding: 10px max(16px,env(safe-area-inset-left)) calc(10px + env(safe-area-inset-bottom)); min-height: calc(72px + env(safe-area-inset-bottom)); }
+  .mobile-sales button { min-height: 50px; font-size: 13px; }
+  .mobile-sales span { margin-left: 4px; }
+  body.acciones-en-pantalla .mobile-sales, body:has(dialog[open]) .mobile-sales,
+  body:has(input:focus, select:focus, textarea:focus) .mobile-sales,
+  body:has(input:focus, select:focus, textarea:focus, dialog[open]) .cmp__bottom-right-btn { visibility: hidden; }
+  .cmp__bottom-right-btn .ws-link { display: none; }
+  .cmp__bottom-right-btn { bottom: calc(88px + env(safe-area-inset-bottom)); }
+  .footer-legal { gap: 8px 20px; }
+  .footer-legal > * { display: inline-flex; align-items: center; min-height: 44px; font-size: 12px; }
+  .cookies-banner { max-height: calc(100dvh - 24px); padding: 20px; }
+  .cookies-banner > p { font-size: 13px; line-height: 1.6; }
+  .cookies-actions .cookie-button { min-height: 48px; font-size: 13px; }
+  .cookies-banner__bottom > span { display: none; }
+  .cookie-category p { font-size: 13px; }
+  .cookies-config-actions .cookie-button { min-height: 48px; font-size: 13px; }
+  .ficha .ficha-portada { display: flex; flex-direction: column; }
+  .ficha .ficha-portada picture { min-height: 0; width: 100%; height: auto; aspect-ratio: auto; }
+  .ficha .ficha-portada__imagen { position: static; width: 100%; height: auto; object-fit: contain; max-height: 340px; }
+  .ficha .ficha-portada__contenido { padding: 28px 20px 36px; }
+  .ficha .ficha-portada h1 { font-size: clamp(34px,9.3vw,42px); }
+  .ficha .ficha-portada .hero-actions { display: grid; grid-template-columns: 1fr 1fr; }
+  .ficha .ficha-portada .action { min-width: 0; width: 100%; min-height: 48px; padding: 12px 8px; font-size: 12px; }
+  .ficha-whatsapp { min-height: 44px; display: inline-flex; align-items: center; font-size: 12px; margin-top: 12px; }
+  .ficha .ficha-nav__items a { min-height: 48px; }
+  .ficha .ficha-nav__modelo { font-size: 11px; }
+  .ficha .ficha-bloque__cuerpo p { font-size: 15px; }
+  .ficha .ficha-galeria .splide__slide img { max-height: 520px; }
+  .ficha-galeria .splide__pagination__page { width: 24px; height: 24px; border: 6px solid white; }
+}
+@media (max-width:359px) {
+  .responsive__layout { padding-inline: 16px; }
+  .hero-banner .hero-actions { grid-template-columns: 1fr 1fr; }
+  .hero-banner .hero-actions .action { font-size: 11px; }
+  .destacado-contenido .modelo-card__acciones { grid-template-columns: 1fr 1fr; }
+  .destacado-contenido .modelo-card__acciones > * { font-size: 11px; gap: 5px; }
+  .catalogo-filtros { grid-template-columns: 1fr; }
+  .catalogo-filtros > label { grid-column: 1; }
+  .mobile-sales { gap: 8px; padding-inline: 12px; }
+  .mobile-sales button { font-size: 12px; }
+}
+@media (max-width:1023px) and (max-height:500px) and (min-width:768px) {
+  .cmp__hero-banner, .kvbanner__layout, .kvswiper-container { min-height: 460px; height: 460px; }
+  .hero-banner .content-box { padding-top: 110px; }
+  .hero-banner .kv-title { font-size: 38px; }
+  .hero-banner .video-box video { display: none; }
+  .hero-banner .hero-eyebrow { margin-bottom: 10px; }
+}

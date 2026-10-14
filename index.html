@@ -138,7 +138,7 @@
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2" /><path d="M3 10h18M8 3v4M16 3v4" /></svg>
             </a>
           </div>
-          <div class="menu-popup-container" id="menu-movil" hidden>
+          <div class="menu-popup-container" id="menu-movil" role="dialog" aria-modal="true" aria-label="Menú principal" hidden>
             <div class="back-bar">
               <button class="square-btn back-btn" type="button" aria-label="Cerrar el menú">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18" /></svg>
@@ -169,6 +169,7 @@
               <div class="kvswiper-control">
                 <div class="responsive__layout">
                   <ul class="dot-list" data-puntos></ul>
+                  <div class="hero-mobile-control"><button type="button" data-hero-anterior aria-label="Modelo anterior">←</button><span data-hero-posicion aria-live="polite">1 / 7</span><button type="button" data-hero-siguiente aria-label="Modelo siguiente">→</button></div>
                   <div class="btn-box">
                     <button class="btn-wraper" type="button" data-pausa aria-label="Pausar la rotación">
                       <svg class="icono-pausa" width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><rect x="4" y="3" width="2.6" height="10" rx="0.6" /><rect x="9.4" y="3" width="2.6" height="10" rx="0.6" /></svg>

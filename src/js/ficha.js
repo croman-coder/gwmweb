@@ -16,6 +16,7 @@ import Splide from '@splidejs/splide';
 import { modeloPorSlug } from './modelos.js';
 import { metaFicha } from './sitio.js';
 import '../css/ficha.css';
+import { optimizarImagenes } from './imagenes.js';
 
 // Un módulo por modelo: Vite los parte en archivos aparte y solo se descarga el de la ficha abierta.
 const MODULOS_TECNICA = import.meta.glob('./tecnica/*.js');
@@ -209,7 +210,7 @@ export async function initFicha(slug) {
     return;
   }
 
-  if (!contenedor.querySelector('.ficha')) contenedor.innerHTML = htmlFicha(modelo, ficha, tecnica);
+  if (!contenedor.querySelector('.ficha')) contenedor.innerHTML = optimizarImagenes(htmlFicha(modelo, ficha, tecnica));
   actualizarMeta(modelo, ficha);
   iniciarVersiones(contenedor);
   iniciarGaleria(contenedor);

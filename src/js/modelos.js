@@ -232,6 +232,14 @@ export function portadaModelo(slug) {
  */
 export const SLIDES = [
   {
+    modelo: 'Haval H7 PHEV',
+    slug: 'h7-phev',
+    precio: 35990,
+    imagen: '/img/poster/h7-original-1080.webp',
+    imagenMobile: '/img/fichas/h7-phev/portada-m.webp',
+    video: '/video/h7-original-1080.mp4',
+  },
+  {
     modelo: 'Tank 400 PHEV 4x4',
     slug: 'tank-400-phev-4x4',
     precio: 50990,
@@ -267,13 +275,6 @@ export const SLIDES = [
     imagen: '/img/poster/poer.webp',
     video: '/video/poer-16x9.mp4',
     videoMobile: '/video/poer-9x16.mp4',
-  },
-  {
-    modelo: 'Haval H7 PHEV',
-    slug: 'h7-phev',
-    precio: 35990,
-    imagen: '/img/modelos/h7-phev.webp',
-    pendiente: true, // falta banner y spot
   },
   {
     modelo: 'Haval H6 GT PHEV',

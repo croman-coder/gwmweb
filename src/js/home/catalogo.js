@@ -2,6 +2,7 @@
 import { DEALERS } from '../concesionarios.js';
 import { SERVICIOS } from '../postventa.js';
 import { esc } from './util.js';
+import { optimizarImagenes } from '../imagenes.js';
 
 function initPostventa() {
   const caja = document.querySelector('[data-postventa]');
@@ -36,7 +37,7 @@ function initPostventa() {
       alt: 'Un Haval frente a una concesionaria',
     },
   ];
-  caja.innerHTML = tarjetas
+  caja.innerHTML = optimizarImagenes(tarjetas
     .map(
       (t) => `
       <div class="msl-swiper-item">
@@ -57,7 +58,7 @@ function initPostventa() {
         </div>
       </div>`
     )
-    .join('');
+    .join(''));
 }
 
 export function initCatalogo() {

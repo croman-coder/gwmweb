@@ -1,8 +1,11 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import { readFileSync, existsSync } from "node:fs";
+import { readFileSync, existsSync, statSync } from "node:fs";
 import { join } from "node:path";
-import { MODELOS } from "../src/js/modelos.js";
+import { MODELOS, SLIDES_ACTIVOS } from "../src/js/modelos.js";
+import imagenes from "../src/js/imagenes-manifest.js";
+import { optimizarImagenes, srcsetImagen } from "../src/js/imagenes.js";
+import { htmlHeroSlide } from "../src/js/render/catalogo.js";
 import { filtrarModelos } from "../src/js/vehiculos.js";
 import {
   interpretarConsentimiento,
@@ -162,12 +165,41 @@ test("todas las páginas incluyen el menú y el acceso para revisar cookies, ind
 });
 
 const origen = process.env.SITE_TEST_URL;
+test("las variantes de imagen existen, pesan menos y nunca amplían el original", () => {
+  for (const [src, [ancho, alto, variantes]] of Object.entries(imagenes)) {
+    assert.ok(ancho > 0 && alto > 0, src);
+    const original = statSync(join("public", src));
+    for (const candidato of srcsetImagen(src).split(", ")) {
+      const [ruta, descriptor] = candidato.split(" ");
+      assert.ok(existsSync(join("dist", ruta)), ruta);
+      assert.ok(Number.parseInt(descriptor) <= ancho, candidato);
+      if (ruta !== src) assert.ok(statSync(join("public", ruta)).size < original.size, ruta);
+    }
+    assert.ok(variantes.every(w => w < ancho), src);
+  }
+  const marcado = '<picture><source media="(max-width:767px)" srcset="/img/fichas/ora-5-ev/portada-m.webp" /><img src="/img/fichas/ora-5-ev/portada.webp" alt="ORA" /></picture>';
+  const responsive = optimizarImagenes(marcado);
+  assert.match(responsive, /480w/);
+  assert.match(responsive, /decoding="async"/);
+  assert.equal(optimizarImagenes(responsive), responsive);
+});
+
+test("la portada prioriza una sola foto y deja los otros modelos y videos sin descargar", () => {
+  const slides = SLIDES_ACTIVOS.map(htmlHeroSlide);
+  assert.equal((slides.join("").match(/<img src=/g) || []).length, 1);
+  assert.match(slides[0], /fetchpriority="high"/);
+  assert.ok(slides.slice(1).every(html => html.includes('data-hero-src=')));
+  assert.doesNotMatch(slides.join(""), /<video[^>]*\ssrc=/);
+  for (const slide of SLIDES_ACTIVOS) assert.ok(existsSync(`public/img/fichas/${slide.slug}/portada-m.webp`));
+});
+
 test(
   "el servidor entrega 200 para páginas válidas, 301 para enlaces antiguos y 404 real",
   { skip: !origen },
   async () => {
     for (const ruta of [
       "/",
+      "/modelos",
       "/modelos/new-h6-hev",
       "/hibridos",
       "/privacidad",

@@ -13,6 +13,9 @@ import { initPie } from './home/pie.js';
 import { marcarDesborde } from './home/util.js';
 import '../css/mejoras.css';
 import '../css/diseno.css';
+import '../css/mobile.css';
+import { optimizarImagenes } from './imagenes.js';
+import { initMobile } from './mobile.js';
 import { htmlDestacadosHome, htmlGuiasHome } from './render/catalogo.js';
 import { initDescubrir } from './descubrir.js';
 import { initLeads } from './leads.js';
@@ -307,7 +310,7 @@ initLeads();
 if (rutaFicha) {
   // La ficha (y su contenido y estilos) se baja aparte: la landing no paga su peso.
   import('./ficha.js')
-    .then(({ initFicha }) => initFicha(decodeURIComponent(rutaFicha[1])))
+    .then(async ({ initFicha }) => { await initFicha(decodeURIComponent(rutaFicha[1])); initMobile(); })
     .catch(() => {
       document.querySelector('#ficha').innerHTML =
         '<p style="padding: 96px 24px; text-align: center">No pudimos cargar la ficha. Probá recargar la página.</p>';
@@ -317,7 +320,7 @@ if (rutaFicha) {
     const ruta = location.pathname.replace(/\/$/, '');
     const p = PAGINAS[ruta];
     const contenedor = document.querySelector('#ficha');
-    if (!contenedor.hasChildNodes()) contenedor.innerHTML = htmlPagina(ruta);
+    if (!contenedor.hasChildNodes()) contenedor.innerHTML = optimizarImagenes(htmlPagina(ruta));
     if (p) {
       const { SITIO } = await import('./sitio.js');
       document.title = `${p.titulo} | GWM Paraguay`;
@@ -328,16 +331,18 @@ if (rutaFicha) {
       document.querySelector('meta[name="robots"]').content = 'noindex, follow';
     }
     initDescubrir();
+    initMobile();
   });
 } else {
   const catalogo = document.querySelector('[data-catalogo-home]');
-  if (catalogo) catalogo.outerHTML = htmlDestacadosHome();
+  if (catalogo) catalogo.outerHTML = optimizarImagenes(htmlDestacadosHome());
   const guias = document.querySelector('[data-guias-home]');
-  if (guias) guias.outerHTML = htmlGuiasHome();
+  if (guias) guias.outerHTML = optimizarImagenes(htmlGuiasHome());
   initHero();
   initCatalogo();
   initDescubrir();
   initConcesionarios();
   initAgenda();
+  initMobile();
   alinearConAncla();
 }

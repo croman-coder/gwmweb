@@ -9,6 +9,7 @@
 import Splide from '@splidejs/splide';
 import { SLIDES_ACTIVOS } from '../modelos.js';
 import { esc, reducirMovimiento } from './util.js';
+import { optimizarImagenes } from '../imagenes.js';
 
 /** Los spots duran ~5 s: con menos intervalo se cortarían por la mitad. */
 const INTERVALO = 6000;
@@ -22,7 +23,10 @@ export function initHero() {
   const pausa = raiz?.querySelector('[data-pausa]');
   if (!pista || !puntos || !pausa) return;
 
-  pista.innerHTML = SLIDES_ACTIVOS.map(htmlSlide).join('');
+  if (!pista.querySelector('.splide__slide')) pista.innerHTML = optimizarImagenes(SLIDES_ACTIVOS.map(htmlSlide).join(''));
+  const movil = window.matchMedia('(max-width: 767px), (max-width: 1023px) and (max-height: 500px)');
+  const ahorro = navigator.connection?.saveData || ['slow-2g','2g'].includes(navigator.connection?.effectiveType);
+  const estado = raiz.querySelector('[data-hero-posicion]');
   puntos.innerHTML = SLIDES_ACTIVOS.map(
     (s, i) => `
       <li class="dot-item">
@@ -35,7 +39,7 @@ export function initHero() {
     type: 'fade',
     rewind: true,
     speed: 900,
-    autoplay: !reducirMovimiento(),
+    autoplay: !reducirMovimiento() && !movil.matches && !ahorro,
     interval: INTERVALO,
     pauseOnHover: false,
     pauseOnFocus: true,
@@ -44,12 +48,12 @@ export function initHero() {
   });
 
   // Solo el slide activo reproduce, y de sus dos recortes solo el visible en este tamaño de pantalla.
-  let pausado = reducirMovimiento();
+  let pausado = reducirMovimiento() || movil.matches || ahorro;
   let visible = true;
   const sincronizarVideos = () => {
     raiz.querySelectorAll('video').forEach((v) => {
       const activo = v.closest('.splide__slide')?.classList.contains('is-active');
-      if (pausado || !visible || document.hidden || !activo || v.offsetParent === null) {
+      if (movil.matches || ahorro || pausado || !visible || document.hidden || !activo || v.offsetParent === null) {
         v.pause();
         return;
       }
@@ -66,6 +70,7 @@ export function initHero() {
   };
 
   const marcarPunto = (indice) => {
+    if (estado) estado.textContent = `${indice + 1} / ${SLIDES_ACTIVOS.length}`;
     botones.forEach((b, i) => {
       const activo = i === indice;
       b.parentElement.classList.toggle('is-active', activo);
@@ -73,10 +78,18 @@ export function initHero() {
       b.querySelector('.dot-progreso').style.width = activo ? '' : '0';
     });
   };
+  const cargarImagen = (indice) => {
+    const slide = pista.children[indice];
+    slide?.querySelectorAll('[data-hero-srcset]').forEach(el => { el.setAttribute('srcset', el.dataset.heroSrcset); delete el.dataset.heroSrcset; });
+    const img = slide?.querySelector('[data-hero-src]');
+    if (img) { img.src = img.dataset.heroSrc; delete img.dataset.heroSrc; }
+  };
+  raiz.querySelector('[data-hero-anterior]')?.addEventListener('click', () => splide.go('<'));
+  raiz.querySelector('[data-hero-siguiente]')?.addEventListener('click', () => splide.go('>'));
 
   // `moved` es el que importa: las clases is-active recién quedan firmes al terminar la transición.
   splide.on('mounted active move moved resized', sincronizarVideos);
-  splide.on('mounted move', () => marcarPunto(splide.index));
+  splide.on('mounted move', () => { cargarImagen(splide.index); marcarPunto(splide.index); });
   splide.on('autoplay:playing', (avance) => {
     const barra = botones[splide.index]?.querySelector('.dot-progreso');
     if (barra) barra.style.width = `${Math.round(avance * 100)}%`;
@@ -94,12 +107,18 @@ export function initHero() {
     pausa.setAttribute('aria-label', pausar ? 'Reanudar la rotación' : 'Pausar la rotación');
   };
   pausa.addEventListener('click', () => alternarPausa(!pausa.classList.contains('is-paused')));
-  if (reducirMovimiento()) pausa.classList.add('is-paused');
+  if (pausado) pausa.classList.add('is-paused');
 
   splide.mount();
   marcarPunto(0);
-  if (reducirMovimiento()) alternarPausa(true);
-  const observador = new IntersectionObserver(([e]) => { visible = e.isIntersecting; sincronizarVideos(); }, {threshold:0.1});
+  alternarPausa(pausado);
+  movil.addEventListener('change', () => { if (movil.matches) alternarPausa(true); sincronizarVideos(); });
+  const sincronizarRotacion = () => {
+    if (pausado || !visible || document.hidden) splide.Components.Autoplay.pause();
+    else splide.Components.Autoplay.play();
+    sincronizarVideos();
+  };
+  const observador = new IntersectionObserver(([e]) => { visible = e.isIntersecting; sincronizarRotacion(); }, {threshold:0.1});
   observador.observe(raiz);
-  document.addEventListener('visibilitychange', sincronizarVideos);
+  document.addEventListener('visibilitychange', sincronizarRotacion);
 }

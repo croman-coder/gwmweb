@@ -116,7 +116,7 @@ function initTop() {
 /** El video de "Hello, Tomorrow" no se descarga hasta que entra en pantalla, y se pausa al salir. */
 function initVideoFondo() {
   const video = document.querySelector('[data-video-fondo]');
-  if (!video || !('IntersectionObserver' in window) || reducirMovimiento() || navigator.connection?.saveData) return;
+  if (!video || !('IntersectionObserver' in window) || reducirMovimiento() || navigator.connection?.saveData || window.matchMedia('(max-width: 767px)').matches) return;
 
   const observador = new IntersectionObserver(
     (entradas) => {

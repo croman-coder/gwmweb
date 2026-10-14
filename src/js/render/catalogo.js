@@ -9,6 +9,7 @@ import {
 } from "../modelos.js";
 import { esc } from "../home/util.js";
 import { tecnologia, carroceria, modelosDe } from "../vehiculos.js";
+import { srcsetImagen } from '../imagenes.js';
 
 export function tarjetaModelo(m, { comparar = true } = {}) {
   return `<article class="modelo-card" data-catalogo-modelo="${m.slug}">
@@ -72,21 +73,20 @@ export function htmlHeroSlide(s, i) {
   const foto = esBanner ? `/img/fichas/${s.slug}/portada.webp` : s.imagen;
   const fotoMovil = esBanner
     ? `/img/fichas/${s.slug}/portada-m.webp`
-    : s.imagenMobile || foto;
+    : s.imagenMobile || `/img/fichas/${s.slug}/portada-m.webp`;
   const video = (src, poster, clase) =>
     src
-      ? `<video class="normal-video video-temp ${clase}" muted loop playsinline preload="none" poster="${poster}" data-src="${src}" aria-hidden="true"></video>`
+      ? `<video class="normal-video video-temp ${clase}" muted loop playsinline preload="none" data-src="${src}" aria-hidden="true"></video>`
       : "";
   return `<div class="splide__slide kvswiper-slide light${!s.videoMobile ? " hero--still" : ""}">
-    <div class="video-box"><picture class="car-app-img"><source media="(max-width:767px)" srcset="${fotoMovil}" /><img src="${foto}" alt="" width="1600" height="700" ${i === 0 ? 'fetchpriority="high"' : 'loading="lazy"'} /></picture>${video(s.video, s.imagen, "video-d")}${video(s.videoMobile, fotoMovil, "video-m")}</div>
+    <div class="video-box"><picture class="car-app-img"><source media="(max-width:767px)" ${i === 0 ? 'srcset' : 'data-hero-srcset'}="${srcsetImagen(fotoMovil)}" sizes="100vw" /><img ${i === 0 ? 'src' : 'data-hero-src'}="${foto}" ${i === 0 ? 'srcset' : 'data-hero-srcset'}="${srcsetImagen(foto)}" sizes="100vw" alt="" width="1920" height="1080" decoding="async" ${i === 0 ? 'fetchpriority="high"' : ''} /></picture>${video(s.video, s.imagen, "video-d")}${video(s.videoMobile, fotoMovil, "video-m")}</div>
     <div class="content-box"><div class="responsive__layout"><div class="kv-swiper-content">
       <p class="hero-eyebrow">GWM PARAGUAY · ${esc(tecnologia(m))}</p>
       <p class="kv-title">${esc(nombreCompleto(m).replace(/\s+(?:HEV|PHEV|EV)(?:\s+4x4)?$/i, ""))}</p>
       <p class="hero-beneficio">${esc(m.bajada)}</p>
       <p class="kv-subtitle">${precioDesdeTexto(m.precio)}</p>
-      <div class="hero-actions"><a class="action action--light" href="${urlFicha(m.slug)}">Explorá el modelo <span aria-hidden="true">↗</span></a><button class="action action--outline" type="button" data-lead="testdrive" data-modelo-slug="${m.slug}">Solicitá un test drive</button></div>
+      <div class="hero-actions"><a class="action action--light" href="${urlFicha(m.slug)}">Descubrí el modelo <span aria-hidden="true">↗</span></a><button class="action action--outline" type="button" data-lead="testdrive" data-modelo-slug="${m.slug}">Test drive</button></div>
     </div></div></div>
-    <span class="hero-number" aria-hidden="true">0${i + 1} / 06</span>
   </div>`;
 }
 
