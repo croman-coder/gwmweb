@@ -547,7 +547,9 @@ del PDF EV ante los valores distintos dentro de la página de marketing; las con
 a Nm se identifican como aproximadas. Los límites de carga AC/DC de Tailandia no se mezclan
 con esta ficha. NEDC, aceleración, carga y consumo conservan sus condiciones de referencia.
 
-La tercera tarjeta describe Premium Gasolina de México y enlaza al PDF; no crea un modelo
+La presentación pública usa nombres de versiones sin país y una nota de referencia internacional.
+Las fuentes y el mercado de origen se conservan en los datos internos y en esta documentación.
+La tercera tarjeta describe Premium Gasolina y enlaza al PDF; no crea un modelo
 local ni una oferta comercial. Los servicios My GWM App se identifican como regionales.
 El precio y la configuración de Paraguay siguen a confirmar con el equipo comercial.
 

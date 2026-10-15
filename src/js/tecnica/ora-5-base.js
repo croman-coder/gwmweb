@@ -42,12 +42,12 @@ export function seccionesLuxury(ev) {
       filas: [['Alerta al abrir puertas', 'DOW'], ['Aviso de salida de carril y corrección de emergencia', 'LDW / ELK'], ['Alertas de colisión frontal y trasera', 'FCW / RCW'], ['Tráfico cruzado delantero y trasero', 'Alertas y frenado FCTA / FCTB / RCTA / RCTB'], ['Asistencia para cambiar de carril', 'LCA'], ['Asistencia en intersecciones', 'IJA'], ['Mantenimiento de carril', 'LKA'], ['Asistencia en tráfico denso', 'TJA'], ['Cambio automático de luces', 'HMA'], ['Crucero adaptativo', 'ACC'], ['Control inteligente en curvas', 'ICC'], ['Detección de punto ciego', 'BSD'], ['Frenado autónomo de emergencia', 'AEB, con detección de peatones y ciclistas'], ['Reconocimiento de señales de tránsito', 'TSR']],
     },
     {
-      titulo: 'My GWM App · referencia México',
-      nota: 'Servicios descritos para México. Consultá compatibilidad, conectividad, planes y disponibilidad en Paraguay.',
+      titulo: 'My GWM App · conectividad',
+      nota: 'Consultá compatibilidad, conectividad, planes y disponibilidad de los servicios para tu versión.',
       filas: [['Acciones remotas', 'Puertas, climatización, luces y bocina'], ['Alertas del vehículo', 'Accesos, ventanillas y batería'], ['Información remota', 'Ubicación, autonomía y estado de neumáticos'], ['Servicios a bordo', 'Hotspot Wi-Fi, navegación y aplicaciones; sujetos a disponibilidad regional']],
     },
     {
-      titulo: 'Colores y acabados · referencia México',
+      titulo: 'Colores y acabados',
       nota: 'La combinación de exterior y tapizado depende de la versión y del mercado. Las imágenes son ilustrativas.',
       filas: [['Colores del folleto', 'Black, Mate Grey, Emerald Green, Blue Gracier e Ivory White'], ['Material de los asientos', 'Cuero sintético']],
     },

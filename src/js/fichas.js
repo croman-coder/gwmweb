@@ -450,13 +450,13 @@ export const FICHAS = {
     diseno: {
       titulo: 'Un interior conectado',
       enlace: 'Diseño',
-      texto: ['La versión Luxury EV de México combina pantalla central de 14,6 pulgadas, tablero digital de 10,25 y conectividad inalámbrica para Apple CarPlay y Android Auto. El audio suma nueve parlantes y carga inalámbrica de celular de 50 W.'],
+      texto: ['La versión de referencia Luxury EV combina pantalla central de 14,6 pulgadas, tablero digital de 10,25 y conectividad inalámbrica para Apple CarPlay y Android Auto. El audio suma nueve parlantes y carga inalámbrica de celular de 50 W.'],
       imagen: '/img/fichas/ora-5-ev/diseno.webp',
     },
     tecnologia: {
       titulo: 'Seguridad y asistencias',
       enlace: 'Seguridad',
-      texto: ['Luxury EV incorpora siete airbags, incluido uno central delantero. La cámara 360°, el detector de punto ciego, el crucero adaptativo y el frenado de emergencia forman parte de la dotación de referencia mexicana.'],
+      texto: ['Luxury EV incorpora siete airbags, incluido uno central delantero. La cámara 360°, el detector de punto ciego, el crucero adaptativo y el frenado de emergencia forman parte del equipamiento de referencia.'],
       imagen: '/img/fichas/ora-5-ev/tecnologia.webp',
     },
     visor3d: {
@@ -480,13 +480,13 @@ export const FICHAS = {
     diseno: {
       titulo: 'Tecnología para cada viaje',
       enlace: 'Diseño',
-      texto: ['Luxury Híbrida de México reúne pantalla de 14,6 pulgadas, tablero de 10,25, Apple CarPlay y Android Auto inalámbricos. Cuenta con nueve parlantes, asientos delanteros calefaccionados y ventilados y memoria para el conductor. Imágenes ilustrativas de la gama ORA 5.'],
+      texto: ['Luxury Híbrida reúne pantalla de 14,6 pulgadas, tablero de 10,25, Apple CarPlay y Android Auto inalámbricos. Cuenta con nueve parlantes, asientos delanteros calefaccionados y ventilados y memoria para el conductor. Imágenes ilustrativas de la gama ORA 5.'],
       imagen: '/img/fichas/ora-5-ev/diseno.webp',
     },
     tecnologia: {
       titulo: 'Seguridad y asistencias',
       enlace: 'Seguridad',
-      texto: ['La versión Luxury Híbrida mexicana incluye siete airbags, cámara 360°, crucero adaptativo, detección de punto ciego y asistencias de carril y tráfico cruzado. La configuración comercializada en Paraguay debe confirmarse con un asesor.'],
+      texto: ['La versión de referencia Luxury Híbrida incluye siete airbags, cámara 360°, crucero adaptativo, detección de punto ciego y asistencias de carril y tráfico cruzado. La configuración comercializada en Paraguay debe confirmarse con un asesor.'],
       imagen: '/img/fichas/ora-5-ev/tecnologia.webp',
     },
   },

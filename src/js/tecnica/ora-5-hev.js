@@ -10,8 +10,8 @@ export default {
     },
     {
       titulo: 'Batería, combustible y rendimiento',
-      nota: 'El rendimiento publicado por GWM México se calculó con la batería al máximo de carga; varía según el nivel de batería y la conducción. La aceleración se midió en condiciones controladas y a nivel del mar.',
-      filas: [['Tipo de batería híbrida', 'Litio ternaria'], ['Capacidad de la batería', '1,09 kWh'], ['Recarga', 'Sin enchufe; recuperación de energía al conducir'], ['Consumo combinado de referencia', '22,7 km/l'], ['Emisiones combinadas declaradas en México', '102 g/km de CO₂']],
+      nota: 'El rendimiento de referencia se calculó con la batería al máximo de carga; varía según el nivel de batería y la conducción. La aceleración se midió en condiciones controladas y a nivel del mar.',
+      filas: [['Tipo de batería híbrida', 'Litio ternaria'], ['Capacidad de la batería', '1,09 kWh'], ['Recarga', 'Sin enchufe; recuperación de energía al conducir'], ['Consumo combinado de referencia', '22,7 km/l'], ['Emisiones combinadas de referencia', '102 g/km de CO₂']],
     },
     ...seccionesLuxury(false),
   ],

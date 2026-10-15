@@ -282,7 +282,7 @@ function htmlTecnica(modelo, ficha, tecnica) {
     : "<span></span>";
   const bajada =
     tecnica.referencia
-      ? `Datos oficiales de GWM ${esc(tecnica.referencia.mercado)}${tecnica.referencia.version ? ` · ${esc(tecnica.referencia.version)}` : ""}. Confirmá con un asesor el equipamiento y la disponibilidad para Paraguay.`
+      ? `Especificaciones de referencia internacional${tecnica.referencia.version ? ` · ${esc(tecnica.referencia.version)}` : ""}. Confirmá con un asesor el equipamiento y la disponibilidad para Paraguay.`
       : tecnica.columnas.length > 1
       ? `Datos de la ficha técnica oficial del GWM ${esc(modelo.nombre)}, con las versiones lado a lado.`
       : `Datos de la ficha técnica oficial del GWM ${esc(modelo.nombre)}.`;
@@ -291,7 +291,7 @@ function htmlTecnica(modelo, ficha, tecnica) {
       <div class="ficha-tecnica__contenido">
         <h2>Especificaciones técnicas</h2>
         <p class="ficha-tecnica__bajada">${bajada}</p>
-        ${tecnica.referencia ? `<p class="ficha-tecnica__fuente"><a href="${esc(tecnica.referencia.fuente)}" target="_blank" rel="noopener">Ficha oficial · GWM ${esc(tecnica.referencia.mercado)} ↗</a>${tecnica.referencia.pagina ? ` · <a href="${esc(tecnica.referencia.pagina)}" target="_blank" rel="noopener">Ver el modelo en GWM ${esc(tecnica.referencia.mercado)} ↗</a>` : ''}</p>` : ''}
+        ${tecnica.referencia ? `<p class="ficha-tecnica__fuente"><a href="${esc(tecnica.referencia.fuente)}" target="_blank" rel="noopener">Consultar ficha de referencia ↗</a>${tecnica.referencia.pagina ? ` · <a href="${esc(tecnica.referencia.pagina)}" target="_blank" rel="noopener">Información del modelo ↗</a>` : ''}</p>` : ''}
         <div class="ficha-tecnica__acciones">
           ${pdf}
           <button type="button" class="ficha-tecnica__todo" data-accion="alternar">Expandir todo</button>
@@ -303,7 +303,7 @@ function htmlTecnica(modelo, ficha, tecnica) {
 
 function htmlMotorizaciones(modelo, ficha) {
   return `<section class="ficha-motores responsive__layout" id="motorizaciones" aria-labelledby="motores-titulo">
-    <div class="section-heading"><div><p class="eyebrow">GAMA ORA 5 · REFERENCIA MÉXICO</p><h2 id="motores-titulo">Tu energía. Tu camino.</h2></div><p>Eléctrico, híbrido o a gasolina.<br />Conocé qué distingue a cada motorización.</p></div>
+    <div class="section-heading"><div><p class="eyebrow">GAMA ORA 5</p><h2 id="motores-titulo">Tu energía. Tu camino.</h2></div><p>Eléctrico, híbrido o a gasolina.<br />Conocé qué distingue a cada motorización.</p></div>
     <div class="ficha-motores__grid${ficha.motorizaciones.length === 3 ? " ficha-motores__grid--tres" : ""}">${ficha.motorizaciones.map(m => `<article class="ficha-motor${m.slug === modelo.slug ? ' ficha-motor--activo' : ''}">
       <div class="ficha-motor__cabecera"><span class="energy-tag">${esc(m.etiqueta)}</span>${m.slug === modelo.slug ? '<span class="ficha-motor__actual">Estás viendo este modelo</span>' : ''}</div>
       ${m.imagen ? `<figure class="ficha-motor__media"><img src="${esc(m.imagen)}" alt="${esc(m.imagenAlt || m.nombre)}" loading="lazy" decoding="async" width="700" height="500" data-image-sizes="(max-width:767px) calc(100vw - 82px), 350px" /></figure>` : ''}

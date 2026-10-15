@@ -76,15 +76,17 @@ test("todos los modelos y páginas entregan un único H1, canonical e informaci�
   assert.match(h6, /new-h6-hev\.pdf/);
 });
 
-test("ORA 5 publica el equipamiento mexicano y distingue su disponibilidad local", () => {
+test("ORA 5 presenta las versiones sin mencionar países y conserva la referencia internacional", () => {
   const ev = readFileSync(archivo("/modelos/ora-5-ev"), "utf8");
   const hev = readFileSync(archivo("/modelos/ora-5-hev"), "utf8");
   for (const html of [ev, hev]) {
-    assert.match(html, /Referencia internacional · GWM México/);
+    assert.match(html, /Especificaciones de referencia internacional/);
+    const textoVisible = html.replace(/<script\b[^>]*>[\s\S]*?<\/script>/g, "").replace(/<[^>]*>/g, " ");
+    assert.doesNotMatch(textoVisible, /m[eé]xico|mexican[ao]s?/i);
     assert.doesNotMatch(html, /Tailandia|Pro y Ultra|versiones internacionales Pro/);
     assert.match(html, /Premium Gasolina/);
     assert.match(html, /7: dos frontales/);
-    assert.match(html, /My GWM App · referencia México/);
+    assert.match(html, /My GWM App · conectividad/);
     assert.doesNotMatch(html, /modelos\/undefined|modelos\/ora-5-gasolina/);
     assert.match(html, /confirmá|Confirmá/);
     assert.match(html, /id="motorizaciones"/);

@@ -5,7 +5,7 @@ export default {
   secciones: [
     {
       titulo: 'Motorización eléctrica · Luxury EV',
-      nota: 'La ficha mexicana expresa el torque en lb-ft. La equivalencia en Nm es aproximada. La aceleración se obtuvo en condiciones controladas y a nivel del mar.',
+      nota: 'El torque de referencia se expresa en lb-ft. La equivalencia en Nm es aproximada. La aceleración se obtuvo en condiciones controladas y a nivel del mar.',
       filas: [['Tipo de motor', 'Eléctrico síncrono de imanes permanentes'], ['Potencia del motor eléctrico', '150 kW'], ['Potencia máxima declarada', '201 hp a 6.320 rpm'], ['Torque declarado', '191 lb-ft (aprox. 259 Nm)'], ['Tracción', 'Delantera'], ['Transmisión', 'Reductora de 1 velocidad'], ['Aceleración 0–100 km/h de referencia', '7,7 segundos']],
     },
     {
