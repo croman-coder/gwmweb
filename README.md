@@ -551,6 +551,13 @@ La tercera tarjeta describe Premium Gasolina de México y enlaza al PDF; no crea
 local ni una oferta comercial. Los servicios My GWM App se identifican como regionales.
 El precio y la configuración de Paraguay siguen a confirmar con el equipo comercial.
 
+Las tarjetas de motorización incluyen los tres renders oficiales de México en
+`public/img/fichas/ora-5-ev/motor-*-mexico.webp` (700×500). Se muestran completos,
+con carga diferida y variantes de 480 px; no se amplían los archivos originales.
+Procedencia: `version-card/Electrico_gwm_ora5_motor_1_DESKTOP.webp`,
+`version-card/Hibrido.webp` y `version-card/Gasolina_gwm_ora5_motor_2_DESKTOP.webp`
+bajo `https://www.gwm-mx.com/content/dam/gwm/pages/mx/es/car-model/ora-05/`.
+
 ### Hero, menú y experiencia móvil (octubre de 2026)
 
 El hero y el menú visual por marcas toman como referencia
