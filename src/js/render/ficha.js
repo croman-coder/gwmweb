@@ -26,6 +26,8 @@ const FLECHA =
 
 function menuSecciones(ficha, tecnica) {
   const items = [];
+  // La vista 3D va primero, justo debajo de la portada (pedido de Marketing).
+  if (ficha.visor3d) items.push({ id: "visor-3d", texto: "Vista 3D" });
   if (ficha.motorizaciones?.length) items.push({ id: 'motorizaciones', texto: 'Motorizaciones' });
   if (ficha.referenciaInternacional && tecnica) items.push({ id: 'especificaciones', texto: 'Especificaciones' });
   if (ficha.versiones?.length)
@@ -33,7 +35,6 @@ function menuSecciones(ficha, tecnica) {
   if (ficha.diseno) items.push({ id: "diseno", texto: ficha.diseno.enlace || ficha.diseno.titulo });
   if (ficha.tecnologia)
     items.push({ id: "tecnologia", texto: ficha.tecnologia.enlace || ficha.tecnologia.titulo });
-  if (ficha.visor3d) items.push({ id: "visor-3d", texto: "Vista 3D" });
   if (ficha.galeria?.length) items.push({ id: "galeria", texto: "Galería" });
   if (tecnica && !ficha.referenciaInternacional)
     items.push({ id: "especificaciones", texto: "Especificaciones" });
@@ -334,6 +335,7 @@ export function htmlFicha(modelo, ficha, tecnica) {
     <article class="ficha">
       ${htmlBarra(modelo, ficha, tecnica)}
       ${htmlPortada(modelo, ficha)}
+      ${ficha.visor3d ? htmlVisor3d(modelo, ficha) : ""}
       ${ficha.referenciaInternacional ? `<section class="ficha-aviso ficha-aviso--referencia"><p>${esc(ficha.aviso)}</p></section>` : ''}
       <dl class="ficha-highlights">${(tecnica?.destacados || datosClave(modelo, tecnica))
         .map(([k, v]) => `<div><dt>${esc(k)}</dt><dd>${esc(v)}</dd></div>`)
@@ -344,7 +346,6 @@ export function htmlFicha(modelo, ficha, tecnica) {
       ${ficha.versiones?.length ? htmlVersiones(modelo, ficha) : ""}
       ${ficha.diseno ? htmlBloque("diseno", ficha.diseno, modelo.nombre) : ""}
       ${ficha.tecnologia ? htmlBloque("tecnologia", ficha.tecnologia, modelo.nombre) : ""}
-      ${ficha.visor3d ? htmlVisor3d(modelo, ficha) : ""}
       ${ficha.galeria?.length ? htmlGaleria(modelo, ficha) : ""}
       ${ficha.interior ? htmlInterior(modelo, ficha.interior) : ""}
       ${ficha.exterior ? htmlExterior(modelo, ficha.exterior) : ""}

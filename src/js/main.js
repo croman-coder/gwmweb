@@ -10,6 +10,7 @@ import { initNavegacion, alinearLlegada } from './navegacion.js';
 import { initCabecera } from './home/cabecera.js';
 import { initHero } from './home/hero.js';
 import { initCatalogo } from './home/catalogo.js';
+import { OCULTOS } from './modelos.js';
 import { initPie } from './home/pie.js';
 import { marcarDesborde } from './home/util.js';
 import '../css/mejoras.css';
@@ -251,6 +252,8 @@ function initAgenda() {
    qué se arma. En las fichas un script del <head> ya ocultó la landing.
    ========================================================================== */
 const rutaFicha = location.pathname.match(/^\/modelos\/([^/]+)\/?$/);
+// En producción nginx ya redirige los modelos ocultos; esto cubre el servidor de desarrollo.
+if (rutaFicha && OCULTOS[rutaFicha[1]]) location.replace(`/modelos/${OCULTOS[rutaFicha[1]]}`);
 
 initNavegacion();
 

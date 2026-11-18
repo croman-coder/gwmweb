@@ -22,7 +22,7 @@ export const CATEGORIAS = [
   { id: 'tank', titulo: 'Tank' },
 ];
 
-export const MODELOS = [
+const TODOS = [
   // --- Wingle -------------------------------------------------------------
   {
     categoria: 'wingle',
@@ -84,13 +84,13 @@ export const MODELOS = [
   },
 
   // --- Ora ----------------------------------------------------------------
-  // PENDIENTE: fotos definitivas y precios de Paraguay. Las imágenes actuales
-  // son provisorias (tomadas de gwm.com.uy) y ORA 5 EV/HEV comparten foto.
+  // Precios confirmados por Marketing el 2026-11-11. PENDIENTE: fotos definitivas
+  // (las actuales son provisorias, tomadas de gwm.com.uy; ORA 5 EV/HEV comparten foto).
   {
     categoria: 'ora',
     nombre: 'Ora 03 Skin',
     slug: 'ora-03-skin',
-    precio: null,
+    precio: 22990,
     imagen: '/img/modelos/ora-03.webp',
     bajada: '100% eléctrico, con un diseño que no pasa desapercibido.',
   },
@@ -98,7 +98,7 @@ export const MODELOS = [
     categoria: 'ora',
     nombre: 'Ora 5 EV',
     slug: 'ora-5-ev',
-    precio: null,
+    precio: 24990,
     imagen: '/img/modelos/ora-5.webp',
     bajada: 'El SUV urbano 100% eléctrico de GWM.',
   },
@@ -106,7 +106,10 @@ export const MODELOS = [
     categoria: 'ora',
     nombre: 'Ora 5 HEV',
     slug: 'ora-5-hev',
-    precio: null,
+    // Llega en diciembre de 2026: no se muestra hasta entonces (precio tentativo). Para
+    // publicarlo, borrar `oculto` (su URL deja de redirigir al EV en el próximo build).
+    oculto: { hasta: 'ora-5-ev' },
+    precio: 23990,
     imagen: '/img/modelos/ora-5.webp',
     bajada: 'La versión híbrida del SUV urbano de ORA.',
   },
@@ -201,10 +204,16 @@ const CLASIFICACION = {
   'tank-700-phev-4x4': ['hibrido', 'todoterreno'],
 };
 
-for (const modelo of MODELOS) {
+for (const modelo of TODOS) {
   [modelo.motor, modelo.carroceria] = CLASIFICACION[modelo.slug] ?? [];
   if (modelo.motor === 'hibrido') modelo.motor = modelo.slug.includes('phev') || modelo.slug === 'poer-p500' ? 'phev' : 'hev';
 }
+
+/** Modelos publicados. Los marcados `oculto` no aparecen en ningún lado del sitio. */
+export const MODELOS = TODOS.filter((m) => !m.oculto);
+
+/** Modelos ocultos y a qué ficha redirige su URL mientras tanto: { slug: slugDestino }. */
+export const OCULTOS = Object.fromEntries(TODOS.filter((m) => m.oculto).map((m) => [m.slug, m.oculto.hasta]));
 
 export const nombreCompleto = (modelo) => modelo.categoria === 'haval' ? `Haval ${modelo.nombre}` : modelo.nombre;
 
@@ -293,7 +302,7 @@ export const SLIDES = [
   {
     modelo: 'Ora 5',
     slug: 'ora-5-ev',
-    precio: null,
+    precio: 24990,
     imagen: '/img/poster/ora-5.webp',
     video: '/video/ora-5-16x9.mp4',
     videoMobile: '/video/ora-5-9x16.mp4',

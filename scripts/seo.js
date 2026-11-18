@@ -8,7 +8,7 @@ import {
 } from "node:fs";
 import { join, dirname } from "node:path";
 import { pathToFileURL } from "node:url";
-import { MODELOS, SLIDES_ACTIVOS, nombreCompleto } from "../src/js/modelos.js";
+import { MODELOS, OCULTOS, SLIDES_ACTIVOS, nombreCompleto } from "../src/js/modelos.js";
 import { FICHAS } from "../src/js/fichas.js";
 import { DEALERS, telHref, mapaHref } from "../src/js/concesionarios.js";
 import { SITIO, metaFicha, tituloPagina } from "../src/js/sitio.js";
@@ -410,7 +410,12 @@ export function seo() {
             ([id, slug]) =>
               `rewrite ^/producto/${id}(/[^/]+)?/?$ /modelos/${slug} permanent;`,
           )
-          .join("\n") + "\n",
+          .join("\n") +
+          "\n" +
+          // Modelos ocultos hasta su lanzamiento: redirección temporal (302) a la ficha que los reemplaza.
+          Object.entries(OCULTOS)
+            .map(([slug, destino]) => `rewrite ^/modelos/${slug}/?$ /modelos/${destino} redirect;\n`)
+            .join(""),
       );
       console.log(
         `seo: ${rutas.length} páginas con contenido completo, sitemap y 404.`,

@@ -78,8 +78,12 @@ test("todos los modelos y páginas entregan un único H1, canonical e informaci�
 
 test("ORA 5 presenta las versiones sin mencionar países y conserva la referencia internacional", () => {
   const ev = readFileSync(archivo("/modelos/ora-5-ev"), "utf8");
-  const hev = readFileSync(archivo("/modelos/ora-5-hev"), "utf8");
-  for (const html of [ev, hev]) {
+  // El HEV está oculto hasta su lanzamiento: no tiene página y su URL redirige al EV.
+  assert.ok(!existsSync(archivo("/modelos/ora-5-hev")));
+  assert.match(readFileSync("dist/nginx-redirects.inc", "utf8"), /rewrite \^\/modelos\/ora-5-hev\/\?\$ \/modelos\/ora-5-ev redirect;/);
+  assert.match(ev, /24\.990/);
+  assert.doesNotMatch(ev, /Luxury Híbrida/);
+  for (const html of [ev]) {
     assert.match(html, /Especificaciones de referencia internacional/);
     const textoVisible = html.replace(/<script\b[^>]*>[\s\S]*?<\/script>/g, "").replace(/<[^>]*>/g, " ");
     assert.doesNotMatch(textoVisible, /m[eé]xico|mexican[ao]s?/i);
@@ -94,7 +98,7 @@ test("ORA 5 presenta las versiones sin mencionar países y conserva la referenci
     assert.match(html, /ora-5-mexico\.pdf/);
     assert.doesNotMatch(html, /Estamos preparando la ficha|Consultar según versión/);
     const ficha = html.slice(html.indexOf('<article class="ficha">'), html.indexOf('</main>'));
-    assert.doesNotMatch(ficha, /24\.990|26\.990|449[,.]900|574[,.]900|644[,.]900|MXN/); // No trasladar precios de otros mercados.
+    assert.doesNotMatch(ficha, /26\.990|449[,.]900|574[,.]900|644[,.]900|MXN/); // No trasladar precios de otros mercados.
   }
   assert.match(ev, /150 kW · 201 hp/);
   assert.match(ev, /ciclo NEDC/);
@@ -102,11 +106,8 @@ test("ORA 5 presenta las versiones sin mencionar países y conserva la referenci
   assert.match(ev, /30 minutos de referencia/);
   assert.match(ev, /Fosfato de hierro y litio/);
   assert.match(ev, /Explorá el ORA 5 en 3D/);
-  assert.match(hev, /219 hp/);
-  assert.match(hev, /DHT/);
-  assert.match(hev, /22,7 km\/l/);
-  assert.match(hev, /1,09 kWh/);
-  assert.ok(hev.indexOf('id="especificaciones"') < hev.indexOf('id="diseno"'));
+  assert.ok(ev.indexOf('id="especificaciones"') < ev.indexOf('id="diseno"'));
+  assert.doesNotMatch(ev, /219 hp|modelos\/ora-5-hev/); // La comparación de motorizaciones no muestra el HEV oculto.
   const valor = (t, etiqueta) => t.secciones.flatMap(s => s.filas).find(([k]) => k === etiqueta)?.[1];
   assert.equal(valor(oraEv, 'Capacidad del baúl'), '362 litros');
   assert.equal(valor(oraHev, 'Capacidad del baúl'), '272 litros');
@@ -118,8 +119,9 @@ test("ORA 5 presenta las versiones sin mencionar países y conserva la referenci
     assert.ok(tecnica.secciones.flatMap(s => s.filas).length > 90);
     assert.ok(tecnica.secciones.every(s => s.filas.every(([k,v]) => k && (typeof v === 'string' || typeof v === 'boolean'))));
   }
-  assert.equal(MOTORIZACIONES_ORA5.length, 3);
-  assert.equal(MOTORIZACIONES_ORA5.filter(m => m.slug).length, 2);
+  // EV y Gasolina; el HEV vuelve a la comparación cuando se publique (diciembre).
+  assert.equal(MOTORIZACIONES_ORA5.length, 2);
+  assert.equal(MOTORIZACIONES_ORA5.filter(m => m.slug).length, 1);
   assert.ok(!MODELOS.some(m => m.slug.includes('ora-5-gasolina')));
   assert.equal(readFileSync('public/fichas/ora-5-mexico.pdf').subarray(0, 5).toString(), '%PDF-');
 });
