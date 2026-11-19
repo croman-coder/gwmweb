@@ -78,7 +78,7 @@ src/js/whatsapp.js       WhatsApp de ventas y armado de enlaces con el mensaje
 src/js/concesionarios.js Puntos de venta (datos) y helpers de teléfono y mapa
 src/js/postventa.js      Servicios del agendamiento, WhatsApp de Postventa y reclamos
 src/js/main.js           Puntos de venta, formulario de agendamiento y enrutado (landing o ficha)
-public/video/            Spots de gwm-mx.com (16:9 y 9:16) + video institucional
+public/video/            Spots de la agencia por modelo (16:9 y 9:16) + video institucional
 public/img/poster/       Posters de cada video (fallback y primer frame)
 public/img/modelos/      Fotos de modelos (webp): 15 archivos para 16 modelos,
                          porque Ora 5 EV y Ora 5 HEV comparten foto
@@ -368,8 +368,9 @@ servidor indicado. No manda consultas reales a WhatsApp ni al equipo comercial.
 
 ## Videos
 
-Los spots se sirven desde `public/video/` (~12,6 MB en total, ~5 s cada uno,
-H.264 1920×1080 y 1080×1920). Para que no pesen en la carga inicial:
+Los spots se sirven desde `public/video/<slug>-16x9.mp4` y `-9x16.mp4`: los entregó la
+agencia el 2026-11-19, uno por modelo (13 modelos, ~32 MB en total, ~1,2 MB y ~5 s cada uno,
+H.264 1920×1080 y 1080×1920, sin audio). El hero usa 9; el resto queda disponible. Para que no pesen en la carga inicial:
 
 - Cada `<video>` arranca con `preload="none"` y sin `src`; el `src` se asigna
   recién cuando el slide se activa.

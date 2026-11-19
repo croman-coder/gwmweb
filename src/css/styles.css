@@ -960,16 +960,18 @@ html.vista-ficha .cmp__header {
   pointer-events: none;
 }
 
-.video-m {
+/* Con .video-box delante: si no, ".video-box video { display: block }" les gana y en escritorio
+   se descargan y reproducen los dos recortes. */
+.video-box .video-m {
   display: none;
 }
 
 @media (max-width: 767px) {
-  .video-d {
+  .video-box .video-d {
     display: none;
   }
 
-  .video-m {
+  .video-box .video-m {
     display: block;
   }
 
