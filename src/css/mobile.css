@@ -9,7 +9,14 @@
 .hero-banner .video-box video { max-width: 1920px; margin-inline: auto; }
 .hero-banner .video-box::after { background: linear-gradient(180deg,#07101588,transparent 55%),linear-gradient(90deg,#07101566,transparent 65%); }
 .hero-mobile-control { display: none; }
-.dot-list { grid-template-columns: repeat(7,minmax(0,1fr)); }
+/* Una sola fila aunque haya muchos modelos: el activo se ensancha y muestra su nombre; el resto, solo el número
+   (con 15 modelos la grilla de 7 columnas armaba 3 filas y tapaba los botones del hero). */
+.dot-list { display: flex; gap: 10px; }
+.dot-list .dot-item { flex: 1 1 0; min-width: 0; transition: flex-grow .4s; }
+.dot-list .dot-item.is-active { flex-grow: 4; }
+.dot-list .dot-item:not(.is-active) .dot-caption { font-size: 0; }
+.dot-list .dot-item:not(.is-active) .dot-caption > span { font-size: 10px; margin: 0; }
+.dot-list .dot-item:not(.is-active):hover .dot-caption { font-size: 10px; }
 /* Menú de gama: marcas arriba, filtros a la izquierda y tarjetas con acciones. */
 #menu-modelos .sub-list-container { max-width: 1600px; margin: auto; gap: 0; padding: 0; align-items: flex-start; }
 #menu-modelos .filter-panel { flex-basis: 205px; padding: 30px 24px; gap: 26px; border-right: 1px solid var(--linea); position: sticky; top: 0; }
