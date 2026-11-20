@@ -6,9 +6,9 @@
  *    salarial (obligación legal de Brasil) y el enlace a empleos de GWM Brasil.
  *  - Simuladores: mismos factores de ajuste que el sitio de Brasil. Solo modelos enchufables vendidos en Paraguay.
  *
- * Datos de cada modelo: batería y autonomía de nuestras fichas técnicas (src/js/tecnica). Donde la ficha no
- * trae la potencia máxima de carga se usó el valor de GWM Brasil para la misma batería; esos casos van marcados
- * con "ref" y conviene confirmarlos con Postventa.
+ * Datos de cada modelo: por indicación de Marketing (2026-11-20) se usan los del simulador de GWM Brasil para los
+ * modelos que Brasil tiene (H6 GT, H7, Ora 03, Ora 5, Tank 300). Los que Brasil no tiene (Tank 400, 500 PHEV, 700)
+ * toman batería y autonomía de nuestras fichas y la potencia de carga del Tank 300. Pendiente: datos oficiales de Postventa.
  */
 import { esc } from './home/util.js';
 
@@ -152,11 +152,11 @@ export function initMundo(raiz = document) {
  * para modelos que Brasil no tiene se usó 3 / 12). ref: dato de referencia de GWM Brasil, no de nuestra ficha.
  */
 export const VEHICULOS_CARGA = [
-  { slug: 'h6-gt-phev', nombre: 'Haval H6 GT PHEV', bateria: 34, ac: 6.6, dc: 48, autonomia: 170, ciudad: 3, ruta: 10, ref: ['ac', 'dc'] },
-  { slug: 'h7-phev', nombre: 'Haval H7 PHEV', bateria: 19.09, ac: 6.6, dc: 33, autonomia: null, ciudad: 4, ruta: 12, ref: ['ac', 'dc'] },
-  { slug: 'ora-03-skin', nombre: 'Ora 03 Skin', bateria: 57.7, ac: 11, dc: 80, autonomia: 400, ciudad: 3, ruta: 14, ref: ['ac'] },
-  { slug: 'ora-5-ev', nombre: 'Ora 5 EV', bateria: 58.33, ac: 11, dc: 120, autonomia: 430, ciudad: 4, ruta: 12, ref: ['ac', 'dc'] },
-  { slug: 'tank-300-phev-4x4', nombre: 'Tank 300 PHEV', bateria: 37.1, ac: 6.6, dc: 50, autonomia: 106, ciudad: 3, ruta: 14, ref: ['ac', 'dc', 'autonomia'] },
+  { slug: 'h6-gt-phev', nombre: 'Haval H6 GT PHEV', bateria: 34, ac: 6.6, dc: 48, autonomia: 113, ciudad: 3, ruta: 10, ref: ['brasil'] },
+  { slug: 'h7-phev', nombre: 'Haval H7 PHEV', bateria: 27.5, ac: 6.6, dc: 41, autonomia: 119, ciudad: 4, ruta: 12, ref: ['brasil'] },
+  { slug: 'ora-03-skin', nombre: 'Ora 03 Skin', bateria: 58, ac: 11, dc: 64, autonomia: 420, ciudad: 3, ruta: 14, ref: ['brasil'] },
+  { slug: 'ora-5-ev', nombre: 'Ora 5 EV', bateria: 58, ac: 11, dc: 120, autonomia: 430, ciudad: 4, ruta: 12, ref: ['brasil'] },
+  { slug: 'tank-300-phev-4x4', nombre: 'Tank 300 PHEV', bateria: 37.1, ac: 6.6, dc: 50, autonomia: 106, ciudad: 3, ruta: 14, ref: ['brasil'] },
   { slug: 'tank-400-phev-4x4', nombre: 'Tank 400 PHEV', bateria: 37.1, ac: 6.6, dc: 50, autonomia: 105, ciudad: 3, ruta: 14, ref: ['ac', 'dc'] },
   { slug: 'tank-500-phev-4x4', nombre: 'Tank 500 PHEV', bateria: 37.11, ac: 6.6, dc: 50, autonomia: 105, ciudad: 3, ruta: 14, ref: ['ac'] },
   { slug: 'tank-700-phev-4x4', nombre: 'Tank 700 PHEV', bateria: 37.1, ac: 6.6, dc: 50, autonomia: null, ciudad: 3, ruta: 14, ref: ['ac', 'dc'] },

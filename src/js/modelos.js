@@ -39,7 +39,7 @@ const TODOS = [
     categoria: 'haval',
     nombre: 'Jolion Pro HEV',
     slug: 'jolion-pro-hev',
-    precio: 22990,
+    precio: 21990,
     imagen: '/img/modelos/jolion-pro-hev.webp',
     bajada: 'El SUV que re-evoluciona tu mundo.',
   },
@@ -165,7 +165,7 @@ const TODOS = [
     categoria: 'tank',
     nombre: 'Tank 500 PHEV 4x4',
     slug: 'tank-500-phev-4x4',
-    // Precio sin confirmar: se muestra "Consultar". Foto compartida con el Tank 500 HEV.
+    // Precio sin confirmar: se muestra "Consultar". Usa las fotos del Tank 500 HEV (confirmado por Marketing).
     precio: null,
     imagen: '/img/modelos/tank-500-hev.webp',
     bajada: 'El lujo del Tank 500 con hasta 105 km de autonomía eléctrica.',
@@ -269,7 +269,7 @@ export const SLIDES = [
   { modelo: 'Haval New H6 HEV', slug: 'new-h6-hev', precio: 24990, imagen: '/img/hero/new-h6-hev.webp', tituloIncrustado: true, ...spot('new-h6') },
   { modelo: 'Poer Diesel', slug: 'poer-diesel', precio: 29990, imagen: '/img/poster/poer.webp', ...spot('poer-diesel') },
   { modelo: 'Haval H6 GT PHEV', slug: 'h6-gt-phev', precio: 39990, imagen: '/img/hero/h6-gt-phev.webp', tituloIncrustado: true, ...spot('h6-gt-phev') },
-  { modelo: 'Jolion Pro HEV', slug: 'jolion-pro-hev', precio: 22990, imagen: '/img/fichas/jolion-pro-hev/portada.webp', ...spot('jolion-pro-hev') },
+  { modelo: 'Jolion Pro HEV', slug: 'jolion-pro-hev', precio: 21990, imagen: '/img/fichas/jolion-pro-hev/portada.webp', ...spot('jolion-pro-hev') },
   { modelo: 'Ora 5', slug: 'ora-5-ev', precio: 24990, imagen: '/img/poster/ora-5.webp', ...spot('ora-5') },
 ];
 

@@ -72,7 +72,7 @@ export const FICHAS = {
     versiones: [
       {
         nombre: 'Elite',
-        precio: 22990,
+        precio: 21990,
         especificaciones: [
           ['Motor', 'Híbrido autorrecargable (motor de combustión 1.5 + motor eléctrico)'],
           ['Transmisión', 'Automática'],
@@ -81,7 +81,7 @@ export const FICHAS = {
       },
       {
         nombre: 'Deluxe',
-        precio: 21990,
+        precio: 22990,
         especificaciones: [
           ['Motor', 'Híbrido autorrecargable (motor de combustión 1.5 + motor eléctrico)'],
           ['Transmisión', 'Automática'],
@@ -781,7 +781,7 @@ export const FICHAS = {
     fichaTecnica: '/fichas/tank-500-hev-4x4.pdf',
   },
   'tank-500-phev-4x4': {
-    // Mismas fotos que el Tank 500 HEV (misma carrocería) hasta tener fotos propias del PHEV.
+    // Usa las mismas fotos que el Tank 500 HEV (confirmado por Marketing, 2026-11-20).
     titular: ['EL LUJO Y LA POTENCIA'],
     bajada: 'La Tank 500 PHEV 4x4 suma la potencia híbrida enchufable al lujo de una SUV',
     portada: {
