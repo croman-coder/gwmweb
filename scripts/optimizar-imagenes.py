@@ -33,7 +33,7 @@ for carpeta in ['fichas', 'hero', 'poster']:
                     variantes += destino.stat().st_size
                 else:
                     destino.unlink()
-            manifest['/' + str(path.relative_to(public))] = [w, h, anchos]
+            manifest['/' + path.relative_to(public).as_posix()] = [w, h, anchos]
             originales += path.stat().st_size
 (base / 'src/js/imagenes-manifest.js').write_text('// Generado por scripts/optimizar-imagenes.py. Las fotos originales se conservan.\nexport default ' + json.dumps(manifest, separators=(',', ':')) + ';\n')
 print(f'{len(manifest)} fotos con variantes; originales {originales/1e6:.2f} MB; variantes {variantes/1e6:.2f} MB.')

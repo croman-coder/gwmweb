@@ -856,6 +856,15 @@ export const FICHAS = {
         especificaciones: ['Híbrida enchufable', '517 HP / 800 Nm', 'Motor V6 3.0 L + motor eléctrico', '9AT 4WD'],
       },
     ],
+    // Fotos de la versión actual (Drive de Marketing, 2026-11-20). El interior sigue con la foto anterior: la carpeta no traía interiores.
+    galeria: [
+      '/img/fichas/tank-700-phev-4x4/galeria-1.webp',
+      '/img/fichas/tank-700-phev-4x4/galeria-2.webp',
+      '/img/fichas/tank-700-phev-4x4/galeria-3.webp',
+      '/img/fichas/tank-700-phev-4x4/galeria-4.webp',
+      '/img/fichas/tank-700-phev-4x4/galeria-5.webp',
+      '/img/fichas/tank-700-phev-4x4/galeria-6.webp',
+    ],
     interior: {
       titulo: 'TANK 700 PHEV 4X4',
       subtitulo: 'CUIDANDO HASTA EL ÚLTIMO DETALLE DEL INTERIOR PARA UNA EXPERIENCIA DE LUJO COMPLETA',
