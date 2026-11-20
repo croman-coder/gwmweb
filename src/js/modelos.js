@@ -272,10 +272,23 @@ export const SLIDES = [
   { modelo: 'Haval H6 GT PHEV', slug: 'h6-gt-phev', precio: 39990, imagen: '/img/hero/h6-gt-phev.webp', tituloIncrustado: true, ...spot('h6-gt-phev') },
   { modelo: 'Jolion Pro HEV', slug: 'jolion-pro-hev', precio: 20990, imagen: '/img/fichas/jolion-pro-hev/portada.webp', ...spot('jolion-pro-hev') },
   { modelo: 'Ora 5', slug: 'ora-5-ev', precio: 24990, imagen: '/img/poster/ora-5.webp', ...spot('ora-5') },
+  // Resto de la gama (pedido de Marketing, 2026-11-20: el carrusel muestra todos los modelos).
+  { modelo: 'Ora 03 Skin', slug: 'ora-03-skin', imagen: '/img/fichas/ora-03-skin/portada.webp' },
+  { modelo: 'Haval H9 Diesel', slug: 'h9-diesel-24', imagen: '/img/fichas/h9-diesel-24/portada.webp', ...spot('h9-diesel-24') },
+  { modelo: 'Poer P500', slug: 'poer-p500', imagen: '/img/fichas/poer-p500/portada.webp', ...spot('poer-p500') },
+  { modelo: 'Tank 300 PHEV 4x4', slug: 'tank-300-phev-4x4', imagen: '/img/fichas/tank-300-phev-4x4/portada.webp', ...spot('tank-300-phev-4x4') },
+  { modelo: 'Tank 500 HEV 4x4', slug: 'tank-500-hev-4x4', imagen: '/img/fichas/tank-500-hev-4x4/portada.webp', ...spot('tank-500-hev-4x4') },
+  { modelo: 'Tank 500 PHEV 4x4', slug: 'tank-500-phev-4x4', imagen: '/img/fichas/tank-500-hev-4x4/portada.webp', imagenMobile: '/img/fichas/tank-500-hev-4x4/portada-m.webp', ...spot('tank-500-hev-4x4') },
+  { modelo: 'Wingle 7', slug: 'wingle-7', imagen: '/img/fichas/wingle-7/portada.webp', ...spot('wingle-7') },
 ];
 
-/** Slides con material listo, en el orden pedido. */
-export const SLIDES_ACTIVOS = SLIDES.filter((s) => !s.pendiente);
+/** Slides con material listo: líneas en orden alfabético y, dentro de cada una, por nombre del modelo con los números
+ *  en orden (H6, H7, H9…; Tank 300, 400, 500 HEV, 500 PHEV, 700). Pedido de Marketing, 2026-11-20. */
+export const nombreCorto = (modelo) => modelo.replace(/^Haval (?:New )?/, '').replace(/\s+4x4$/i, '');
+const linea = (s) => CATEGORIAS.findIndex((c) => c.id === MODELOS.find((m) => m.slug === s.slug)?.categoria);
+export const SLIDES_ACTIVOS = SLIDES.filter((s) => !s.pendiente && linea(s) >= 0).sort(
+  (a, b) => linea(a) - linea(b) || nombreCorto(a.modelo).localeCompare(nombreCorto(b.modelo), 'es', { numeric: true }),
+);
 
 /** Formatea un precio USD al estilo del sitio: USD 42.990 */
 export function formatearPrecio(valor) {

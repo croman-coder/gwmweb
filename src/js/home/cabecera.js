@@ -29,17 +29,18 @@ function htmlFiltro(clave, titulo, opciones) {
     </div>`;
 }
 
-/** Rango de precio en dólares. Los límites salen de los precios publicados (redondeados a miles). */
+/** Precio máximo en dólares: una sola barra que arranca en USD 19.780 (pedido de Marketing) y llega al modelo más caro. */
+export const PRECIO_DESDE = 19780;
 function htmlPrecio() {
   const precios = MODELOS.map((m) => m.precio).filter((p) => p !== null);
-  const min = Math.floor(Math.min(...precios) / 1000) * 1000;
   const max = Math.ceil(Math.max(...precios) / 1000) * 1000;
-  const campo = (clave, texto, valor) =>
-    `<label class="filter-precio__campo"><span>${texto}</span><span class="filter-precio__usd">USD</span><input type="number" inputmode="numeric" min="0" step="1000" placeholder="${valor.toLocaleString('es-PY')}" data-precio="${clave}" aria-label="Precio ${texto.toLowerCase()} en dólares" /></label>`;
   return `
     <div class="filter-item filter-precio">
       <p class="filter-title">Precio</p>
-      <div class="filter-precio__campos">${campo('min', 'Desde', min)}${campo('max', 'Hasta', max)}</div>
+      <label class="filter-precio__barra"><span>Hasta <output data-precio-valor>USD ${max.toLocaleString('es-PY')}</output></span>
+        <input type="range" min="${PRECIO_DESDE}" max="${max}" step="1000" value="${max}" data-precio="max" aria-label="Precio máximo en dólares" />
+        <span class="filter-precio__extremos"><span>USD ${PRECIO_DESDE.toLocaleString('es-PY')}</span><span>USD ${max.toLocaleString('es-PY')}</span></span>
+      </label>
     </div>`;
 }
 
@@ -197,11 +198,11 @@ function iniciarPaneles(header) {
 function iniciarFiltros(panel) {
   const activos = { motor: new Set(), carroceria: new Set() };
   let marca = 'todos';
-  const rango = { min: null, max: null };
-  // Con un rango cargado, los modelos sin precio publicado no entran.
-  const enRango = (precio) =>
-    (rango.min === null && rango.max === null) ||
-    (precio !== null && (rango.min === null || precio >= rango.min) && (rango.max === null || precio <= rango.max));
+  const barra = panel.querySelector('[data-precio="max"]');
+  const tope = barra ? Number(barra.max) : Infinity;
+  let maximo = tope;
+  // Con la barra en su tope se ve todo; al bajarla, solo entran los modelos con precio publicado hasta ese valor.
+  const enRango = (precio) => maximo >= tope || (precio !== null && precio <= maximo);
   const tarjetas = [...panel.querySelectorAll('[data-slug]')];
   const grupos = [...panel.querySelectorAll('.brand-group')];
   const vacio = panel.querySelector('.no-data-text');
@@ -222,8 +223,8 @@ function iniciarFiltros(panel) {
   panel.addEventListener('input', (e) => {
     const campo = e.target.closest('[data-precio]');
     if (!campo) return;
-    const valor = parseInt(campo.value.replace(/\D/g, ''), 10);
-    rango[campo.dataset.precio] = Number.isFinite(valor) ? valor : null;
+    maximo = Number(campo.value);
+    panel.querySelector('[data-precio-valor]').textContent = `USD ${maximo.toLocaleString('es-PY')}`;
     aplicar();
   });
 

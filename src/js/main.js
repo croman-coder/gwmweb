@@ -298,8 +298,6 @@ if (rutaFicha) {
   if (catalogo) catalogo.outerHTML = optimizarImagenes(htmlDestacadosHome());
   const guias = document.querySelector('[data-guias-home]');
   if (guias) guias.outerHTML = optimizarImagenes(htmlGuiasHome());
-  const gama = document.querySelector('[data-gama-home]');
-  if (gama) gama.outerHTML = optimizarImagenes(htmlGamaHome());
   const agenda = document.querySelector('[data-agenda-home]');
   if (agenda) agenda.outerHTML = htmlAgenda();
   initHero();

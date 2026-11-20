@@ -275,7 +275,7 @@ test("la portada prioriza una sola foto y deja los otros modelos y videos sin de
   assert.match(slides[0], /fetchpriority="high"/);
   assert.ok(slides.slice(1).every(html => html.includes('data-hero-src=')));
   assert.doesNotMatch(slides.join(""), /<video[^>]*\ssrc=/);
-  for (const slide of SLIDES_ACTIVOS) assert.ok(existsSync(`public/img/fichas/${slide.slug}/portada-m.webp`));
+  for (const slide of SLIDES_ACTIVOS) assert.ok(existsSync(`public${slide.imagenMobile && !slide.tituloIncrustado ? slide.imagenMobile : `/img/fichas/${slide.slug}/portada-m.webp`}`), slide.slug);
 });
 
 test(

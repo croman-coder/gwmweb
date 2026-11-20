@@ -2332,3 +2332,9 @@ textarea.agenda__campo {
 }
 @media (max-width:767px){.exp-mapa__layout{grid-template-columns:1fr}.exp-mapa__figura{order:-1}}
 @media (prefers-reduced-motion:reduce){.exp-mapa__sede circle{transition:none;transform:scale(1)}.exp-mapa.is-visible .exp-mapa__sede--sede circle{animation:none}}
+
+/* Filtro de precio: una sola barra */
+.filter-precio__barra{display:grid;gap:8px;font-size:14px}
+.filter-precio__barra output{font-weight:700}
+.filter-precio__barra input{width:100%;accent-color:#000}
+.filter-precio__extremos{display:flex;justify-content:space-between;font-size:12px;color:#666}

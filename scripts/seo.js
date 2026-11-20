@@ -291,7 +291,6 @@ export function seo() {
         .replace(/<!-- CATALOG_START -->[\s\S]*?<!-- CATALOG_END -->/, () =>
           htmlDestacadosHome(),
         )
-        .replace(/<!-- GAMA_START -->[\s\S]*?<!-- GAMA_END -->/, () => htmlGamaHome())
         .replace(/<!-- GUIDES_START -->[\s\S]*?<!-- GUIDES_END -->/, () =>
           htmlGuiasHome(),
         )
