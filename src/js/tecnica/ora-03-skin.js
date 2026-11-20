@@ -7,7 +7,7 @@
  * Respecto de la hoja:
  *  - La suspensión trasera figura como "Barra de torsión" en la tabla básica y "Eje semi rígido" en Chasis: se unificó.
  *  - Las filas de "Chasis y suspensión" que repiten la tabla básica (suspensiones, TPMS) se omitieron; "atranque" se corrigió a "arranque".
- *  - La potencia máxima de carga AC dice 1 kW: se transcribió tal cual, aunque parece errata (5,5 h para 15–80% implica ~7 kW).
+ *  - La hoja dice "1 kW" de carga AC: Marketing confirmó que es 11 kW (2026-11-20).
  */
 export default {
   columnas: [],
@@ -30,7 +30,7 @@ export default {
       nota: 'Los tiempos de carga varían con la temperatura, la carga inicial y la potencia del equipo.',
       filas: [
         ['Tipo de conector', 'CCS2'],
-        ['Potencia máxima de carga AC', '1 kW'],
+        ['Potencia máxima de carga AC', '11 kW'],
         ['Potencia máxima de carga DC', '80 kW'],
         ['Carga AC del 15 al 80%', '5,5 horas'],
         ['Carga DC del 20 al 80%', '40 minutos'],

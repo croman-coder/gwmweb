@@ -791,7 +791,7 @@ export const FICHAS = {
     versiones: [
       {
         nombre: 'Tank 500 PHEV 4x4',
-        precio: null,
+        precio: 54990,
         descripcion: 'Descubrí el SUV de lujo Tank 500, donde la aventura se une a innovaciones de última generación y el lujo. El SUV de 3 hileras que destaca por su elegancia y modernidad.',
       },
     ],

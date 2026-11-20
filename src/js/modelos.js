@@ -165,8 +165,8 @@ const TODOS = [
     categoria: 'tank',
     nombre: 'Tank 500 PHEV 4x4',
     slug: 'tank-500-phev-4x4',
-    // Precio sin confirmar: se muestra "Consultar". Usa las fotos del Tank 500 HEV (confirmado por Marketing).
-    precio: null,
+    // Usa las fotos del Tank 500 HEV (confirmado por Marketing).
+    precio: 54990,
     imagen: '/img/modelos/tank-500-hev.webp',
     bajada: 'El lujo del Tank 500 con hasta 105 km de autonomía eléctrica.',
   },
