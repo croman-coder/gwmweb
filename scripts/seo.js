@@ -25,6 +25,7 @@ import { htmlPanelModelos, htmlMovil } from "../src/js/home/cabecera.js";
 import { htmlPostventa } from "../src/js/home/catalogo.js";
 import { htmlMenuPie } from "../src/js/home/pie.js";
 import { htmlPagina, PAGINAS } from "../src/js/paginas.js";
+import { versionarImagenes } from "./versionar-imagenes.js";
 import { esc } from "../src/js/home/util.js";
 import { PRODUCTOS_ANTERIORES, redireccion } from "./rutas.js";
 import { optimizarImagenes } from "../src/js/imagenes.js";
@@ -423,6 +424,8 @@ export function seo() {
       console.log(
         `seo: ${rutas.length} páginas con contenido completo, sitemap y 404.`,
       );
+      // Último paso: las fotos llevan ?v=<hash> para que Cloudflare no siga sirviendo la versión anterior.
+      versionarImagenes(salida);
     },
   };
 }
