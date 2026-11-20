@@ -41,6 +41,13 @@ function columnas() {
       ],
     },
     {
+      titulo: 'EXPERIENCIA GWM',
+      enlaces: [
+        { texto: 'Mundo GWM', href: '/experiencia/mundo-gwm' },
+        { texto: 'Simuladores de carga', href: '/experiencia/simuladores' },
+      ],
+    },
+    {
       titulo: 'GRUPO SANTA ROSA',
       enlaces: [
         { texto: 'Santa Rosa', href: 'https://www.santarosa.com.py/', externo: true },

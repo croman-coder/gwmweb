@@ -10,7 +10,7 @@ export function seccionesLuxury(ev) {
     },
     {
       titulo: 'Chasis y dirección',
-      filas: [['Tracción', 'Delantera'], ['Suspensión delantera', 'Independiente MacPherson'], ['Suspensión trasera', 'Independiente multibrazo'], ['Dirección', 'Asistencia eléctrica EPS'], ['Ajuste de dirección', 'Suave, Confort y Sport'], ['Frenos delanteros / traseros', 'Discos / discos'], ['Frenado regenerativo', true]],
+      filas: [['Tracción', '4x2'], ['Suspensión delantera', 'Independiente MacPherson'], ['Suspensión trasera', 'Independiente multibrazo'], ['Dirección', 'Asistencia eléctrica EPS'], ['Ajuste de dirección', 'Suave, Confort y Sport'], ['Frenos delanteros / traseros', 'Discos / discos'], ['Frenado regenerativo', true]],
     },
     {
       titulo: 'Exterior e iluminación',

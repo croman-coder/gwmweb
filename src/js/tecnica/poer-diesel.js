@@ -1,7 +1,7 @@
 /**
  * Especificaciones técnicas de poer-diesel.
  *
- * Fuente: ficha técnica oficial en PDF (public/fichas/poer-diesel.pdf), transcripta y revisada contra el documento.
+ * Fuente: ficha técnica 2026 de Marketing (public/fichas/poer-diesel.pdf), leída y revisada contra el documento.
  * Formato: columnas = versiones comparadas en la hoja (vacío si es una sola); cada fila es [etiqueta, valor];
  * valor = texto | true (incluido) | false (no incluido) | [valor por columna] cuando difiere entre versiones.
  * Las filas sin dato o no incluidas en ninguna versión no se listan.
@@ -9,7 +9,7 @@
  * Respecto de la hoja:
  *  - Hoja sin texto (solo imagen): leída con OCR local y corregida a mano contra la imagen.
  *  - Columnas: "2.0T 4x4 Deluxe" y "2.4T 4x4 Deluxe" en la hoja; en la página, POER 2.0T y POER PLUS 2.4T.
- *  - Se omitió "Medidas del vehículo": la hoja dice 4160*1947*1886 con una distancia entre ejes de 3230 mm, un largo imposible (error de la hoja).
+ *  - La hoja 2026 corrige "Medidas del vehículo" (la anterior decía 4160 de largo): 5416 × 1947 × 1886 mm.
  *  - "Palanca de cambios electrónica" no tiene marca en ninguna de las dos versiones: se omitió. "Smart Gagde" se dejó tal como figura (no se pudo confirmar el nombre).
  */
 export default {
@@ -22,7 +22,8 @@ export default {
         ['Cilindrada (cc)', ['2.000', '2.400']],
         ['Potencia máxima (HP)', ['161', '181']],
         ['Torque máximo (Nm)', ['400', '480']],
-        ['Transmisión', '9AT'],
+        ['Transmisión', 'Automática'],
+        ['Tracción', '4x4'],
         ['Tanque de combustible', '80 L'],
       ],
     },
@@ -42,6 +43,7 @@ export default {
     {
       titulo: 'Dimensiones',
       filas: [
+        ['Medidas (largo × ancho × alto)', '5.416 × 1.947 × 1.886 mm'],
         ['Distancia entre ejes', '3.230 mm'],
         ['Medidas de la caja de carga', '1.520 × 1.520 × 540 mm'],
         ['Cabina', 'Doble'],

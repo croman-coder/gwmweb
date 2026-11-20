@@ -1,7 +1,26 @@
 /** Formulario de mantenimiento compartido por la portada y su página propia. */
 import { CATEGORIAS, MODELOS } from '../modelos.js';
-import { SERVICIOS } from '../postventa.js';
 import { esc } from '../home/util.js';
+import { COSTOS_MANTENIMIENTO, KM } from '../mantenimiento.js';
+
+const gs = (n) => `₲ ${n.toLocaleString('es-PY').replace(/,/g, '.')}`;
+const celdasKm = (km) => km.map((k) => `<th scope="col">${k} mil km</th>`).join('');
+
+/** Lista de precios de mantenimiento: una fila por modelo, agrupada por línea. */
+function htmlCostos() {
+  const cuerpo = COSTOS_MANTENIMIENTO.map(({ linea, filas }) =>
+    `<tbody><tr class="costos__linea"><th colspan="${KM.length + 1}" scope="rowgroup">${esc(linea)}</th></tr>${filas.map(([modelo, precios, km]) =>
+      (km ? `<tr class="costos__km"><td></td>${celdasKm(km)}</tr>` : '') +
+      `<tr><th scope="row">${esc(modelo)}</th>${precios.map((p) => `<td>${gs(p)}</td>`).join('')}</tr>`).join('')}</tbody>`).join('');
+  return `<div class="costos">
+            <h3 class="costos__titulo">Lista de precios de mantenimiento</h3>
+            <div class="costos__scroll" tabindex="0" role="region" aria-label="Precios de mantenimiento por modelo y kilometraje">
+              <table class="costos__tabla"><thead><tr><th scope="col">Modelo / km</th>${celdasKm(KM)}</tr></thead>${cuerpo}</table>
+            </div>
+            <p class="costos__nota">Precios en guaraníes por service según kilometraje. Pueden variar: el taller confirma el presupuesto al agendar.</p>
+          </div>`;
+}
+
 
 function opcionesModelos() {
   return CATEGORIAS.map(cat => `<optgroup label="${esc(cat.titulo)}">${MODELOS.filter(m => m.categoria === cat.id).map(m => `<option value="${esc(m.nombre)}">${esc(m.nombre)}</option>`).join('')}</optgroup>`).join('');
@@ -11,11 +30,12 @@ export const htmlAgenda = () => `<section class="seccion seccion--blanca" id="po
         <div class="responsive__layout">
           <header class="seccion__cabecera">
             <p class="seccion__etiqueta">Postventa</p>
-            <h2 class="seccion__titulo" id="postventa-titulo">Agendá tu service</h2>
-            <p class="seccion__bajada">Completá tus datos y elegí el servicio que necesitás para tu GWM.</p>
+            <h2 class="seccion__titulo" id="postventa-titulo">Agendá tu mantenimiento</h2>
+            <p class="seccion__bajada">Mirá cuánto cuesta el mantenimiento de tu GWM y agendá tu turno.</p>
             <p class="agenda-privacidad">Tu fecha es una preferencia: el equipo confirma el turno. Consultá cómo usamos tus datos en nuestra <a href="/privacidad">política de privacidad</a>.</p>
           </header>
 
+          ${htmlCostos()}
 
           <form class="agenda" id="agenda" data-form-agenda novalidate>
             <fieldset class="agenda__grupo">
@@ -53,8 +73,16 @@ export const htmlAgenda = () => `<section class="seccion seccion--blanca" id="po
             </fieldset>
 
             <fieldset class="agenda__grupo">
-              <legend class="agenda__titulo"><span class="agenda__paso" aria-hidden="true">3</span>¿Qué servicio necesitás?</legend>
-              <div class="agenda__opciones" data-servicios>${SERVICIOS.map(servicio => `<label class="agenda__chip"><input type="radio" name="servicio" value="${esc(servicio)}" required /><span>${esc(servicio)}</span></label>`).join('')}</div>
+              <legend class="agenda__titulo"><span class="agenda__paso" aria-hidden="true">3</span>Mantenimiento</legend>
+              <input type="hidden" name="servicio" value="Mantenimiento" />
+              <div class="agenda__fila">
+                <div class="agenda__col agenda__col--6">
+                  <label class="agenda__label" for="ag-km">Service de</label>
+                  <select class="agenda__campo" id="ag-km" name="kilometraje" required>
+                    <option value="">Elegí el kilometraje...</option>${Array.from({ length: 20 }, (_, i) => (i + 1) * 5).map((k) => `<option>${k} mil km</option>`).join('')}<option>Más de 100 mil km</option>
+                  </select>
+                </div>
+              </div>
             </fieldset>
 
             <fieldset class="agenda__grupo">

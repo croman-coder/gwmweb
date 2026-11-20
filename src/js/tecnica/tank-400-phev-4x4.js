@@ -1,7 +1,7 @@
 /**
  * Especificaciones técnicas de tank-400-phev-4x4.
  *
- * Fuente: ficha técnica oficial en PDF (public/fichas/tank-400-phev-4x4.pdf), transcripta y revisada contra el documento.
+ * Fuente: ficha técnica oficial 2026 de Marketing (public/fichas/tank-400-phev-4x4.pdf), transcripta y revisada contra el documento.
  * Formato: columnas = versiones comparadas en la hoja (vacío si es una sola); cada fila es [etiqueta, valor];
  * valor = texto | true (incluido) | false (no incluido) | [valor por columna] cuando difiere entre versiones.
  * Las filas sin dato o no incluidas en ninguna versión no se listan.
@@ -35,7 +35,7 @@ export default {
       filas: [
         ['Potencia combinada (HP)', '402'],
         ['Torque combinado (Nm)', '750'],
-        ['Transmisión', '9HAT'],
+        ['Transmisión', 'Automática'],
         ['Tracción', '4x4'],
         ['Autonomía eléctrica máxima (km)', '105'],
       ],

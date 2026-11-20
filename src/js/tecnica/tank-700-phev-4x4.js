@@ -1,13 +1,13 @@
 /**
  * Especificaciones técnicas de tank-700-phev-4x4.
  *
- * Fuente: ficha técnica oficial en PDF (public/fichas/tank-700-phev-4x4.pdf), transcripta y revisada contra el documento.
+ * Fuente: ficha técnica oficial 2026 de Marketing (public/fichas/tank-700-phev-4x4.pdf), transcripta y revisada contra el documento.
  * Formato: columnas = versiones comparadas en la hoja (vacío si es una sola); cada fila es [etiqueta, valor];
  * valor = texto | true (incluido) | false (no incluido) | [valor por columna] cuando difiere entre versiones.
  * Las filas sin dato o no incluidas en ninguna versión no se listan.
  *
  * Respecto de la hoja:
- *  - Hoja sin texto (solo imagen): leída con OCR local y corregida a mano contra la imagen.
+ *  - Hoja en texto contorneado: leída visualmente. Respecto de la hoja anterior cambian airbags (7 → 6) y neumáticos (R20 → R22).
  *  - La hoja tiene frases de traducción automática ("Sombrilla", "Coche teledirigido", "Bolsillo de habilidades móviles", "horario de verano"...): se dejaron como figuran, salvo erratas evidentes.
  *  - Se agregó "Aparcamiento completo" (el punto está en la hoja, pero el OCR no leyó la etiqueta).
  */
@@ -18,7 +18,8 @@ export default {
       titulo: 'Motor',
       filas: [
         ['Características del motor', 'V6 biturbo 3.0T híbrido enchufable'],
-        ['Transmisión', '9HAT 4WD'],
+        ['Transmisión', 'Automática'],
+        ['Tracción', '4x4'],
         ['Potencia de motor eléctrico', '161 HP'],
         ['Torque motor eléctrico', '400 Nm'],
         ['Capacidad de la batería', '37,1 kWh'],
@@ -34,7 +35,7 @@ export default {
         ['Dirección asistida', true],
         ['Barra estabilizadora de balanceo semiactiva', true],
         ['Muelle de aire + amortiguador electrónicamente controlado', true],
-        ['Llantas y neumáticos', '275/60 R20'],
+        ['Llantas y neumáticos', '275/60 R22'],
       ],
     },
     {
@@ -108,7 +109,7 @@ export default {
     {
       titulo: 'Seguridad',
       filas: [
-        ['Airbags', '7'],
+        ['Airbags', '6'],
         ['Cinturones de seguridad delanteros dobles pretensados y limitados por la fuerza (extremo pretensado de piezas PLP+CLT)', true],
         ['Limitado por el pretensor de segunda fila cinturones de seguridad', true],
         ['Registrador de datos de incidentes EDR', true],

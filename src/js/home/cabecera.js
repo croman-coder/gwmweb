@@ -29,6 +29,20 @@ function htmlFiltro(clave, titulo, opciones) {
     </div>`;
 }
 
+/** Rango de precio en dólares. Los límites salen de los precios publicados (redondeados a miles). */
+function htmlPrecio() {
+  const precios = MODELOS.map((m) => m.precio).filter((p) => p !== null);
+  const min = Math.floor(Math.min(...precios) / 1000) * 1000;
+  const max = Math.ceil(Math.max(...precios) / 1000) * 1000;
+  const campo = (clave, texto, valor) =>
+    `<label class="filter-precio__campo"><span>${texto}</span><span class="filter-precio__usd">USD</span><input type="number" inputmode="numeric" min="0" step="1000" placeholder="${valor.toLocaleString('es-PY')}" data-precio="${clave}" aria-label="Precio ${texto.toLowerCase()} en dólares" /></label>`;
+  return `
+    <div class="filter-item filter-precio">
+      <p class="filter-title">Precio</p>
+      <div class="filter-precio__campos">${campo('min', 'Desde', min)}${campo('max', 'Hasta', max)}</div>
+    </div>`;
+}
+
 function htmlGrupo(cat) {
   const tarjetas = MODELOS.filter((m) => m.categoria === cat.id)
     .map(
@@ -52,6 +66,7 @@ export function htmlPanelModelos() {
   return `
     <div class="sub-list-container">
       <div class="filter-panel">
+        ${htmlPrecio()}
         ${htmlFiltro('motor', 'Motor', TIPOS_MOTOR)}
         ${htmlFiltro('carroceria', 'Carrocería', CARROCERIAS)}
         <div class="tools-module">
@@ -107,6 +122,7 @@ export function htmlMovil() {
     <div class="nav-list">
       ${desplegable('MODELOS', modelos)}
       <div class="list-item"><a class="primary-btn-box" href="/concesionarios"><span class="primary-link">PUNTOS DE VENTA</span></a></div>
+      <div class="list-item"><a class="primary-btn-box" href="/experiencia"><span class="primary-link">EXPERIENCIA GWM</span></a></div>
       ${desplegable('POSTVENTA', postventa)}
     </div>
     <div class="nav-feature-btn">
@@ -181,6 +197,11 @@ function iniciarPaneles(header) {
 function iniciarFiltros(panel) {
   const activos = { motor: new Set(), carroceria: new Set() };
   let marca = 'todos';
+  const rango = { min: null, max: null };
+  // Con un rango cargado, los modelos sin precio publicado no entran.
+  const enRango = (precio) =>
+    (rango.min === null && rango.max === null) ||
+    (precio !== null && (rango.min === null || precio >= rango.min) && (rango.max === null || precio <= rango.max));
   const tarjetas = [...panel.querySelectorAll('[data-slug]')];
   const grupos = [...panel.querySelectorAll('.brand-group')];
   const vacio = panel.querySelector('.no-data-text');
@@ -189,7 +210,7 @@ function iniciarFiltros(panel) {
     for (const t of tarjetas) {
       const m = MODELOS.find((x) => x.slug === t.dataset.slug);
       t.hidden = !(
-        (marca === 'todos' || m.categoria === marca) && (!activos.motor.size || activos.motor.has(m.motor)) && (!activos.carroceria.size || activos.carroceria.has(m.carroceria))
+        (marca === 'todos' || m.categoria === marca) && (!activos.motor.size || activos.motor.has(m.motor)) && (!activos.carroceria.size || activos.carroceria.has(m.carroceria)) && enRango(m.precio)
       );
     }
     for (const g of grupos) g.hidden = !g.querySelector('[data-slug]:not([hidden])');
@@ -197,6 +218,14 @@ function iniciarFiltros(panel) {
     const cantidad = tarjetas.filter(t => !t.hidden).length;
     panel.querySelector('[data-menu-resultados]').textContent = `${cantidad} ${cantidad === 1 ? 'modelo disponible' : 'modelos para descubrir'}`;
   };
+
+  panel.addEventListener('input', (e) => {
+    const campo = e.target.closest('[data-precio]');
+    if (!campo) return;
+    const valor = parseInt(campo.value.replace(/\D/g, ''), 10);
+    rango[campo.dataset.precio] = Number.isFinite(valor) ? valor : null;
+    aplicar();
+  });
 
   panel.addEventListener('click', (e) => {
     const marcaBtn = e.target.closest('[data-menu-marca]');

@@ -1,7 +1,7 @@
 /**
  * Especificaciones técnicas de tank-300-phev-4x4.
  *
- * Fuente: ficha técnica oficial en PDF (public/fichas/tank-300-phev-4x4.pdf), transcripta y revisada contra el documento.
+ * Fuente: ficha técnica oficial de Marketing 2026 (public/fichas/tank-300-phev-4x4.pdf; texto idéntico a la versión anterior), transcripta y revisada contra el documento.
  * Formato: columnas = versiones comparadas en la hoja (vacío si es una sola); cada fila es [etiqueta, valor];
  * valor = texto | true (incluido) | false (no incluido) | [valor por columna] cuando difiere entre versiones.
  * Las filas sin dato o no incluidas en ninguna versión no se listan.
@@ -18,8 +18,8 @@ export default {
       filas: [
         ['Tipo motor', 'Híbrido enchufable'],
         ['Motor combustión', '2.0T GDI'],
-        ['Tracción', 'AWD Inteligente + 4L'],
-        ['Transmisión', '9HAT'],
+        ['Tracción', '4x4'],
+        ['Transmisión', 'Automática'],
         ['Potencia máxima combinada (HP)', '402'],
         ['Torque combinado', '750 Nm'],
         ['Potencia del motor eléctrico (HP)', '161'],

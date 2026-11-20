@@ -1,7 +1,7 @@
 /**
  * Especificaciones técnicas de new-h6-phev.
  *
- * Fuente: ficha técnica oficial en PDF (public/fichas/new-h6-phev.pdf), transcripta y revisada contra el documento.
+ * Fuente: ficha técnica oficial de Marketing 2026 "NEW H6 2026" (public/fichas/new-h6-phev.pdf), transcripta y revisada contra el documento.
  * Formato: columnas = versiones comparadas en la hoja (vacío si es una sola); cada fila es [etiqueta, valor];
  * valor = texto | true (incluido) | false (no incluido) | [valor por columna] cuando difiere entre versiones.
  * Las filas sin dato o no incluidas en ninguna versión no se listan.
@@ -11,6 +11,7 @@
  *  - La hoja no titula el tramo que sigue a "Motor combinado" (frenos, suspensión, dirección): se agrupó como "Chasis y conducción".
  *  - Seis filas al final de "Exterior" (asientos, luz interna, cubre equipaje) repiten o contradicen las de "Interior": parecen restos de otra plantilla y se omitieron.
  *  - Una fila de "Interior" (soporte lumbar del conductor) estaba repetida: se dejó una.
+ *  - Las unidades (HP, Nm) no figuran en la hoja; se agregaron por consistencia con el resto del sitio.
  */
 export default {
   columnas: [],
@@ -21,7 +22,7 @@ export default {
         ['Motorización', 'Híbrida enchufable'],
         ['Motor combustión', '1.5T'],
         ['Tracción', '4x2'],
-        ['Transmisión', 'DHT'],
+        ['Transmisión', 'Automática'],
         ['Potencia máxima', '147 HP'],
         ['Torque máximo', '230 Nm'],
       ],
@@ -53,6 +54,7 @@ export default {
         ['Control de par de frenado (BTC)', true],
         ['Dirección asistida eléctrica ajustable', 'Deportivo, confort, ligero'],
         ['Cambio automático de modos de conducción', true],
+        ['Cierre automático de ventanas con control remoto', true],
       ],
     },
     {
@@ -97,7 +99,6 @@ export default {
         ['Alarma de freno de emergencia', true],
         ['Retrovisores laterales con plegado automático/luces/ ajuste eléctrico/ descongelación', true],
         ['Descongelación por hilo caliente (parabrisas trasero)', true],
-        ['Cierre automático de ventanas con control remoto', true],
       ],
     },
     {
@@ -116,7 +117,6 @@ export default {
         ['TPMS', true],
         ['Puerto de alimentación USB de grabadora de conducción', true],
         ['Radar de marcha atrás', true],
-        ['Estacionamiento automático', true],
         ['Cámara 360/ chasis transparente', true],
         ['ACC', true],
         ['Asistencia de seguridad para peatones/bicicletas', true],

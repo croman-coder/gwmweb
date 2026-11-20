@@ -1,15 +1,15 @@
 /**
  * Especificaciones técnicas de h9-diesel-24.
  *
- * Fuente: ficha técnica oficial en PDF (public/fichas/h9-diesel-24.pdf), transcripta y revisada contra el documento.
+ * Fuente: ficha técnica oficial 2026 entregada por Marketing (public/fichas/h9-diesel-24.pdf).
  * Formato: columnas = versiones comparadas en la hoja (vacío si es una sola); cada fila es [etiqueta, valor];
  * valor = texto | true (incluido) | false (no incluido) | [valor por columna] cuando difiere entre versiones.
  * Las filas sin dato o no incluidas en ninguna versión no se listan.
  *
  * Respecto de la hoja:
- *  - La hoja titula la columna "H9 MEDIUM" y el recuadro de versión "H9 HIGH"; la página llama al modelo "H9 Diesel 4x4".
+ *  - La hoja titula la columna "H9 DIESEL"; el recuadro de precios lista "H9 DIESEL" y "H9 HIGH", pero solo trae datos de una versión.
  *  - El bloque "Motor/Conducción" mezcla motor, medidas, capacidades y chasis: se separó en tres grupos.
- *  - Se omitió "Ajuste manual alarmómetro" (la etiqueta no tiene sentido en la hoja; confirmar con el fabricante) y "Función de localización de automóviles" (marcada como no incluida).
+ *  - Se omitió "Ajuste manual alarmómetro" (la etiqueta no tiene sentido en la hoja; confirmar con el fabricante) (marcada como incluida).
  */
 export default {
   columnas: [],
@@ -18,8 +18,8 @@ export default {
       titulo: 'Motor y transmisión',
       filas: [
         ['Motor / combustible', '2.4T Diesel'],
-        ['Transmisión', '9AT'],
-        ['Tracción', '4WD'],
+        ['Transmisión', 'Automática'],
+        ['Tracción', '4x4'],
         ['Potencia', '184 HP'],
         ['Torque', '480 Nm'],
       ],
@@ -27,8 +27,7 @@ export default {
     {
       titulo: 'Dimensiones y capacidades',
       filas: [
-        ['Largo × ancho × alto (con escalón lateral eléctrico)', '4.950 × 1.960 × 1.930 mm'],
-        ['Largo × ancho × alto (con escalón lateral fijo)', '4.950 × 1.976 × 1.930 mm'],
+        ['Largo × ancho × alto', '4.950 × 1.976 × 1.930 mm'],
         ['Distancia entre ejes', '2.850 mm'],
         ['Ancho de vía delantero / trasero', '1.635 mm'],
         ['Depósito de combustible', '78 L'],
@@ -78,8 +77,8 @@ export default {
     {
       titulo: 'Interior',
       filas: [
-        ['7 Asientos', true],
-        ['Techo panorámico', 'Manual'],
+        ['Cantidad de pasajeros', '7'],
+        ['Techo solar', true],
         ['Color del interior', 'Negro y marrón'],
         ['Pantalla multimedia', '14,6"'],
         ['Altavoces', '8'],
@@ -87,7 +86,7 @@ export default {
         ['Asiento del conductor ajustable eléctricamente en 6 direcciones', true],
         ['Soporte lumbar eléctrico de 4 vías asiento del conductor ajustable', true],
         ['Asiento del pasajero delantero ajustable en 4 direcciones', 'Manual'],
-        ['Calefacción de los asientos delanteros', true],
+        ['Calefacción de los asientos delanteros', 'Calefacción'],
         ['Asientos de la 2ª fila calefacción', true],
         ['Reposabrazos central de los asientos de la 2ª fila (con portavasos)', true],
         ['Espejo retrovisor interno eléctrico antideslumbrante', true],
@@ -123,6 +122,7 @@ export default {
         ['Chasis video', true],
         ['Ventilador electrónico', true],
         ['Sistema de entrada frontal sin llave', true],
+        ['Función de localización de automóviles', true],
         ['Retención automática', true],
         ['Cinturones de seguridad delanteros ajustables con pretensor y sistema de advertencia de desabrochamiento', true],
         ['ABS+EBD+TCS+RMI+ESC+IBC', true],

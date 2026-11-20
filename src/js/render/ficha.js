@@ -123,8 +123,8 @@ function htmlVersiones(modelo, ficha) {
           <strong>${esc(v.nombre)}</strong>
         </div>
         <div class="ficha-version__precio">
-          <span>Precio desde:</span>
-          <strong>${formatearPrecio(v.precio)}*</strong>
+          ${v.precio === null ? '<strong>Consultá el precio</strong>' : `<span>Precio desde:</span>
+          <strong>${formatearPrecio(v.precio)}*</strong>`}
         </div>
         <div class="ficha-version__acciones">
           <button class="ficha-btn ficha-btn--oscuro" type="button" data-lead="cotizacion" data-modelo-slug="${modelo.slug}" data-version="${esc(v.nombre)}">Cotizá esta versión ${FLECHA}</button>
@@ -310,7 +310,7 @@ function htmlMotorizaciones(modelo, ficha) {
       ${m.imagen ? `<figure class="ficha-motor__media"><img src="${esc(m.imagen)}" alt="${esc(m.imagenAlt || m.nombre)}" loading="lazy" decoding="async" width="700" height="500" data-image-sizes="(max-width:767px) calc(100vw - 82px), 350px" /></figure>` : ''}
       <h3>${esc(m.nombre)}</h3>${m.version ? `<p class="ficha-motor__version">${esc(m.version)}</p>` : ""}<p>${esc(m.descripcion)}</p>
       <dl>${m.datos.map(([k,v]) => `<div><dt>${esc(k)}</dt><dd>${esc(v)}</dd></div>`).join('')}</dl>
-      ${m.slug === modelo.slug ? '<button class="action action--line" type="button" data-scroll="especificaciones" aria-controls="especificaciones">Ver especificaciones <span aria-hidden="true">↗</span></button>' : m.slug ? `<a class="action action--dark" href="/modelos/${m.slug}">Conocé el ${esc(m.nombre)} <span aria-hidden="true">↗</span></a>` : `<a class="action action--line" href="${esc(ficha.fichaTecnica)}" target="_blank" rel="noopener">Ficha de referencia (PDF) <span aria-hidden="true">↗</span></a>`}
+      ${m.slug === modelo.slug ? '<button class="action action--line" type="button" data-scroll="especificaciones" aria-controls="especificaciones">Ver especificaciones <span aria-hidden="true">↗</span></button>' : m.slug ? `<a class="action action--dark" href="/modelos/${m.slug}">Conocé el ${esc(m.nombre)} <span aria-hidden="true">↗</span></a>` : `<a class="action action--line" href="${esc(m.pdf || ficha.fichaTecnica)}" target="_blank" rel="noopener">Ficha de referencia (PDF) <span aria-hidden="true">↗</span></a>`}
     </article>`).join('')}</div>
     ${ficha.motorizacionesNota ? `<p class="ficha-motores__nota">${esc(ficha.motorizacionesNota)}</p>` : ""}
   </section>`;

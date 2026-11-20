@@ -17,7 +17,8 @@ export default {
       titulo: 'Motor 4D20D turbo',
       filas: [
         ['Combustible', 'Diesel'],
-        ['Transmisión', '6MT'],
+        ['Transmisión', 'Manual'],
+        ['Tracción', ['4x2', '4x4']],
         ['Cilindrada (L)', '2.0 L'],
         ['Cilindros', '4'],
         ['Potencia (HP / rpm)', '140/4000'],

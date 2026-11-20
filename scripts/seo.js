@@ -10,7 +10,7 @@ import { join, dirname } from "node:path";
 import { pathToFileURL } from "node:url";
 import { MODELOS, OCULTOS, SLIDES_ACTIVOS, nombreCompleto } from "../src/js/modelos.js";
 import { FICHAS } from "../src/js/fichas.js";
-import { DEALERS, telHref, mapaHref } from "../src/js/concesionarios.js";
+import { DEALERS, nombreDealer, telHref, mapaHref } from "../src/js/concesionarios.js";
 import { SITIO, metaFicha, tituloPagina } from "../src/js/sitio.js";
 import { htmlAgenda } from "../src/js/render/agenda.js";
 import { modelosDe } from "../src/js/vehiculos.js";
@@ -18,6 +18,7 @@ import { htmlFicha } from "../src/js/render/ficha.js";
 import {
   htmlDestacadosHome,
   htmlGuiasHome,
+  htmlGamaHome,
   htmlHeroSlide,
 } from "../src/js/render/catalogo.js";
 import { htmlPanelModelos, htmlMovil } from "../src/js/home/cabecera.js";
@@ -166,7 +167,7 @@ function dealersLd() {
       item: {
         "@type": "AutoDealer",
         "@id": url(`/concesionarios#local-${i + 1}`),
-        name: `${d.marca} ${d.nombre}`,
+        name: d.marca === "Dealer autorizado" ? `${d.marca} ${d.nombre}` : nombreDealer(d),
         url: url('/concesionarios'),
         telephone: telHref(d.telefonos[0]).replace("tel:", ""),
         hasMap: mapaHref(d),
@@ -290,6 +291,7 @@ export function seo() {
         .replace(/<!-- CATALOG_START -->[\s\S]*?<!-- CATALOG_END -->/, () =>
           htmlDestacadosHome(),
         )
+        .replace(/<!-- GAMA_START -->[\s\S]*?<!-- GAMA_END -->/, () => htmlGamaHome())
         .replace(/<!-- GUIDES_START -->[\s\S]*?<!-- GUIDES_END -->/, () =>
           htmlGuiasHome(),
         )
@@ -415,7 +417,9 @@ export function seo() {
           // Modelos ocultos hasta su lanzamiento: redirección temporal (302) a la ficha que los reemplaza.
           Object.entries(OCULTOS)
             .map(([slug, destino]) => `rewrite ^/modelos/${slug}/?$ /modelos/${destino} redirect;\n`)
-            .join(""),
+            .join("") +
+          // Guía H6 HEV vs PHEV retirada junto con el H6 PHEV.
+          "rewrite ^/guia/h6-hev-vs-phev/?$ /hibridos permanent;\n",
       );
       console.log(
         `seo: ${rutas.length} páginas con contenido completo, sitemap y 404.`,

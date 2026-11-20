@@ -1,7 +1,9 @@
 /**
  * Especificaciones técnicas de poer-p500.
  *
- * Fuente: ficha técnica oficial en PDF (public/fichas/poer-p500.pdf), transcripta y revisada contra el documento.
+ * Fuente: ficha técnica 2026 de Marketing (public/fichas/poer-p500.pdf, con las imágenes comprimidas para la web), leída y revisada contra el documento.
+ * Cambios de la hoja 2026: neumáticos sin la sigla AT; escalón lateral fijo (ya no eléctrico); salen las dos tomas de 220 V,
+ * las salidas de aire traseras y el ajuste eléctrico de la segunda fila.
  * Formato: columnas = versiones comparadas en la hoja (vacío si es una sola); cada fila es [etiqueta, valor];
  * valor = texto | true (incluido) | false (no incluido) | [valor por columna] cuando difiere entre versiones.
  * Las filas sin dato o no incluidas en ninguna versión no se listan.
@@ -18,8 +20,8 @@ export default {
       titulo: 'Motor',
       filas: [
         ['Motor', '2.0T PHEV'],
-        ['Tecnología de tracción a las cuatro ruedas', '4X4 (Hi4-T)'],
-        ['Transmisión', '9HAT'],
+        ['Tracción', '4x4'],
+        ['Transmisión', 'Automática'],
         ['Potencia máxima combinada (HP)', '402'],
         ['Torque combinado (Nm)', '750'],
         ['Potencia del motor eléctrico (HP)', '161'],
@@ -46,10 +48,10 @@ export default {
         ['Anchura', '1.991 mm'],
         ['Altura', '1.924 mm'],
         ['Distancia entre ejes', '3.350 mm'],
-        ['Neumáticos', '265/60 R18 AT'],
+        ['Neumáticos', '265/60 R18'],
         ['Retrovisores exteriores - asistencia de memoria/plegado automático al bloquear el coche/ajuste eléctrico/desempañado/ intermitente', true],
         ['Portaequipajes', true],
-        ['Escalón lateral fijo eléctrico', true],
+        ['Escalón lateral fijo', true],
         ['Remolque + puerto de alimentación reservado para remolque + dispositivo de remolque trasero', true],
         ['Caja de carga pulverizadora', true],
         ['Bloqueo electrónico del panel trasero de la caja de carga', true],
@@ -79,8 +81,6 @@ export default {
         ['USB frontal (Tipo A + Tipo C) / trasero (2 Tipo A)', true],
         ['Ordenador de conducción', true],
         ['Sistema de llamadas manos libres Bluetooth', true],
-        ['Fuente de alimentación de 220 V integrada en el coche', true],
-        ['Fuente de alimentación de 220 V para la caja de carga', true],
         ['Interfaz de alimentación USB para grabador de conducción', true],
         ['Carga inalámbrica delantera/ trasera', true],
         ['Reloj electrónico', true],
@@ -92,7 +92,6 @@ export default {
         ['Función de ajuste de volumen dependiente de la velocidad', true],
         ['Zona de doble temperatura con aire acondicionado automático', true],
         ['Modo de circulación interna de un solo botón', true],
-        ['Aire acondicionado: salidas de aire traseras superiores e inferiores', true],
         ['Pantalla de temperatura exterior', true],
         ['Modo de confort del aire acondicionado opcional', true],
         ['Filtro de polvo del elemento N95', true],
@@ -109,7 +108,6 @@ export default {
         ['Calefacción de 9 velocidades/ ventilación en los asientos delanteros', true],
         ['Masaje de 8 puntos en el asiento delantero', true],
         ['Calefacción/ ventilación de 3 velocidades en la segunda fila', true],
-        ['Asiento de la segunda fila: ajuste eléctrico de 2 vías', true],
         ['Reposabrazos central del asiento de la segunda fila con portavasos y caja de almacenamiento', true],
         ['Fila delantera + segunda fila reposacabezas ajustable en 2 vías', true],
         ['Luz ambiental multicolor y luz de fondo: ritmo + agua', true],

@@ -22,12 +22,12 @@ export const DEALERS = [
   {
     ciudad: 'Asunción',
     marca: 'Santa Rosa',
-    nombre: 'Casa Matriz',
+    nombre: 'España',
     tipos: ['Ventas'],
-    direccion: 'Dr. Agustín Goiburu 1868, Asunción',
+    direccion: 'España c/ Venezuela, Asunción',
     telefonos: ['021 582 812'],
     horario: 'De 8 a 19 hs.',
-    mapa: 'https://maps.app.goo.gl/u1n2jDJqfJaoN7UF9',
+    mapa: null,
   },
   {
     ciudad: 'San Lorenzo',
@@ -42,12 +42,12 @@ export const DEALERS = [
   {
     ciudad: 'Asunción',
     marca: 'Santa Rosa',
-    nombre: 'Sucursal Mcal. López',
+    nombre: 'Los Árboles',
     tipos: ['Ventas'],
-    direccion: 'Mcal. López entre Bélgica y Nicanor Torales, Asunción',
+    direccion: 'Av. San Martín, Asunción',
     telefonos: ['021 582 812'],
     horario: 'Lunes a viernes de 08:00 a 19:00 y sábados de 08:30 a 13:30 hs.',
-    mapa: 'https://maps.app.goo.gl/6yEYmGVP3rMi3n968',
+    mapa: null,
   },
   {
     ciudad: 'Asunción',
@@ -102,3 +102,6 @@ export function mapaHref(dealer) {
   const consulta = encodeURIComponent(`${dealer.direccion}, Paraguay`);
   return `https://www.google.com/maps/search/?api=1&query=${consulta}`;
 }
+
+/** Nombre visible: los locales propios van como "GWM · España"; los dealers autorizados, con su razón social. */
+export const nombreDealer = (d) => (d.marca === 'Dealer autorizado' ? d.nombre : `GWM · ${d.nombre}`);

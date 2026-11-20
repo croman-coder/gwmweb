@@ -71,20 +71,20 @@ export const FICHAS = {
     },
     versiones: [
       {
-        nombre: 'HIGH',
-        precio: 20990,
+        nombre: 'Elite',
+        precio: 22990,
         especificaciones: [
           ['Motor', 'Híbrido autorrecargable (motor de combustión 1.5 + motor eléctrico)'],
-          ['Transmisión', 'Automática (AT)'],
+          ['Transmisión', 'Automática'],
           ['Potencia', '188 HP · Torque 377 Nm'],
         ],
       },
       {
-        nombre: 'TOP',
+        nombre: 'Deluxe',
         precio: 21990,
         especificaciones: [
           ['Motor', 'Híbrido autorrecargable (motor de combustión 1.5 + motor eléctrico)'],
-          ['Transmisión', 'Automática (AT)'],
+          ['Transmisión', 'Automática'],
           ['Potencia', '188 HP · Torque 377 Nm'],
         ],
       },
@@ -128,11 +128,11 @@ export const FICHAS = {
     },
     versiones: [
       {
-        nombre: 'H6 Híbrida High',
+        nombre: 'H6 HEV Luxury',
         precio: 24990,
         especificaciones: [
           ['Motor', '1.5 Turbo'],
-          ['Transmisión', 'DHT'],
+          ['Transmisión', 'Automática'],
           ['Potencia motor ICE', '147 HP @ 5500-6000'],
           ['Potencia motor eléctrico', '108 HP @ 5500-6000'],
           ['Potencia combinada', '240 HP @ 5500-6000'],
@@ -192,7 +192,7 @@ export const FICHAS = {
         precio: 30990,
         especificaciones: [
           ['Motor', '1.5 Turbo híbrido enchufable'],
-          ['Transmisión', 'DHT'],
+          ['Transmisión', 'Automática'],
           ['Autonomía', 'hasta 120 km promedio en modo eléctrico'],
           ['Potencia combinada', '322 HP'],
         ],
@@ -354,7 +354,7 @@ export const FICHAS = {
       {
         nombre: 'H9 Diesel 4x4',
         precio: 42990,
-        especificaciones: [['Motor', '2.4 Turbodiesel 4x4'], ['Transmisión', '9AT'], ['Potencia', '184 HP / 480 Nm de torque']],
+        especificaciones: [['Motor', '2.4 Turbodiesel 4x4'], ['Transmisión', 'Automática'], ['Potencia', '184 HP / 480 Nm de torque']],
       },
     ],
     diseno: {
@@ -398,6 +398,7 @@ export const FICHAS = {
   },
   'ora-03-skin': {
     provisoria: true,
+    fichaTecnica: '/fichas/ora-03-skin.pdf',
     titular: ['Redefiniendo el estilo'],
     bajada: 'El ORA 03 es un eléctrico con un encanto distintivo.',
     portada: {
@@ -439,24 +440,22 @@ export const FICHAS = {
     },
   },
   'ora-5-ev': {
-    referenciaInternacional: true,
-    motorizaciones: MOTORIZACIONES_ORA5,
+    motorizaciones: MOTORIZACIONES_ORA5.length > 1 ? MOTORIZACIONES_ORA5 : undefined,
     motorizacionesNota: ORA5_NOTA,
-    fichaTecnica: ORA5_PDF,
-    aviso: ORA5_AVISO,
+    fichaTecnica: '/fichas/ora-5-ev.pdf',
     titular: ['ORA 5 EV'],
     bajada: 'Descubrí el SUV eléctrico de ORA.',
     portada: { escritorio: '/img/fichas/ora-5-ev/portada.webp', movil: '/img/fichas/ora-5-ev/portada-m.webp' },
     diseno: {
       titulo: 'Un interior conectado',
       enlace: 'Diseño',
-      texto: ['La versión de referencia Luxury EV combina pantalla central de 14,6 pulgadas, tablero digital de 10,25 y conectividad inalámbrica para Apple CarPlay y Android Auto. El audio suma nueve parlantes y carga inalámbrica de celular de 50 W.'],
+      texto: ['Pantalla multimedia de 14,6 pulgadas, tablero digital de 10,25 y Apple CarPlay y Android Auto inalámbricos. Suma seis parlantes, carga inalámbrica de celular, asientos de cuero con calefacción y ventilación adelante y volante calefaccionado.'],
       imagen: '/img/fichas/ora-5-ev/diseno.webp',
     },
     tecnologia: {
       titulo: 'Seguridad y asistencias',
       enlace: 'Seguridad',
-      texto: ['Luxury EV incorpora siete airbags, incluido uno central delantero. La cámara 360°, el detector de punto ciego, el crucero adaptativo y el frenado de emergencia forman parte del equipamiento de referencia.'],
+      texto: ['Seis airbags, cámara 360°, crucero adaptativo, detección de punto ciego, asistencias de carril y frenado automático de emergencia con detección de peatones y ciclistas.'],
       imagen: '/img/fichas/ora-5-ev/tecnologia.webp',
     },
     visor3d: {
@@ -470,7 +469,7 @@ export const FICHAS = {
   },
   'ora-5-hev': {
     referenciaInternacional: true,
-    motorizaciones: MOTORIZACIONES_ORA5,
+    motorizaciones: MOTORIZACIONES_ORA5.length > 1 ? MOTORIZACIONES_ORA5 : undefined,
     motorizacionesNota: ORA5_NOTA,
     fichaTecnica: ORA5_PDF,
     aviso: ORA5_AVISO,
@@ -668,7 +667,7 @@ export const FICHAS = {
     },
     versiones: [
       {
-        nombre: '4x4 Híbrida enchufable',
+        nombre: 'Luxury',
         precio: 50990,
         descripcion: 'Prepárate para conocer el equilibrio perfecto entre Potencia y elegancia con la Tank 400 4X4 Híbrida Enchufable, con lo mejor de dos mundos para una mejor experiencia',
       },
@@ -780,6 +779,68 @@ export const FICHAS = {
       imagen: '/img/fichas/tank-500-hev-4x4/exterior.webp',
     },
     fichaTecnica: '/fichas/tank-500-hev-4x4.pdf',
+  },
+  'tank-500-phev-4x4': {
+    // Mismas fotos que el Tank 500 HEV (misma carrocería) hasta tener fotos propias del PHEV.
+    titular: ['EL LUJO Y LA POTENCIA'],
+    bajada: 'La Tank 500 PHEV 4x4 suma la potencia híbrida enchufable al lujo de una SUV',
+    portada: {
+      escritorio: '/img/fichas/tank-500-hev-4x4/portada.webp',
+      movil: '/img/fichas/tank-500-hev-4x4/portada-m.webp',
+    },
+    versiones: [
+      {
+        nombre: 'Tank 500 PHEV 4x4',
+        precio: null,
+        descripcion: 'Descubrí el SUV de lujo Tank 500, donde la aventura se une a innovaciones de última generación y el lujo. El SUV de 3 hileras que destaca por su elegancia y modernidad.',
+      },
+    ],
+    diseno: {
+      titulo: 'Diseño',
+      texto: [
+        'La máxima elegancia en un auto de Lujo con una potencia que capaz de superar cualquier desafío.',
+        'Inspirada en el diseño de un Palacio de arquitectura China, Representa un Palacio en movimiento, máxima comodidad con una cara imponente.',
+      ],
+      imagen: '/img/fichas/tank-500-hev-4x4/diseno.webp',
+    },
+    tecnologia: {
+      titulo: 'Tecnología',
+      texto: [
+        'El Tank 500 PHEV cuenta con toda la tecnología de vanguardia. Con el sistema ADAS de conducción asistida, y toda la potencia necesaria para un mejor desempeño en cualquier situación.',
+        'Con una pantalla de 14,6 pulgadas, para disfrutar al máximo y facilitar la conducción confortable.',
+      ],
+      imagen: '/img/fichas/tank-500-hev-4x4/tecnologia.webp',
+    },
+    galeria: [
+      '/img/fichas/tank-500-hev-4x4/galeria-1.webp',
+      '/img/fichas/tank-500-hev-4x4/galeria-2.webp',
+      '/img/fichas/tank-500-hev-4x4/galeria-3.webp',
+      '/img/fichas/tank-500-hev-4x4/galeria-4.webp',
+      '/img/fichas/tank-500-hev-4x4/galeria-5.webp',
+      '/img/fichas/tank-500-hev-4x4/galeria-6.webp',
+      '/img/fichas/tank-500-hev-4x4/galeria-7.webp',
+      '/img/fichas/tank-500-hev-4x4/galeria-8.webp',
+      '/img/fichas/tank-500-hev-4x4/galeria-9.webp',
+    ],
+    interior: {
+      titulo: 'TANK 500 PHEV 4x4',
+      subtitulo: 'Cuenta con toda la tecnología de vanguardia',
+      texto: [
+        'Con el sistema ADAS de conducción asistida, y toda la potencia necesaria para un mejor desempeño en cualquier situación.',
+        'Con una pantalla de 14,6 pulgadas, para disfrutar al máximo y facilitar la conducción confortable.',
+      ],
+      imagen: '/img/fichas/tank-500-hev-4x4/interior.webp',
+    },
+    exterior: {
+      titulo: 'TANK 500',
+      subtitulo: 'LUJO Y TECNOLOGÍA EN UN INTERIOR MODERNO PARA UNA EXPERIENCIA DE MANEJO INCREÍBLE',
+      texto: [
+        'El diseño exterior del GWM Tank 500 PHEV es robusto y elegante, ideal tanto para la ciudad como para la naturaleza.',
+        'Destaca su parrilla frontal innovadora, faros LED automáticos y llantas de 19 pulgadas, que añaden un toque de sofisticación y funcionalidad.',
+      ],
+      imagen: '/img/fichas/tank-500-hev-4x4/exterior.webp',
+    },
+    fichaTecnica: '/fichas/tank-500-phev-4x4.pdf',
   },
   'tank-700-phev-4x4': {
     titular: ['EL MÁXIMO LUJO OFF ROAD'],

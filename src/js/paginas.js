@@ -1,11 +1,33 @@
 /** Páginas editoriales y locales compartidas por el HTML estático y la vista de desarrollo. */
 import { htmlCatalogo } from "./render/catalogo.js";
-import { DEALERS, mapaHref, telHref } from "./concesionarios.js";
+import { DEALERS, nombreDealer, mapaHref, telHref } from "./concesionarios.js";
 import { esc } from "./home/util.js";
 import { htmlAgenda } from "./render/agenda.js";
 import { RECLAMOS } from "./postventa.js";
+import { htmlExperiencia, htmlMundo, htmlSimuladores } from "./experiencia.js";
 
 export const PAGINAS = {
+  "/experiencia": {
+    titulo: "Experiencia GWM",
+    seoTitulo: "Experiencia GWM | Mundo GWM y simuladores de carga",
+    descripcion: "Conocé el mundo GWM y sus marcas Haval, Ora, Poer y Tank, y calculá el tiempo de carga y la autonomía eléctrica de tu GWM.",
+    etiqueta: "GWM EXPERIENCE",
+    relacionados: ["/experiencia/mundo-gwm", "/experiencia/simuladores", "/guia/carga-en-casa"],
+  },
+  "/experiencia/mundo-gwm": {
+    titulo: "Mundo GWM",
+    seoTitulo: "Mundo GWM: la marca y sus submarcas | GWM Paraguay",
+    descripcion: "Great Wall Motor en el mundo: proveedores, investigación y producción global, y sus marcas Haval, Ora, Poer y Tank.",
+    etiqueta: "EXPERIENCIA GWM",
+    relacionados: ["/experiencia/simuladores", "/modelos", "/experiencia"],
+  },
+  "/experiencia/simuladores": {
+    titulo: "Simuladores de carga y autonomía",
+    seoTitulo: "Simulador de carga y autonomía eléctrica | GWM Paraguay",
+    descripcion: "Calculá cuánto tarda en cargarse tu GWM híbrido enchufable o eléctrico según el cargador y estimá su autonomía eléctrica según cómo manejás.",
+    etiqueta: "EXPERIENCIA GWM",
+    relacionados: ["/guia/carga-en-casa", "/electricos", "/experiencia/mundo-gwm"],
+  },
   "/modelos": {
     titulo: "Todos los modelos GWM en Paraguay",
     descripcion:
@@ -128,31 +150,6 @@ export const PAGINAS = {
     ],
     relacionados: ["/electricos", "/hibridos", "/guia/hev-vs-phev"],
   },
-  "/guia/h6-hev-vs-phev": {
-    titulo: "Haval H6 HEV vs H6 PHEV en Paraguay",
-    descripcion:
-      "Compará el Haval New H6 HEV y New H6 PHEV: tecnología, forma de recarga, precios de referencia y versiones de Paraguay.",
-    etiqueta: "ELEGÍ TU H6",
-    bloques: [
-      [
-        "New H6 HEV: híbrido sin enchufe",
-        "El New H6 HEV utiliza una motorización híbrida autorrecargable. Su batería recibe energía del sistema híbrido al conducir: no necesitás conectarlo a una fuente externa.",
-      ],
-      [
-        "New H6 PHEV: híbrido enchufable",
-        "El New H6 PHEV permite recargar desde una fuente externa y conducir en modo eléctrico según la carga disponible y las condiciones de uso. Es importante revisar dónde vas a cargar habitualmente.",
-      ],
-      [
-        "Compará las versiones locales",
-        "La diferencia no termina en la batería. Revisá transmisión, tracción, seguridad y equipamiento en las fichas de Paraguay. Compará ambos modelos en el catálogo y consultá el precio actualizado con un asesor.",
-      ],
-      [
-        "Probá cuál va con vos",
-        "Pedí un test drive de la versión que te interesa. La disponibilidad de unidades y horarios se coordina con la concesionaria; enviar la solicitud no confirma un turno.",
-      ],
-    ],
-    relacionados: ["/modelos/new-h6-hev", "/modelos/new-h6-phev", "/hibridos"],
-  },
   "/postventa": {
     titulo: "Garantía y mantenimiento GWM en Paraguay",
     descripcion:
@@ -256,7 +253,7 @@ export const PAGINAS = {
 };
 
 export function htmlDealers() {
-  return `<section class="locales responsive__layout"><h2>Elegí tu punto de venta</h2><p>Contactá al local para confirmar sus horarios y la disponibilidad del vehículo que querés conocer.</p><div class="locales-grid">${DEALERS.map((d, i) => `<article class="local-card" id="local-${i + 1}"><p class="eyebrow">${esc(d.ciudad)}</p><h3>${esc(d.marca)} · ${esc(d.nombre)}</h3><address>${esc(d.direccion)}</address><p>${esc(d.horario)}</p><p>${d.telefonos.map((t) => `<a href="${telHref(t)}">${esc(t)}</a>`).join("<br />")}</p><a class="action action--dark" href="${esc(mapaHref(d))}" target="_blank" rel="noopener">Cómo llegar ↗</a></article>`).join("")}</div></section>`;
+  return `<section class="locales responsive__layout"><h2>Elegí tu punto de venta</h2><p>Contactá al local para confirmar sus horarios y la disponibilidad del vehículo que querés conocer.</p><div class="locales-grid">${DEALERS.map((d, i) => `<article class="local-card" id="local-${i + 1}"><p class="eyebrow">${esc(d.ciudad)}</p><h3>${d.marca === "Dealer autorizado" ? `${esc(d.marca)} · ${esc(d.nombre)}` : esc(nombreDealer(d))}</h3><address>${esc(d.direccion)}</address><p>${esc(d.horario)}</p><p>${d.telefonos.map((t) => `<a href="${telHref(t)}">${esc(t)}</a>`).join("<br />")}</p><a class="action action--dark" href="${esc(mapaHref(d))}" target="_blank" rel="noopener">Cómo llegar ↗</a></article>`).join("")}</div></section>`;
 }
 
 export function htmlPagina(ruta) {
@@ -274,6 +271,9 @@ export function htmlPagina(ruta) {
     ${p.bloques ? `<div class="editorial responsive__layout">${p.bloques.map(([titulo, texto]) => `<section><h2>${esc(titulo)}</h2><p>${esc(texto)}</p></section>`).join("")}</div>` : ""}
     ${p.tipo ? htmlCatalogo(p.tipo, "Explorá los modelos", "TU PRÓXIMO GWM") : ""}
     ${ruta === "/concesionarios" ? htmlDealers() : ""}
+    ${ruta === "/experiencia" ? htmlExperiencia() : ""}
+    ${ruta === "/experiencia/mundo-gwm" ? htmlMundo() : ""}
+    ${ruta === "/experiencia/simuladores" ? htmlSimuladores() : ""}
     ${ruta === "/postventa/agendar-service" ? htmlAgenda() : ""}
     ${ruta === "/postventa/reclamos" ? `<section class="page-cta responsive__layout" aria-labelledby="contacto-reclamos"><div><p class="eyebrow">GRUPO SANTA ROSA</p><h2 id="contacto-reclamos">Experiencia del Cliente</h2><p>Elegí el canal de atención que prefieras.</p></div><div><a class="action action--dark" href="${RECLAMOS.telHref}">Llamá al ${esc(RECLAMOS.telefono)}</a><a class="action action--line" href="mailto:${esc(RECLAMOS.email)}">${esc(RECLAMOS.email)}</a></div></section>` : ""}
     ${!["/privacidad", "/cookies"].includes(ruta) && !ruta.startsWith("/postventa") ? `<section class="page-cta responsive__layout"><div><p class="eyebrow">DA EL PRÓXIMO PASO</p><h2>Conocé tu GWM de cerca.</h2><p>Un asesor te ayuda a elegir la versión para vos.</p></div><div><button class="action action--dark" type="button" data-lead="cotizacion">Solicitá una cotización ↗</button><button class="action action--line" type="button" data-lead="testdrive">Solicitá un test drive</button></div></section>` : ""}

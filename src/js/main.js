@@ -3,7 +3,7 @@ import '@splidejs/splide/css';
 import '../css/styles.css';
 
 import Splide from '@splidejs/splide';
-import { DEALERS, CIUDADES, telHref, mapaHref } from './concesionarios.js';
+import { DEALERS, nombreDealer, CIUDADES, telHref, mapaHref } from './concesionarios.js';
 import { WHATSAPP_POSTVENTA } from './postventa.js';
 import { htmlAgenda } from './render/agenda.js';
 import { initNavegacion, alinearLlegada } from './navegacion.js';
@@ -18,7 +18,7 @@ import '../css/diseno.css';
 import '../css/mobile.css';
 import { optimizarImagenes } from './imagenes.js';
 import { initMobile } from './mobile.js';
-import { htmlDestacadosHome, htmlGuiasHome } from './render/catalogo.js';
+import { htmlDestacadosHome, htmlGuiasHome, htmlGamaHome } from './render/catalogo.js';
 import { initDescubrir } from './descubrir.js';
 import { initLeads } from './leads.js';
 import { initMedicion, medir, campana } from './medicion.js';
@@ -83,7 +83,7 @@ const ICONOS = {
 function tarjetaDealer(d) {
   const telefonos = d.telefonos.map((t) => `<a href="${telHref(t)}">${t}</a>`).join('');
   const tipos = d.tipos.map((t) => `<li>${t}</li>`).join('');
-  const nombreCompleto = `${d.marca} ${d.nombre}`;
+  const nombreCompleto = d.marca === "Dealer autorizado" ? `${d.marca} ${d.nombre}` : nombreDealer(d);
 
   return `
     <li class="splide__slide">
@@ -91,7 +91,7 @@ function tarjetaDealer(d) {
         <header class="dealer__cabecera">
           <span class="dealer__ciudad">${d.ciudad}</span>
           <p class="dealer__marca">${d.marca}</p>
-          <h3 class="dealer__nombre">${d.nombre}</h3>
+          <h3 class="dealer__nombre">${nombreDealer(d)}</h3>
           <span class="dealer__deco">${ICONOS.pin}</span>
         </header>
         <div class="dealer__cuerpo">
@@ -219,13 +219,14 @@ function initAgenda() {
     const datos = { tipo: 'agendamiento', ...Object.fromEntries(new FormData(form)), pagina: location.pathname, campana: campana() };
     const fecha = datos.fecha ? datos.fecha.split('-').reverse().join('/') : '';
     const mensaje = [
-      'Hola, quiero agendar un service para mi GWM.',
+      'Hola, quiero agendar el mantenimiento de mi GWM.',
       `Nombre: ${datos.nombre}`,
       `Teléfono: ${datos.telefono}`,
       `Email: ${datos.email}`,
       `Modelo: ${datos.modelo}`,
       `Año: ${datos.anio}`,
       `Servicio: ${datos.servicio}`,
+      datos.kilometraje ? `Kilometraje: ${datos.kilometraje}` : '',
       fecha ? `Fecha preferida: ${fecha}` : '',
       datos.comentarios ? `Comentarios: ${datos.comentarios}` : '',
     ]
@@ -288,6 +289,7 @@ if (rutaFicha) {
     }
     initDescubrir();
     initAgenda();
+    if (ruta.startsWith('/experiencia/')) import('./experiencia.js').then(({ initSimuladores, initMundo }) => { initSimuladores(); initMundo(); });
     initMobile();
     alinearLlegada();
   });
@@ -296,6 +298,8 @@ if (rutaFicha) {
   if (catalogo) catalogo.outerHTML = optimizarImagenes(htmlDestacadosHome());
   const guias = document.querySelector('[data-guias-home]');
   if (guias) guias.outerHTML = optimizarImagenes(htmlGuiasHome());
+  const gama = document.querySelector('[data-gama-home]');
+  if (gama) gama.outerHTML = optimizarImagenes(htmlGamaHome());
   const agenda = document.querySelector('[data-agenda-home]');
   if (agenda) agenda.outerHTML = htmlAgenda();
   initHero();

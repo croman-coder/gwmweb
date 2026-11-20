@@ -3,6 +3,7 @@ import {
   DESTACADOS,
   TIPOS_MOTOR,
   CARROCERIAS,
+  CATEGORIAS,
   nombreCompleto,
   textoPrecio as precioDesdeTexto,
   urlFicha,
@@ -55,7 +56,7 @@ export function htmlDestacadosHome() {
     .filter(Boolean)
     .slice(0, 3);
   return `<section class="home-destacados" id="modelos" aria-labelledby="destacados-titulo"><div class="responsive__layout">
-    <div class="section-heading"><div><p class="eyebrow">DESCUBRÍ LA GAMA GWM</p><h2 id="destacados-titulo">Elegí tu próxima historia.</h2></div><p>La ciudad. La rutina. La aventura.<br />Hay un GWM para cada camino.</p></div>
+    <div class="section-heading"><div><p class="eyebrow">DESCUBRÍ LA GAMA GWM</p><h2 id="destacados-titulo">Elegí tus tecnologías.</h2></div><p>La ciudad. La rutina. La aventura.<br />Hay un GWM para cada camino.</p></div>
     <p class="home-destacados__hint">Deslizá para descubrir los destacados <span aria-hidden="true">→</span></p>
     <div class="catalogo-grid destacados-grid" role="group" aria-label="Modelos destacados" tabindex="0">${modelos.map((m, i) => `<article class="modelo-card modelo-card--editorial" data-catalogo-modelo="${m.slug}">
       <a class="destacado-media" href="${urlFicha(m.slug)}" tabindex="-1" aria-hidden="true"><img src="/img/fichas/${m.slug}/portada.webp" alt="" width="900" height="600" loading="lazy" /><span class="energy-tag">${esc(tecnologia(m))}</span><span class="destacado-numero">0${i + 1}</span></a>
@@ -82,7 +83,7 @@ export function htmlHeroSlide(s, i) {
     <div class="video-box"><picture class="car-app-img"><source media="(max-width:767px)" ${i === 0 ? 'srcset' : 'data-hero-srcset'}="${srcsetImagen(fotoMovil)}" sizes="100vw" /><img ${i === 0 ? 'src' : 'data-hero-src'}="${foto}" ${i === 0 ? 'srcset' : 'data-hero-srcset'}="${srcsetImagen(foto)}" sizes="100vw" alt="" width="1920" height="1080" decoding="async" ${i === 0 ? 'fetchpriority="high"' : ''} /></picture>${video(s.video, s.imagen, "video-d")}${video(s.videoMobile, fotoMovil, "video-m")}</div>
     <div class="content-box"><div class="responsive__layout"><div class="kv-swiper-content">
       <p class="hero-eyebrow">GWM PARAGUAY · ${esc(tecnologia(m))}</p>
-      <p class="kv-title">${esc(nombreCompleto(m).replace(/\s+(?:HEV|PHEV|EV)(?:\s+4x4)?$/i, ""))}</p>
+      <p class="kv-title">${esc(nombreCompleto(m).replace(/\s+4x4$/i, ""))}</p>
       <p class="hero-beneficio">${esc(m.bajada)}</p>
       <p class="kv-subtitle">${precioDesdeTexto(m.precio)}</p>
       <div class="hero-actions"><a class="action action--light" href="${urlFicha(m.slug)}">Descubrí el modelo <span aria-hidden="true">↗</span></a><button class="action action--outline" type="button" data-lead="testdrive" data-modelo-slug="${m.slug}">Test drive</button></div>
@@ -90,10 +91,20 @@ export function htmlHeroSlide(s, i) {
   </div>`;
 }
 
+/** Tira con una mini foto por línea (Haval, Ora, Poer, Tank, Wingle), en orden alfabético.
+ *  Cada una lleva al catálogo filtrado por esa línea; la foto es la del primer modelo de la línea. */
+export function htmlGamaHome() {
+  const lineas = CATEGORIAS.filter((c) => MODELOS.some((m) => m.categoria === c.id))
+    .sort((a, b) => a.titulo.localeCompare(b.titulo, "es"));
+  return `<nav class="gama-mini" aria-label="Líneas GWM"><ul>${lineas.map((c) => {
+    const m = MODELOS.find((x) => x.categoria === c.id);
+    return `<li><a href="/modelos?buscar=${encodeURIComponent(c.titulo)}"><img src="${m.imagen}" alt="" width="240" height="140" loading="lazy" decoding="async" /><span>${esc(c.titulo)}</span></a></li>`;
+  }).join("")}</ul></nav>`;
+}
+
 export function htmlGuiasHome() {
   return `<section class="guias-home responsive__layout" aria-labelledby="guias-titulo"><div class="section-heading"><div><p class="eyebrow">UNA NUEVA FORMA DE MOVERTE</p><h2 id="guias-titulo">El futuro se elige hoy.</h2></div><a class="text-link" href="/hibridos">Conocé la gama híbrida <span aria-hidden="true">↗</span></a></div><div class="guias-grid">
     <a class="guia-card guia-card--principal" href="/guia/hev-vs-phev"><img src="/img/fichas/ora-5-ev/galeria-2.webp" alt="" width="900" height="600" loading="lazy" /><div class="guia-card__texto"><span class="eyebrow">GUÍA DE TECNOLOGÍAS</span><h3>Una nueva energía.<br />La misma libertad.</h3><p>HEV, PHEV o eléctrico: descubrí qué tecnología va con vos.</p><span class="guia-card__link">Explorá la guía <span aria-hidden="true">↗</span></span></div></a>
     <a class="guia-card" href="/guia/carga-en-casa"><img src="/img/fichas/new-h6-phev/galeria-1.webp" alt="" width="900" height="600" loading="lazy" /><div class="guia-card__texto"><span class="eyebrow">TU DÍA A DÍA</span><h3>Tu casa, tu próximo punto de carga.</h3><span class="guia-card__link">Qué necesitás saber <span aria-hidden="true">↗</span></span></div></a>
-    <a class="guia-card" href="/guia/h6-hev-vs-phev"><img src="/img/fichas/new-h6-hev/portada.webp" alt="" width="900" height="600" loading="lazy" /><div class="guia-card__texto"><span class="eyebrow">DOS FORMAS DE MOVERTE</span><h3>Haval H6.<br />HEV o PHEV.</h3><span class="guia-card__link">Encontrá tu versión <span aria-hidden="true">↗</span></span></div></a>
   </div></section>`;
 }

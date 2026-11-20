@@ -2205,3 +2205,130 @@ textarea.agenda__campo {
   padding: 16px 0 40px;
   color: #aeaeb2;
 }
+
+/* Tira de modelos de la home (todos los modelos, cada uno a su ficha) */
+.gama-mini{margin-top:48px}
+.gama-mini ul{list-style:none;margin:0;padding:0 0 8px;display:grid;grid-auto-flow:column;grid-auto-columns:minmax(150px,1fr);gap:12px;overflow-x:auto;scroll-snap-type:x mandatory}
+.gama-mini li{scroll-snap-align:start}
+.gama-mini a{display:flex;flex-direction:column;align-items:center;gap:8px;padding:12px 8px;border-radius:12px;background:#fff;border:1px solid #e3e3e3;color:inherit;text-decoration:none;text-align:center;font-size:14px;font-weight:600;height:100%;transition:background .2s,transform .2s}
+.gama-mini a:hover,.gama-mini a:focus-visible{border-color:#111;transform:translateY(-2px)}
+.gama-mini img{width:100%;height:auto;aspect-ratio:12/7;object-fit:contain}
+
+/* Lista de precios de mantenimiento (sección Agendá tu mantenimiento) */
+.costos{margin:0 0 48px}
+.costos__titulo{font-size:22px;margin:0 0 16px}
+.costos__scroll{overflow-x:auto;border:1px solid #e3e3e3;border-radius:12px}
+.costos__tabla{border-collapse:collapse;width:100%;min-width:1100px;font-size:14px;font-variant-numeric:tabular-nums}
+.costos__tabla th,.costos__tabla td{padding:9px 10px;border-bottom:1px solid #ececec;text-align:right;white-space:nowrap}
+.costos__tabla thead th{background:#111;color:#fff;font-weight:600;font-size:13px}
+.costos__km td,.costos__km th{background:#f7f7f7;color:#555;font-weight:600;font-size:12px}
+.costos__tabla th[scope=row],.costos__tabla thead th:first-child{text-align:left;position:sticky;left:0;background:#fff;font-weight:600;z-index:1}
+.costos__tabla thead th:first-child{background:#111}
+.costos__km td:first-child{position:sticky;left:0}
+.costos__linea th{background:#f1f1f1;text-align:left;font-size:13px;letter-spacing:.08em;text-transform:uppercase;position:sticky;left:0}
+.costos__tabla tbody tr:not(.costos__linea):not(.costos__km):hover td,.costos__tabla tbody tr:hover th[scope=row]{background:#fafafa}
+.costos__nota{margin:10px 0 0;font-size:13px;color:#666}
+
+/* Filtro de precio del panel MODELOS */
+.filter-precio__campos{display:grid;gap:10px}
+.filter-precio__campo{display:grid;grid-template-columns:52px auto 1fr;align-items:center;gap:8px;font-size:14px;color:#000}
+.filter-precio__campo>span:first-child{font-weight:600}
+.filter-precio__usd{font-size:12px;font-weight:700;color:#000}
+.filter-precio__campo input{width:100%;min-width:0;padding:7px 8px;border:1px solid var(--borde);border-radius:8px;font:inherit;font-size:14px;color:#000;background:#fff}
+.filter-precio__campo input:focus-visible{outline:2px solid var(--rojo);outline-offset:1px}
+.filter-precio{width:100%}
+.filter-precio__campo input{-moz-appearance:textfield}
+.filter-precio__campo input::-webkit-outer-spin-button,.filter-precio__campo input::-webkit-inner-spin-button{-webkit-appearance:none;margin:0}
+
+/* Experiencia GWM: Mundo GWM y simuladores */
+.exp-bloque{padding:56px 0}
+.exp-pilares{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px}
+.exp-pilar{padding:24px;border:1px solid #e3e3e3;border-radius:12px;background:#fff}
+.exp-pilar__num{font-size:13px;font-weight:700;color:var(--rojo)}
+.exp-pilar h3{margin:8px 0;font-size:20px}
+.exp-pilar p{margin:0;color:#555;line-height:1.5}
+.exp-marcas{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+.exp-marca,.exp-modulo{display:flex;flex-direction:column;gap:8px;padding:20px;border:1px solid #e3e3e3;border-radius:12px;background:#fff;color:inherit;text-decoration:none;transition:border-color .2s,transform .2s}
+.exp-marca:hover,.exp-modulo:hover,.exp-marca:focus-visible,.exp-modulo:focus-visible{border-color:#111;transform:translateY(-2px)}
+.exp-marca img{width:100%;height:auto;aspect-ratio:48/19;object-fit:contain}
+.exp-marca h3{margin:4px 0 0;font-size:22px;letter-spacing:.06em}
+.exp-marca p,.exp-modulo p{margin:0;color:#555;line-height:1.5}
+.exp-marca__link{margin-top:auto;padding-top:8px;font-weight:700}
+.exp-modulos{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:20px}
+.exp-modulo{padding:0;overflow:hidden}
+.exp-modulo img{width:100%;height:240px;object-fit:cover}
+.exp-modulo>div{display:flex;flex-direction:column;gap:8px;padding:20px 24px 24px;flex:1}
+.exp-modulo h2{margin:0;font-size:28px}
+.exp-sim{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:24px;align-items:start}
+.exp-sim__controles{display:grid;gap:20px;padding:24px;border:1px solid #e3e3e3;border-radius:12px;background:#fff}
+.exp-campo{display:grid;gap:6px;font-weight:600}
+.exp-campo select{padding:10px 12px;border:1px solid var(--borde);border-radius:8px;font:inherit;background:#fff}
+.exp-grupo{margin:0;padding:0;border:0;display:grid;gap:8px}
+.exp-grupo legend{margin-bottom:8px;font-weight:600}
+.exp-chips{display:flex;flex-wrap:wrap;gap:8px}
+.exp-chip input{position:absolute;opacity:0;pointer-events:none}
+.exp-chip span{display:inline-block;padding:7px 14px;border:1px solid var(--borde);border-radius:20px;font-size:14px;font-weight:700;cursor:pointer;background:#fff}
+.exp-chip input:checked+span{background:#000;border-color:#000;color:#fff}
+.exp-chip input:focus-visible+span{outline:2px solid var(--rojo);outline-offset:2px}
+.exp-rango{display:grid;gap:4px;font-size:14px}
+.exp-rango input{width:100%;accent-color:#000}
+.exp-sim__resultado{position:sticky;top:96px;padding:28px;border-radius:12px;background:#111;color:#fff}
+.exp-sim__etiqueta{margin:0;font-size:13px;letter-spacing:.08em;text-transform:uppercase;opacity:.8}
+.exp-sim__valor{margin:8px 0 12px;font-size:clamp(36px,5vw,56px);font-weight:700;line-height:1.1}
+.exp-sim__detalle{margin:0 0 16px;line-height:1.5}
+.exp-sim__nota{margin:0;font-size:12px;opacity:.7;line-height:1.5}
+@media (max-width:767px){.exp-sim{grid-template-columns:1fr}.exp-sim__resultado{position:static}.exp-bloque{padding:40px 0}}
+
+/* Mundo GWM: mapa de producción e I+D */
+.exp-mapa__layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2.2fr);gap:32px;align-items:center}
+.exp-mapa__texto p{margin:0 0 20px;color:#444;line-height:1.6}
+.exp-mapa__leyenda,.exp-mapa__lista{list-style:none;margin:0;padding:0}
+.exp-mapa__leyenda{display:grid;gap:10px;margin-bottom:20px}
+.exp-mapa__leyenda li{display:flex;align-items:center;gap:10px;font-size:15px}
+.exp-mapa__punto{width:14px;height:14px;border-radius:50%;flex:none}
+.exp-mapa__punto--id{border:2px solid #555;background:#fff}
+.exp-mapa__punto--planta{background:#1f6fc5}
+.exp-mapa__punto--ckd{background:#2f6b55}
+.exp-mapa__lista{columns:2;column-gap:16px;font-size:13px;color:#555;line-height:1.7}
+.exp-mapa__figura{margin:0}
+.exp-mapa__figura svg{width:100%;height:auto;display:block}
+.exp-mapa__sede circle{stroke:#fff;stroke-width:1.5}
+.exp-mapa__sede--id circle{fill:#fff;stroke:#555;stroke-width:2}
+.exp-mapa__sede--planta circle{fill:#1f6fc5}
+.exp-mapa__sede--ckd circle{fill:#2f6b55}
+.exp-mapa__sede--sede circle{fill:#e60012}
+.exp-mapa__sede circle{transform:scale(0);transform-box:fill-box;transform-origin:center;transition:transform .45s cubic-bezier(.3,1.6,.5,1) calc(var(--i)*70ms)}
+.exp-mapa.is-visible .exp-mapa__sede circle{transform:scale(1)}
+.exp-mapa.is-visible .exp-mapa__sede--sede circle{animation:exp-pulso 2s ease-out 1.5s infinite}
+@keyframes exp-pulso{0%{stroke:#e60012;stroke-width:1.5;stroke-opacity:1}100%{stroke:#e60012;stroke-width:22;stroke-opacity:0}}
+
+/* Mundo GWM: marcas que cambian al hacer scroll (sección fija mientras se recorre) */
+.exp-showcase{position:relative;height:calc(var(--marcas) * 90vh + 10vh)}
+.exp-showcase__sticky{position:sticky;top:0;height:100vh;display:flex;align-items:center;overflow:hidden}
+.exp-showcase__layout{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.3fr);gap:40px;align-items:center;width:100%}
+.exp-showcase__item h3{margin:0;font-size:clamp(28px,3.4vw,48px);font-weight:800;letter-spacing:.02em;color:#c9c9c9;cursor:pointer;transition:color .4s,font-size .4s}
+.exp-showcase__item.is-activo h3{color:#000;font-size:clamp(40px,5vw,72px)}
+.exp-showcase__cuerpo{display:grid;grid-template-rows:0fr;opacity:0;transition:grid-template-rows .5s ease,opacity .4s ease}
+.exp-showcase__cuerpo>*{overflow:hidden}
+.exp-showcase__cuerpo{gap:0}
+.exp-showcase__cuerpo p{margin:0;max-width:440px;color:#444;line-height:1.6}
+.exp-showcase__item.is-activo .exp-showcase__cuerpo{grid-template-rows:1fr auto;opacity:1;margin:8px 0 24px}
+.exp-showcase__item.is-activo .exp-showcase__cuerpo .exp-marca__link{display:inline-block;margin-top:12px}
+.exp-showcase__item:not(.is-activo) .exp-marca__link{display:none}
+.exp-showcase__media{position:relative;aspect-ratio:48/26}
+.exp-showcase__auto{position:absolute;inset:0;margin:0;display:flex;flex-direction:column;justify-content:center;opacity:0;transform:translateX(60px) scale(.96);transition:opacity .6s ease,transform .8s cubic-bezier(.2,.7,.2,1)}
+.exp-showcase__auto.is-activo{opacity:1;transform:none}
+.exp-showcase__auto img{width:100%;height:auto}
+.exp-showcase__logo{align-self:flex-end;font-size:clamp(20px,2.4vw,32px);font-weight:800;letter-spacing:.12em;transform:translateY(12px);opacity:0;transition:opacity .5s .2s,transform .6s .2s}
+.exp-showcase__auto.is-activo .exp-showcase__logo{opacity:1;transform:none}
+@media (max-width:767px),(prefers-reduced-motion:reduce){
+  .exp-showcase{height:auto;padding:40px 0}
+  .exp-showcase__sticky{position:static;height:auto;display:block}
+  .exp-showcase__layout{grid-template-columns:1fr}
+  .exp-showcase__media{display:none}
+  .exp-showcase__item h3,.exp-showcase__item.is-activo h3{color:#000;font-size:32px}
+  .exp-showcase__cuerpo,.exp-showcase__item .exp-showcase__cuerpo{grid-template-rows:1fr auto;opacity:1;margin:8px 0 28px}
+  .exp-showcase__item .exp-marca__link{display:inline-block!important;margin-top:12px}
+}
+@media (max-width:767px){.exp-mapa__layout{grid-template-columns:1fr}.exp-mapa__figura{order:-1}}
+@media (prefers-reduced-motion:reduce){.exp-mapa__sede circle{transition:none;transform:scale(1)}.exp-mapa.is-visible .exp-mapa__sede--sede circle{animation:none}}

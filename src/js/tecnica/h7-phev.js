@@ -1,7 +1,7 @@
 /**
  * Especificaciones técnicas de h7-phev.
  *
- * Fuente: ficha técnica oficial en PDF (public/fichas/h7-phev.pdf), transcripta y revisada contra el documento.
+ * Fuente: ficha técnica oficial 2026 entregada por Marketing (public/fichas/h7-phev.pdf), versión única "H7 PHEV 4X2".
  * Formato: columnas = versiones comparadas en la hoja (vacío si es una sola); cada fila es [etiqueta, valor];
  * valor = texto | true (incluido) | false (no incluido) | [valor por columna] cuando difiere entre versiones.
  * Las filas sin dato o no incluidas en ninguna versión no se listan.
@@ -25,8 +25,8 @@ export default {
       titulo: 'Motorización',
       filas: [
         ['Motorización', 'PHEV'],
-        ['Tren motriz', '2WD'],
-        ['Transmisión', '4X2 DHT-1'],
+        ['Tracción', '4x2'],
+        ['Transmisión', 'Automática'],
         ['Motor', '4B15M'],
         ['Capacidad de batería', '19,09 kWh'],
         ['Potencia del motor eléctrico', '147 HP'],
@@ -106,7 +106,7 @@ export default {
         ['Enchufe de 220 V (compatible con el extranjero) + toma de 220 V (descarga en cabina, 2,2 kW)', true],
         ['Ganchos fijos de carga', true],
         ['Cubierta tonneau del compartimento de equipaje', true],
-        ['Asientos de cuero con ajuste eléctrico en 6 posiciones (conductor) + 4 en pasajero', true],
+        ['Asientos de cuero con ajuste eléctrico en 6 posiciones (conductor) + ajuste manual en pasajero', true],
         ['Soporte lumbar eléctrico de dos vías para el conductor', true],
         ['Asientos traseros abatibles 60/40', true],
         ['Reposabrazos central trasero con portavasos', true],
@@ -133,7 +133,7 @@ export default {
     {
       titulo: 'Seguridad',
       filas: [
-        ['Airbags', '6'],
+        ['Airbags (la hoja dice "Airbags frontales dobles")', '6'],
         ['Cinturones de seguridad frontales con doble pretensor + limitante de fuerza + CLT', true],
         ['Cinturones de seguridad de pretensor exterior traseros que limitan la fuerza + central de 3 puntos', true],
         ['Recordatorio del cinturón de seguridad (delantero y trasero)', true],

@@ -1,7 +1,7 @@
 /**
  * Especificaciones técnicas de jolion-pro-hev.
  *
- * Fuente: ficha técnica oficial en PDF (public/fichas/jolion-pro-hev.pdf), transcripta y revisada contra el documento.
+ * Fuente: ficha técnica oficial 2026 entregada por Marketing (public/fichas/jolion-pro-hev.pdf); sin cambios de datos respecto de la hoja anterior.
  * Formato: columnas = versiones comparadas en la hoja (vacío si es una sola); cada fila es [etiqueta, valor];
  * valor = texto | true (incluido) | false (no incluido) | [valor por columna] cuando difiere entre versiones.
  * Las filas sin dato o no incluidas en ninguna versión no se listan.
@@ -38,7 +38,7 @@ export default {
       filas: [
         ['Potencia combinada (HP)', '188'],
         ['Torque combinado (Nm)', '377'],
-        ['Transmisión', 'DHT, automática dedicada al híbrido, 2 velocidades'],
+        ['Transmisión', 'Automática'],
         ['Tracción', '4x2'],
       ],
     },

@@ -14,12 +14,13 @@
  * identifica al modelo y forma parte de su URL: no cambiarlo una vez publicado.
  */
 
+// En orden alfabético (pedido de Marketing, 2026-11-20): así se listan en menús, filtros y catálogo.
 export const CATEGORIAS = [
-  { id: 'wingle', titulo: 'Wingle' },
   { id: 'haval', titulo: 'Haval' },
   { id: 'ora', titulo: 'Ora' },
   { id: 'poer', titulo: 'Poer' },
   { id: 'tank', titulo: 'Tank' },
+  { id: 'wingle', titulo: 'Wingle' },
 ];
 
 const TODOS = [
@@ -38,7 +39,7 @@ const TODOS = [
     categoria: 'haval',
     nombre: 'Jolion Pro HEV',
     slug: 'jolion-pro-hev',
-    precio: 20990,
+    precio: 22990,
     imagen: '/img/modelos/jolion-pro-hev.webp',
     bajada: 'El SUV que re-evoluciona tu mundo.',
   },
@@ -54,6 +55,8 @@ const TODOS = [
     categoria: 'haval',
     nombre: 'New H6 PHEV',
     slug: 'new-h6-phev',
+    // Retirado de la web por pedido de Marketing (2026-11-20): su URL redirige al H6 HEV.
+    oculto: { hasta: 'new-h6-hev' },
     precio: 30990,
     imagen: '/img/modelos/new-h6-phev.webp',
     bajada: 'Tecnología y seguridad como nunca antes.',
@@ -72,7 +75,7 @@ const TODOS = [
     slug: 'h7-phev',
     precio: 35990,
     imagen: '/img/modelos/h7-phev.webp',
-    bajada: 'El SUV híbrido enchufable que redefine el off road urbano.',
+    bajada: 'El SUV híbrido enchufable que redefine la aventura urbana.',
   },
   {
     categoria: 'haval',
@@ -160,6 +163,15 @@ const TODOS = [
   },
   {
     categoria: 'tank',
+    nombre: 'Tank 500 PHEV 4x4',
+    slug: 'tank-500-phev-4x4',
+    // Precio sin confirmar: se muestra "Consultar". Foto compartida con el Tank 500 HEV.
+    precio: null,
+    imagen: '/img/modelos/tank-500-hev.webp',
+    bajada: 'El lujo del Tank 500 con hasta 105 km de autonomía eléctrica.',
+  },
+  {
+    categoria: 'tank',
     nombre: 'Tank 700 PHEV 4x4',
     slug: 'tank-700-phev-4x4',
     precio: 74990,
@@ -173,8 +185,8 @@ const TODOS = [
    para que un modelo nuevo se clasifique en un solo lugar. */
 export const TIPOS_MOTOR = [
   { id: 'electrico', titulo: 'Eléctrico' },
-  { id: 'hev', titulo: 'Híbrido HEV' },
-  { id: 'phev', titulo: 'Enchufable PHEV' },
+  { id: 'hev', titulo: 'Híbrido' },
+  { id: 'phev', titulo: 'Híbrida Enchufable' },
   { id: 'diesel', titulo: 'Diésel' },
 ];
 
@@ -201,6 +213,7 @@ const CLASIFICACION = {
   'tank-300-phev-4x4': ['hibrido', 'todoterreno'],
   'tank-400-phev-4x4': ['hibrido', 'todoterreno'],
   'tank-500-hev-4x4': ['hibrido', 'todoterreno'],
+  'tank-500-phev-4x4': ['hibrido', 'todoterreno'],
   'tank-700-phev-4x4': ['hibrido', 'todoterreno'],
 };
 
@@ -210,7 +223,12 @@ for (const modelo of TODOS) {
 }
 
 /** Modelos publicados. Los marcados `oculto` no aparecen en ningún lado del sitio. */
-export const MODELOS = TODOS.filter((m) => !m.oculto);
+/** Orden de los modelos en todo el sitio: por línea (alfabético) y, dentro de cada una, del más barato al más caro;
+ *  los que no tienen precio van al final de su línea. */
+const ordenLinea = (m) => CATEGORIAS.findIndex((c) => c.id === m.categoria);
+export const MODELOS = TODOS.filter((m) => !m.oculto).sort(
+  (a, b) => ordenLinea(a) - ordenLinea(b) || (a.precio ?? Infinity) - (b.precio ?? Infinity),
+);
 
 /** Modelos ocultos y a qué ficha redirige su URL mientras tanto: { slug: slugDestino }. */
 export const OCULTOS = Object.fromEntries(TODOS.filter((m) => m.oculto).map((m) => [m.slug, m.oculto.hasta]));
@@ -249,10 +267,9 @@ export const SLIDES = [
   { modelo: 'Tank 400 PHEV 4x4', slug: 'tank-400-phev-4x4', precio: 50990, imagen: '/img/hero/tank-400.webp', tituloIncrustado: true, ...spot('tank-400-phev-4x4') },
   { modelo: 'Tank 700 PHEV 4x4', slug: 'tank-700-phev-4x4', precio: 74990, imagen: '/img/fichas/tank-700-phev-4x4/portada.webp', ...spot('tank-700-phev-4x4') },
   { modelo: 'Haval New H6 HEV', slug: 'new-h6-hev', precio: 24990, imagen: '/img/hero/new-h6-hev.webp', tituloIncrustado: true, ...spot('new-h6') },
-  { modelo: 'Haval New H6 PHEV', slug: 'new-h6-phev', precio: 30990, imagen: '/img/poster/h6-phev.webp', ...spot('new-h6') },
   { modelo: 'Poer Diesel', slug: 'poer-diesel', precio: 29990, imagen: '/img/poster/poer.webp', ...spot('poer-diesel') },
   { modelo: 'Haval H6 GT PHEV', slug: 'h6-gt-phev', precio: 39990, imagen: '/img/hero/h6-gt-phev.webp', tituloIncrustado: true, ...spot('h6-gt-phev') },
-  { modelo: 'Jolion Pro HEV', slug: 'jolion-pro-hev', precio: 20990, imagen: '/img/fichas/jolion-pro-hev/portada.webp', ...spot('jolion-pro-hev') },
+  { modelo: 'Jolion Pro HEV', slug: 'jolion-pro-hev', precio: 22990, imagen: '/img/fichas/jolion-pro-hev/portada.webp', ...spot('jolion-pro-hev') },
   { modelo: 'Ora 5', slug: 'ora-5-ev', precio: 24990, imagen: '/img/poster/ora-5.webp', ...spot('ora-5') },
 ];
 

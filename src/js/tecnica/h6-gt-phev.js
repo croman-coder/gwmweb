@@ -1,7 +1,7 @@
 /**
  * Especificaciones técnicas de h6-gt-phev.
  *
- * Fuente: ficha técnica oficial en PDF (public/fichas/h6-gt-phev.pdf), transcripta y revisada contra el documento.
+ * Fuente: ficha técnica oficial de Marketing 2026 (public/fichas/h6-gt-phev.pdf; texto idéntico a la versión anterior), transcripta y revisada contra el documento.
  * Formato: columnas = versiones comparadas en la hoja (vacío si es una sola); cada fila es [etiqueta, valor];
  * valor = texto | true (incluido) | false (no incluido) | [valor por columna] cuando difiere entre versiones.
  * Las filas sin dato o no incluidas en ninguna versión no se listan.
@@ -62,8 +62,8 @@ export default {
         ['Autonomía modo 100% eléctrico', 'Hasta 170 km'],
         ['Potencia combinada (HP)', '430'],
         ['Torque (Nm)', '762'],
-        ['Transmisión', '2 velocidades'],
-        ['Tracción', 'Integral en las 4 ruedas'],
+        ['Transmisión', 'Automática'],
+        ['Tracción', '4x4'],
         ['Velocidad máxima', '180 km/h (limitada electrónicamente)'],
       ],
     },
