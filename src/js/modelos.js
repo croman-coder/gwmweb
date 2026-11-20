@@ -24,6 +24,7 @@ export const CATEGORIAS = [
 ];
 
 const TODOS = [
+  // Precios de lista (PVP) de "Acciones comerciales noviembre 2026" (Marketing, 2026-11-20).
   // --- Wingle -------------------------------------------------------------
   {
     categoria: 'wingle',
@@ -39,7 +40,7 @@ const TODOS = [
     categoria: 'haval',
     nombre: 'Jolion Pro HEV',
     slug: 'jolion-pro-hev',
-    precio: 21990,
+    precio: 20990,
     imagen: '/img/modelos/jolion-pro-hev.webp',
     bajada: 'El SUV que re-evoluciona tu mundo.',
   },
@@ -73,7 +74,7 @@ const TODOS = [
     categoria: 'haval',
     nombre: 'H7 PHEV',
     slug: 'h7-phev',
-    precio: 35990,
+    precio: 34990,
     imagen: '/img/modelos/h7-phev.webp',
     bajada: 'El SUV híbrido enchufable que redefine la aventura urbana.',
   },
@@ -131,7 +132,7 @@ const TODOS = [
     categoria: 'poer',
     nombre: 'Poer P500',
     slug: 'poer-p500',
-    precio: 44990,
+    precio: 42990,
     imagen: '/img/modelos/poer-p500.webp',
     bajada: 'La pick up híbrida enchufable 4x4 de GWM.',
   },
@@ -174,7 +175,7 @@ const TODOS = [
     categoria: 'tank',
     nombre: 'Tank 700 PHEV 4x4',
     slug: 'tank-700-phev-4x4',
-    precio: 74990,
+    precio: 72990,
     imagen: '/img/modelos/tank-700-phev.webp',
     bajada: 'La máxima expresión de lujo y poder off road de GWM.',
   },
@@ -263,13 +264,13 @@ const spot = (nombre) => ({ video: `/video/${nombre}-16x9.mp4`, videoMobile: `/v
 export const SLIDES = [
   // Spots de 5 s entregados por la agencia el 2026-11-19 (Drive "VIDEOS"): uno 16:9 y uno 9:16 por modelo.
   // El de H6 sirve para HEV y PHEV (mismo diseño). Están en public/video/<slug>-16x9.mp4 y -9x16.mp4.
-  { modelo: 'Haval H7 PHEV', slug: 'h7-phev', precio: 35990, imagen: '/img/poster/h7-original-1080.webp', imagenMobile: '/img/fichas/h7-phev/portada-m.webp', ...spot('h7-phev') },
+  { modelo: 'Haval H7 PHEV', slug: 'h7-phev', precio: 34990, imagen: '/img/poster/h7-original-1080.webp', imagenMobile: '/img/fichas/h7-phev/portada-m.webp', ...spot('h7-phev') },
   { modelo: 'Tank 400 PHEV 4x4', slug: 'tank-400-phev-4x4', precio: 50990, imagen: '/img/hero/tank-400.webp', tituloIncrustado: true, ...spot('tank-400-phev-4x4') },
-  { modelo: 'Tank 700 PHEV 4x4', slug: 'tank-700-phev-4x4', precio: 74990, imagen: '/img/fichas/tank-700-phev-4x4/portada.webp', ...spot('tank-700-phev-4x4') },
+  { modelo: 'Tank 700 PHEV 4x4', slug: 'tank-700-phev-4x4', precio: 72990, imagen: '/img/fichas/tank-700-phev-4x4/portada.webp', ...spot('tank-700-phev-4x4') },
   { modelo: 'Haval New H6 HEV', slug: 'new-h6-hev', precio: 24990, imagen: '/img/hero/new-h6-hev.webp', tituloIncrustado: true, ...spot('new-h6') },
   { modelo: 'Poer Diesel', slug: 'poer-diesel', precio: 29990, imagen: '/img/poster/poer.webp', ...spot('poer-diesel') },
   { modelo: 'Haval H6 GT PHEV', slug: 'h6-gt-phev', precio: 39990, imagen: '/img/hero/h6-gt-phev.webp', tituloIncrustado: true, ...spot('h6-gt-phev') },
-  { modelo: 'Jolion Pro HEV', slug: 'jolion-pro-hev', precio: 21990, imagen: '/img/fichas/jolion-pro-hev/portada.webp', ...spot('jolion-pro-hev') },
+  { modelo: 'Jolion Pro HEV', slug: 'jolion-pro-hev', precio: 20990, imagen: '/img/fichas/jolion-pro-hev/portada.webp', ...spot('jolion-pro-hev') },
   { modelo: 'Ora 5', slug: 'ora-5-ev', precio: 24990, imagen: '/img/poster/ora-5.webp', ...spot('ora-5') },
 ];
 
