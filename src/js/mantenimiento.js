@@ -8,7 +8,7 @@ export const KM_POER_MT = [5, 15, 25, 35, 45, 55, 65, 75, 85, 95];
 
 const f = (s) => s.split(' ').map(Number);
 
-export const COSTOS_MANTENIMIENTO = [
+const COSTOS_POR_LINEA = [
   { linea: 'Tank', filas: [
     ['Tank 700 PHEV', f('840000 1089000 840000 2453000 2641000 1089000 840000 4249000 840000 3522000')],
     ['Tank 500 HEV', f('627000 824000 649000 2075000 2248000 824000 649000 2692000 649000 2924000')],
@@ -45,3 +45,9 @@ export const COSTOS_MANTENIMIENTO = [
     ['Wingle 7 2WD', f('845000 1239000 1144000 1283000 2149000 1239000 1144000 2673000 2149000 1165000')],
   ] },
 ];
+
+/** Líneas en orden alfabético y, dentro de cada una, modelos por nombre con los números en orden. */
+const orden = (a, b) => a.localeCompare(b, 'es', { numeric: true });
+export const COSTOS_MANTENIMIENTO = COSTOS_POR_LINEA
+  .map(({ linea, filas }) => ({ linea, filas: [...filas].sort((a, b) => orden(a[0], b[0])) }))
+  .sort((a, b) => orden(a.linea, b.linea));

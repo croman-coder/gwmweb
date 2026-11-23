@@ -123,8 +123,8 @@ export function htmlMovil() {
     <div class="nav-list">
       ${desplegable('MODELOS', modelos)}
       <div class="list-item"><a class="primary-btn-box" href="/concesionarios"><span class="primary-link">PUNTOS DE VENTA</span></a></div>
-      <div class="list-item"><a class="primary-btn-box" href="/experiencia"><span class="primary-link">EXPERIENCIA GWM</span></a></div>
       ${desplegable('POSTVENTA', postventa)}
+      <div class="list-item"><a class="primary-btn-box" href="/experiencia"><span class="primary-link">EXPERIENCIA GWM</span></a></div>
     </div>
     <div class="nav-feature-btn">
       <a class="nav-btn--secondary stroke" href="/modelos">Todos los modelos</a>

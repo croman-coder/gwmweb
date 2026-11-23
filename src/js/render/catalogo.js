@@ -56,7 +56,7 @@ export function htmlDestacadosHome() {
     .filter(Boolean)
     .slice(0, 3);
   return `<section class="home-destacados" id="modelos" aria-labelledby="destacados-titulo"><div class="responsive__layout">
-    <div class="section-heading"><div><p class="eyebrow">DESCUBRÍ LA GAMA GWM</p><h2 id="destacados-titulo">Elegí tus tecnologías.</h2></div><p>La ciudad. La rutina. La aventura.<br />Hay un GWM para cada camino.</p></div>
+    <div class="section-heading"><div><p class="eyebrow">DESCUBRÍ LA GAMA GWM</p><h2 id="destacados-titulo">Elegí tu vehículo.</h2></div><p>La ciudad. La rutina. La aventura.<br />Hay un GWM para cada camino.</p></div>
     ${htmlGamaHome()}
     <p class="home-destacados__hint">Deslizá para descubrir los destacados <span aria-hidden="true">→</span></p>
     <div class="catalogo-grid destacados-grid" role="group" aria-label="Modelos destacados" tabindex="0">${modelos.map((m, i) => `<article class="modelo-card modelo-card--editorial" data-catalogo-modelo="${m.slug}">

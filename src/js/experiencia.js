@@ -23,7 +23,7 @@ export const PILARES = [
 
 export const MARCAS = [
   { id: 'haval', titulo: 'HAVAL', imagen: '/img/modelos/new-h6-hev.webp', texto: 'La marca global de SUVs de GWM. Más de 6 millones de vehículos vendidos en más de 60 países, con SUVs urbanos que combinan diseño, tecnología y opciones híbridas.' },
-  { id: 'ora', titulo: 'ORA', imagen: '/img/modelos/ora-5.webp', texto: 'La línea 100% eléctrica de GWM. Diseño con personalidad y el equilibrio justo entre potencia y autonomía para moverte sin combustible.' },
+  { id: 'ora', titulo: 'ORA', imagen: '/img/modelos/ora-5.webp', texto: 'La línea urbana SUV de GWM. Diseño con personalidad y el equilibrio justo entre potencia y autonomía para moverte sin combustible.' },
   { id: 'poer', titulo: 'POER', imagen: '/img/modelos/poer-diesel.webp', texto: 'Las pickups de GWM, que fabrica desde 1996. Más de 2 millones de pickups vendidas en el mundo. La "P" de su logo resume su espíritu: Power, Peak y Perfect.' },
   { id: 'tank', titulo: 'TANK', imagen: '/img/modelos/tank-500-hev.webp', texto: 'La marca de todoterrenos de lujo de GWM: robustez y lujo en un mismo vehículo, con tecnología híbrida para ir más lejos.' },
 ];
@@ -152,9 +152,9 @@ export function initMundo(raiz = document) {
  * para modelos que Brasil no tiene se usó 3 / 12). ref: dato de referencia de GWM Brasil, no de nuestra ficha.
  */
 export const VEHICULOS_CARGA = [
+  { slug: 'new-h6-phev', nombre: 'Haval New H6 PHEV', bateria: 19, ac: 6.6, dc: 33, autonomia: 113, ciudad: 3, ruta: 13, ref: ['brasil'] }, // "H6 PHEV19" de GWM Brasil
   { slug: 'h6-gt-phev', nombre: 'Haval H6 GT PHEV', bateria: 34, ac: 6.6, dc: 48, autonomia: 113, ciudad: 3, ruta: 10, ref: ['brasil'] },
   { slug: 'h7-phev', nombre: 'Haval H7 PHEV', bateria: 27.5, ac: 6.6, dc: 41, autonomia: 119, ciudad: 4, ruta: 12, ref: ['brasil'] },
-  { slug: 'ora-03-skin', nombre: 'Ora 03 Skin', bateria: 58, ac: 11, dc: 64, autonomia: 420, ciudad: 3, ruta: 14, ref: ['brasil'] },
   { slug: 'ora-5-ev', nombre: 'Ora 5 EV', bateria: 58, ac: 11, dc: 120, autonomia: 430, ciudad: 4, ruta: 12, ref: ['brasil'] },
   { slug: 'tank-300-phev-4x4', nombre: 'Tank 300 PHEV', bateria: 37.1, ac: 6.6, dc: 50, autonomia: 106, ciudad: 3, ruta: 14, ref: ['brasil'] },
   { slug: 'tank-400-phev-4x4', nombre: 'Tank 400 PHEV', bateria: 37.1, ac: 6.6, dc: 50, autonomia: 105, ciudad: 3, ruta: 14, ref: ['ac', 'dc'] },

@@ -26,16 +26,22 @@ function opcionesModelos() {
   return CATEGORIAS.map(cat => `<optgroup label="${esc(cat.titulo)}">${MODELOS.filter(m => m.categoria === cat.id).map(m => `<option value="${esc(m.nombre)}">${esc(m.nombre)}</option>`).join('')}</optgroup>`).join('');
 }
 
-export const htmlAgenda = () => `<section class="seccion seccion--blanca" id="postventa" aria-labelledby="postventa-titulo">
+/** En la página propia de mantenimiento el título ya está en la portada de la página: sin cabecera repetida. */
+export const htmlAgenda = ({ cabecera = true } = {}) => `<section class="seccion seccion--blanca${cabecera ? '' : ' seccion--sin-cabecera'}" id="postventa" aria-labelledby="${cabecera ? 'postventa-titulo' : 'agenda-titulo'}">
         <div class="responsive__layout">
-          <header class="seccion__cabecera">
+          ${cabecera ? `<header class="seccion__cabecera">
             <p class="seccion__etiqueta">Postventa</p>
             <h2 class="seccion__titulo" id="postventa-titulo">Agendá tu mantenimiento</h2>
             <p class="seccion__bajada">Mirá cuánto cuesta el mantenimiento de tu GWM y agendá tu turno.</p>
             <p class="agenda-privacidad">Tu fecha es una preferencia: el equipo confirma el turno. Consultá cómo usamos tus datos en nuestra <a href="/privacidad">política de privacidad</a>.</p>
-          </header>
+          </header>` : ''}
 
           ${htmlCostos()}
+
+          <header class="agenda-aqui">
+            <h3 class="agenda-aqui__titulo" id="agenda-titulo">Agendá aquí</h3>
+            <p>Completá tus datos y elegí tu fecha preferida: el equipo confirma el turno.${cabecera ? '' : ' Consultá cómo usamos tus datos en nuestra <a href="/privacidad">política de privacidad</a>.'}</p>
+          </header>
 
           <form class="agenda" id="agenda" data-form-agenda novalidate>
             <fieldset class="agenda__grupo">

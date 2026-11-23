@@ -178,7 +178,7 @@ export const PAGINAS = {
   "/postventa/agendar-service": {
     titulo: "Agendá el mantenimiento de tu GWM",
     seoTitulo: "Agendar service GWM en Paraguay | Mantenimiento",
-    descripcion: "Solicitá mantenimiento para tu GWM en Paraguay. Indicá modelo, año, servicio y fecha preferida; el equipo confirma la disponibilidad del turno.",
+    descripcion: "Mirá la lista de precios de mantenimiento de tu GWM por kilometraje y agendá tu turno en Paraguay; el equipo confirma la disponibilidad.",
     etiqueta: "CUIDAMOS TU GWM",
     relacionados: ["/postventa", "/concesionarios", "/postventa/reclamos"],
   },
@@ -274,7 +274,7 @@ export function htmlPagina(ruta) {
     ${ruta === "/experiencia" ? htmlExperiencia() : ""}
     ${ruta === "/experiencia/mundo-gwm" ? htmlMundo() : ""}
     ${ruta === "/experiencia/simuladores" ? htmlSimuladores() : ""}
-    ${ruta === "/postventa/agendar-service" ? htmlAgenda() : ""}
+    ${ruta === "/postventa/agendar-service" ? htmlAgenda({ cabecera: false }) : ""}
     ${ruta === "/postventa/reclamos" ? `<section class="page-cta responsive__layout" aria-labelledby="contacto-reclamos"><div><p class="eyebrow">GRUPO SANTA ROSA</p><h2 id="contacto-reclamos">Experiencia del Cliente</h2><p>Elegí el canal de atención que prefieras.</p></div><div><a class="action action--dark" href="${RECLAMOS.telHref}">Llamá al ${esc(RECLAMOS.telefono)}</a><a class="action action--line" href="mailto:${esc(RECLAMOS.email)}">${esc(RECLAMOS.email)}</a></div></section>` : ""}
     ${!["/privacidad", "/cookies"].includes(ruta) && !ruta.startsWith("/postventa") ? `<section class="page-cta responsive__layout"><div><p class="eyebrow">DA EL PRÓXIMO PASO</p><h2>Conocé tu GWM de cerca.</h2><p>Un asesor te ayuda a elegir la versión para vos.</p></div><div><button class="action action--dark" type="button" data-lead="cotizacion">Solicitá una cotización ↗</button><button class="action action--line" type="button" data-lead="testdrive">Solicitá un test drive</button></div></section>` : ""}
     ${ruta === "/cookies" ? '<div class="cookies-policy-control responsive__layout"><button class="action action--dark" type="button" data-cookies-preferencias>Configurar cookies</button><a href="/privacidad">Privacidad y uso de tus datos ↗</a></div>' : ""}

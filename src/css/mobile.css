@@ -15,7 +15,6 @@
 .dot-list .dot-item { flex: 1 1 0; min-width: 0; transition: flex-grow .4s; }
 .dot-list .dot-item.is-active { flex-grow: 4; }
 .dot-list .dot-item:not(.is-active) .dot-caption { font-size: 0; }
-.dot-list .dot-item:not(.is-active) .dot-caption > span { font-size: 10px; margin: 0; }
 .dot-list .dot-item:not(.is-active):hover .dot-caption { font-size: 10px; }
 /* Menú de gama: marcas arriba, filtros a la izquierda y tarjetas con acciones. */
 #menu-modelos .sub-list-container { max-width: 1600px; margin: auto; gap: 0; padding: 0; align-items: flex-start; }
@@ -228,3 +227,11 @@ html.vista-ficha .cmp__header.is-open { background: white; }
   .hero-banner .video-box video { display: none; }
   .hero-banner .hero-eyebrow { margin-bottom: 10px; }
 }
+
+/* Mantenimiento: lista de precios y formulario a lo ancho, uno debajo del otro */
+#postventa > .responsive__layout { display: block; } /* diseno.css la arma en grilla de 2 columnas */
+#postventa .seccion__cabecera { max-width: 640px; }
+.agenda-aqui { margin: 8px 0 28px; padding-top: 32px; border-top: 1px solid #e3e3e3; }
+.agenda-aqui__titulo { margin: 0 0 6px; font-size: clamp(26px, 3vw, 36px); }
+.agenda-aqui p { margin: 0; color: #555; }
+.seccion--sin-cabecera { padding-top: 24px; }

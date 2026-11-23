@@ -56,8 +56,6 @@ const TODOS = [
     categoria: 'haval',
     nombre: 'New H6 PHEV',
     slug: 'new-h6-phev',
-    // Retirado de la web por pedido de Marketing (2026-11-20): su URL redirige al H6 HEV.
-    oculto: { hasta: 'new-h6-hev' },
     precio: 30990,
     imagen: '/img/modelos/new-h6-phev.webp',
     bajada: 'Tecnología y seguridad como nunca antes.',
@@ -94,6 +92,8 @@ const TODOS = [
     categoria: 'ora',
     nombre: 'Ora 03 Skin',
     slug: 'ora-03-skin',
+    // Retirado de la web por pedido de Marketing (2026-11-23): su URL redirige al Ora 5 EV. Para volver a mostrarlo, borrar `oculto`.
+    oculto: { hasta: 'ora-5-ev' },
     precio: 22990,
     imagen: '/img/modelos/ora-03.webp',
     bajada: '100% eléctrico, con un diseño que no pasa desapercibido.',
@@ -267,6 +267,7 @@ export const SLIDES = [
   { modelo: 'Haval H7 PHEV', slug: 'h7-phev', precio: 34990, imagen: '/img/poster/h7-original-1080.webp', imagenMobile: '/img/fichas/h7-phev/portada-m.webp', ...spot('h7-phev') },
   { modelo: 'Tank 400 PHEV 4x4', slug: 'tank-400-phev-4x4', precio: 50990, imagen: '/img/hero/tank-400.webp', tituloIncrustado: true, ...spot('tank-400-phev-4x4') },
   { modelo: 'Tank 700 PHEV 4x4', slug: 'tank-700-phev-4x4', precio: 72990, imagen: '/img/fichas/tank-700-phev-4x4/portada.webp', ...spot('tank-700-phev-4x4') },
+  { modelo: 'Haval New H6 PHEV', slug: 'new-h6-phev', precio: 30990, imagen: '/img/poster/h6-phev.webp', ...spot('new-h6') },
   { modelo: 'Haval New H6 HEV', slug: 'new-h6-hev', precio: 24990, imagen: '/img/hero/new-h6-hev.webp', tituloIncrustado: true, ...spot('new-h6') },
   { modelo: 'Poer Diesel', slug: 'poer-diesel', precio: 29990, imagen: '/img/poster/poer.webp', ...spot('poer-diesel') },
   { modelo: 'Haval H6 GT PHEV', slug: 'h6-gt-phev', precio: 39990, imagen: '/img/hero/h6-gt-phev.webp', tituloIncrustado: true, ...spot('h6-gt-phev') },

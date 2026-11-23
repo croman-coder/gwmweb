@@ -30,7 +30,7 @@ export function initHero() {
   puntos.innerHTML = SLIDES_ACTIVOS.map(
     (s, i) => `
       <li class="dot-item">
-        <button type="button" aria-label="Ver ${esc(s.modelo)} (${i + 1} de ${SLIDES_ACTIVOS.length})"><span class="dot-caption"><span>${String(i + 1).padStart(2, "0")}</span> ${esc(s.modelo.replace(/^Haval (?:New )?/, "").replace(/\s+4x4$/i, ""))}</span><span class="dot-progreso"></span></button>
+        <button type="button" aria-label="Ver ${esc(s.modelo)} (${i + 1} de ${SLIDES_ACTIVOS.length})"><span class="dot-caption">${esc(s.modelo.replace(/^Haval (?:New )?/, "").replace(/\s+4x4$/i, ""))}</span><span class="dot-progreso"></span></button>
       </li>`
   ).join('');
   const botones = [...puntos.querySelectorAll('button')];
