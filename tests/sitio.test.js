@@ -14,7 +14,7 @@ import {
   DURACION_CONSENTIMIENTO,
 } from "../src/js/cookies.js";
 import { PAGINAS } from "../src/js/paginas.js";
-import { redireccion } from "../scripts/rutas.js";
+import { redireccion, PAGINAS_ANTERIORES } from "../scripts/rutas.js";
 import oraEv from "../src/js/tecnica/ora-5-ev.js";
 import oraHev from "../src/js/tecnica/ora-5-hev.js";
 import { MOTORIZACIONES_ORA5 } from "../src/js/ora5.js";
@@ -116,6 +116,22 @@ test("ORA 5 presenta las versiones sin mencionar países; el EV usa la ficha ofi
   assert.ok(!MODELOS.some(m => m.slug.includes('ora-5-gasolina')));
   for (const pdf of ['ora-5-mexico', 'ora-5-ev', 'ora-03-skin'])
     assert.equal(readFileSync(`public/fichas/${pdf}.pdf`).subarray(0, 5).toString(), '%PDF-');
+});
+
+test("las páginas del sitio anterior (gwm.com.py en DreamHost) redirigen a su equivalente", () => {
+  for (const [vieja, nueva] of Object.entries(PAGINAS_ANTERIORES)) {
+    assert.equal(redireccion(vieja), nueva, vieja);
+    assert.equal(redireccion(vieja + "/"), nueva, vieja + "/");
+    assert.ok(nueva === "/" || existsSync(archivo(nueva)), `${vieja} apunta a una página que no existe: ${nueva}`);
+  }
+  // Sin destino a propósito: no hay documento / modelo dado de baja.
+  assert.equal(redireccion("/codigo-de-cumplimiento"), null);
+  assert.equal(redireccion("/producto/9/jolion-mt"), null);
+  assert.equal(redireccion("/constructor"), null);
+  // El nginx de producción lleva exactamente las mismas reglas que el mapa.
+  const reglas = readFileSync("dist/nginx-redirects.inc", "utf8");
+  for (const [vieja, nueva] of Object.entries(PAGINAS_ANTERIORES))
+    assert.ok(reglas.includes(`rewrite ^${vieja}/?$ ${nueva} permanent;`), `falta la regla de nginx para ${vieja}`);
 });
 
 test("las direcciones anteriores conservan su modelo y el sitemap no contiene páginas vacías", () => {
@@ -306,6 +322,12 @@ test(
       assert.equal(respuesta.status, 301, antigua);
       assert.equal(respuesta.headers.get('location'), limpia + '?utm_source=prueba', antigua);
     }
+    for (const [vieja, nueva] of Object.entries(PAGINAS_ANTERIORES)) {
+      const respuesta = await fetch(origen + vieja + '?utm_source=prueba', { redirect: 'manual' });
+      assert.equal(respuesta.status, 301, vieja);
+      assert.equal(respuesta.headers.get('location'), nueva + '?utm_source=prueba', vieja);
+    }
+    assert.equal((await fetch(origen + '/codigo-de-cumplimiento')).status, 404);
     const invalid = await fetch(origen + "/modelos/no-existe");
     assert.equal(invalid.status, 404);
     assert.match(await invalid.text(), /noindex, follow/);
@@ -321,6 +343,12 @@ test(
         assert.equal(res.status, status, JSON.stringify(headers));
         if (status === 301) assert.equal(res.headers.get('location'), 'https://127.0.0.1/modelos/ora-5-ev?utm_source=prueba');
       }
+      // HSTS: solo cuando la visita llegó por HTTPS (también en la página de error); la comprobación interna por HTTP no lo recibe.
+      const hsts = (res) => res.headers.get('strict-transport-security');
+      for (const ruta of ['/', '/modelos/ora-5-ev', '/modelos/no-existe', '/robots.txt'])
+        assert.equal(hsts(await fetch(origen + ruta, { headers: { 'X-Forwarded-Proto': 'https' } })), 'max-age=15552000', ruta);
+      assert.equal(hsts(await fetch(origen + '/')), null);
+      assert.equal(hsts(await fetch(origen + '/', { headers: { 'CF-Visitor': '{"scheme":"https"}', 'X-Forwarded-Proto': 'http' } })), 'max-age=15552000');
     }
   },
 );
