@@ -15,8 +15,30 @@ export const PRODUCTOS_ANTERIORES = {
   21: "poer-p500",
   22: "tank-700-phev-4x4",
 };
+/**
+ * Páginas del sitio anterior (gwm.com.py en DreamHost) y su destino en este sitio. Se relevaron del HTML
+ * del sitio viejo el 2026-11-24. Sin esto, cada enlace guardado en Google, WhatsApp o avisos daría 404 el
+ * día que el dominio apunte acá. Las redirecciones de nginx salen de este mismo mapa (scripts/seo.js).
+ *
+ * Sin destino a propósito: `/codigo-de-cumplimiento` (el sitio nuevo no tiene ese documento todavía:
+ * se publica cuando el proveedor lo entregue) y `/producto/9/jolion-mt` (modelo dado de baja).
+ */
+export const PAGINAS_ANTERIORES = {
+  '/index': '/',
+  '/agendar': '/postventa/agendar-service',
+  '/mantenimiento': '/postventa',
+  '/garantia': '/postventa',
+  '/talleres': '/postventa',
+  '/repuesto': '/postventa',
+  '/cotizador': '/modelos',
+  '/contacto': '/concesionarios',
+  '/nosotros': '/',
+  '/santa-rosa': '/',
+};
 export function redireccion(ruta) {
   if (ruta === '/index.html') return '/';
+  const sinBarra = ruta.length > 1 && ruta.endsWith('/') ? ruta.slice(0, -1) : ruta;
+  if (Object.hasOwn(PAGINAS_ANTERIORES, sinBarra)) return PAGINAS_ANTERIORES[sinBarra];
   if (ruta.endsWith('.html') && ruta !== '/404.html') return ruta.slice(0, -5);
   const producto = ruta.match(/^\/producto\/(\d+)(?:\/[^/]+)?\/?$/);
   if (producto && PRODUCTOS_ANTERIORES[producto[1]])

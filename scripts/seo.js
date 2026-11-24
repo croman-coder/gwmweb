@@ -27,7 +27,7 @@ import { htmlMenuPie } from "../src/js/home/pie.js";
 import { htmlPagina, PAGINAS } from "../src/js/paginas.js";
 import { versionarImagenes } from "./versionar-imagenes.js";
 import { esc } from "../src/js/home/util.js";
-import { PRODUCTOS_ANTERIORES, redireccion } from "./rutas.js";
+import { PRODUCTOS_ANTERIORES, PAGINAS_ANTERIORES, redireccion } from "./rutas.js";
 import { optimizarImagenes } from "../src/js/imagenes.js";
 
 const jsonLd = (datos) =>
@@ -414,6 +414,13 @@ export function seo() {
           )
           .join("\n") +
           "\n" +
+          // Páginas del sitio anterior (rutas.js): el query string se conserva (nginx lo agrega solo).
+          Object.entries(PAGINAS_ANTERIORES)
+            .map(
+              ([ruta, destino]) =>
+                `rewrite ^${ruta.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}/?$ ${destino} permanent;\n`,
+            )
+            .join("") +
           // Modelos ocultos hasta su lanzamiento: redirección temporal (302) a la ficha que los reemplaza.
           Object.entries(OCULTOS)
             .map(([slug, destino]) => `rewrite ^/modelos/${slug}/?$ /modelos/${destino} redirect;\n`)
