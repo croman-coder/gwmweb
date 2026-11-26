@@ -20,8 +20,8 @@ export const PRODUCTOS_ANTERIORES = {
  * del sitio viejo el 2026-11-24. Sin esto, cada enlace guardado en Google, WhatsApp o avisos daría 404 el
  * día que el dominio apunte acá. Las redirecciones de nginx salen de este mismo mapa (scripts/seo.js).
  *
- * Sin destino a propósito: `/codigo-de-cumplimiento` (el sitio nuevo no tiene ese documento todavía:
- * se publica cuando el proveedor lo entregue) y `/producto/9/jolion-mt` (modelo dado de baja).
+ * Sin destino a propósito: `/producto/9/jolion-mt` (modelo dado de baja). `/codigo-de-cumplimiento` no
+ * redirige: es una página propia del sitio nuevo (paginas.js) con el PDF del Código de Cumplimiento.
  */
 export const PAGINAS_ANTERIORES = {
   '/index': '/',

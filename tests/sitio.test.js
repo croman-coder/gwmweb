@@ -125,7 +125,7 @@ test("las páginas del sitio anterior (gwm.com.py en DreamHost) redirigen a su e
     assert.equal(redireccion(vieja + "/"), nueva, vieja + "/");
     assert.ok(nueva === "/" || existsSync(archivo(nueva)), `${vieja} apunta a una página que no existe: ${nueva}`);
   }
-  // Sin destino a propósito: no hay documento / modelo dado de baja.
+  // Sin destino: el código de cumplimiento es una página propia y el Jolion MT es un modelo dado de baja.
   assert.equal(redireccion("/codigo-de-cumplimiento"), null);
   assert.equal(redireccion("/producto/9/jolion-mt"), null);
   assert.equal(redireccion("/constructor"), null);
@@ -157,6 +157,18 @@ test("la CSP no deja ejecutar scripts ajenos, cubre cada script inline con su ha
   assert.match(dockerfile, /^USER nginx$/m);
   assert.match(dockerfile, /pid \/tmp\/nginx\.pid;/);
   assert.match(readFileSync("nginx-seguridad.inc", "utf8"), /include \/etc\/nginx\/conf\.d\/csp\.inc;/);
+});
+
+test("el Código de Cumplimiento está publicado, enlazado en el pie y su PDF es el documento real", () => {
+  const pagina = readFileSync(archivo("/codigo-de-cumplimiento"), "utf8");
+  assert.match(pagina, /<h1[^>]*>Código de Cumplimiento General Global de Great Wall Motor/);
+  assert.match(pagina, /href="\/fichas\/codigo-de-cumplimiento-gwm\.pdf"/);
+  assert.doesNotMatch(pagina, /Solicitá una cotización/); // página corporativa: sin el llamado comercial
+  assert.match(readFileSync("dist/index.html", "utf8"), /href="\/codigo-de-cumplimiento">Código de cumplimiento</);
+  assert.ok(readFileSync("dist/sitemap.xml", "utf8").includes("/codigo-de-cumplimiento"));
+  const pdf = readFileSync("public/fichas/codigo-de-cumplimiento-gwm.pdf");
+  assert.equal(pdf.subarray(0, 5).toString(), "%PDF-");
+  assert.ok(pdf.length > 100_000 && pdf.length < 200_000, "el PDF pesa unos 137 KB");
 });
 
 test("las direcciones anteriores conservan su modelo y el sitemap no contiene páginas vacías", () => {
@@ -352,7 +364,10 @@ test(
       assert.equal(respuesta.status, 301, vieja);
       assert.equal(respuesta.headers.get('location'), nueva + '?utm_source=prueba', vieja);
     }
-    assert.equal((await fetch(origen + '/codigo-de-cumplimiento')).status, 404);
+    const codigo = await fetch(origen + '/codigo-de-cumplimiento');
+    assert.equal(codigo.status, 200);
+    assert.match(await codigo.text(), /Código de Cumplimiento General Global de Great Wall Motor[\s\S]*\/fichas\/codigo-de-cumplimiento-gwm\.pdf/);
+    assert.equal((await fetch(origen + '/fichas/codigo-de-cumplimiento-gwm.pdf')).headers.get('content-type'), 'application/pdf');
     const invalid = await fetch(origen + "/modelos/no-existe");
     assert.equal(invalid.status, 404);
     assert.match(await invalid.text(), /noindex, follow/);
