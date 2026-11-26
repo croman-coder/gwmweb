@@ -5,3 +5,5 @@ add_header X-Content-Type-Options "nosniff" always;
 add_header X-Frame-Options "SAMEORIGIN" always;
 add_header Referrer-Policy "strict-origin-when-cross-origin" always;
 add_header Strict-Transport-Security $gwm_hsts always;
+# La CSP la genera el build (scripts/csp.js, con el hash de los scripts inline): dist/nginx-csp.inc.
+include /etc/nginx/conf.d/csp.inc;
