@@ -190,6 +190,22 @@ export const PAGINAS = {
     bloques: [["Contanos qué necesitás", "Para ayudarte, indicá tu nombre, un medio de contacto, modelo y año del vehículo, sucursal y el motivo de tu consulta. El equipo de Experiencia del Cliente recibe tu caso y coordina la atención correspondiente."]],
     relacionados: ["/postventa", "/postventa/agendar-service", "/concesionarios"],
   },
+  "/codigo-de-cumplimiento": {
+    titulo: "Código de Cumplimiento General Global de Great Wall Motor",
+    descripcion:
+      "Documento global de Great Wall Motor sobre el cumplimiento de la empresa, la conducta laboral, la seguridad de activos, los productos y negocios y la relación con el gobierno. Descargalo en PDF.",
+    etiqueta: "INFORMACIÓN CORPORATIVA",
+    bloques: [
+      [
+        "Documento oficial de la marca",
+        "Great Wall Motor publica este código para todas sus operaciones. Se ofrece tal como lo emite la marca, en un PDF de 5 páginas.",
+      ],
+      [
+        "Qué incluye",
+        "Cumplimiento de la empresa (gobernanza y gestión, divulgación de información, prohibición de operaciones con información privilegiada y transacciones con partes relacionadas), conducta laboral, seguridad de activos y cumplimiento financiero, cumplimiento de productos y negocios, y relación con el gobierno y los comités.",
+      ],
+    ],
+  },
   "/privacidad": {
     titulo: "Privacidad y uso de tus datos",
     descripcion:
@@ -276,7 +292,8 @@ export function htmlPagina(ruta) {
     ${ruta === "/experiencia/simuladores" ? htmlSimuladores() : ""}
     ${ruta === "/postventa/agendar-service" ? htmlAgenda({ cabecera: false }) : ""}
     ${ruta === "/postventa/reclamos" ? `<section class="page-cta responsive__layout" aria-labelledby="contacto-reclamos"><div><p class="eyebrow">GRUPO SANTA ROSA</p><h2 id="contacto-reclamos">Experiencia del Cliente</h2><p>Elegí el canal de atención que prefieras.</p></div><div><a class="action action--dark" href="${RECLAMOS.telHref}">Llamá al ${esc(RECLAMOS.telefono)}</a><a class="action action--line" href="mailto:${esc(RECLAMOS.email)}">${esc(RECLAMOS.email)}</a></div></section>` : ""}
-    ${!["/privacidad", "/cookies"].includes(ruta) && !ruta.startsWith("/postventa") ? `<section class="page-cta responsive__layout"><div><p class="eyebrow">DA EL PRÓXIMO PASO</p><h2>Conocé tu GWM de cerca.</h2><p>Un asesor te ayuda a elegir la versión para vos.</p></div><div><button class="action action--dark" type="button" data-lead="cotizacion">Solicitá una cotización ↗</button><button class="action action--line" type="button" data-lead="testdrive">Solicitá un test drive</button></div></section>` : ""}
+    ${!["/privacidad", "/cookies", "/codigo-de-cumplimiento"].includes(ruta) && !ruta.startsWith("/postventa") ? `<section class="page-cta responsive__layout"><div><p class="eyebrow">DA EL PRÓXIMO PASO</p><h2>Conocé tu GWM de cerca.</h2><p>Un asesor te ayuda a elegir la versión para vos.</p></div><div><button class="action action--dark" type="button" data-lead="cotizacion">Solicitá una cotización ↗</button><button class="action action--line" type="button" data-lead="testdrive">Solicitá un test drive</button></div></section>` : ""}
+    ${ruta === "/codigo-de-cumplimiento" ? '<div class="cookies-policy-control responsive__layout"><a class="action action--dark" href="/fichas/codigo-de-cumplimiento-gwm.pdf" target="_blank" rel="noopener">Descargar documento (PDF) ↗</a></div>' : ""}
     ${ruta === "/cookies" ? '<div class="cookies-policy-control responsive__layout"><button class="action action--dark" type="button" data-cookies-preferencias>Configurar cookies</button><a href="/privacidad">Privacidad y uso de tus datos ↗</a></div>' : ""}
     ${p.relacionados ? `<nav class="related-pages responsive__layout" aria-label="Seguí explorando">${p.relacionados.map((href) => `<a href="${href}">${esc(PAGINAS[href]?.titulo || (href.includes("phev") ? "Haval New H6 PHEV" : "Haval New H6 HEV"))} ↗</a>`).join("")}</nav>` : ""}
   </article>`;
