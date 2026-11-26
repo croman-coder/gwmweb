@@ -32,7 +32,17 @@ COPY nginx.conf /etc/nginx/conf.d/default.conf
 COPY nginx-seguridad.inc /etc/nginx/conf.d/seguridad.inc
 COPY --from=build /app/dist /usr/share/nginx/html
 COPY --from=build /app/dist/nginx-redirects.inc /etc/nginx/conf.d/rutas.inc
-RUN rm /usr/share/nginx/html/nginx-redirects.inc
+COPY --from=build /app/dist/nginx-csp.inc /etc/nginx/conf.d/csp.inc
+RUN rm /usr/share/nginx/html/nginx-redirects.inc /usr/share/nginx/html/nginx-csp.inc
+
+# Sin root: nginx y la API corren como el usuario `nginx` (uid 101). Se quita la directiva `user` (solo
+# sirve para un proceso maestro con privilegios), el pid va a /tmp y se le dan al usuario los directorios
+# donde nginx escribe. El puerto 80 funciona sin root porque Docker deja net.ipv4.ip_unprivileged_port_start=0
+# dentro del contenedor (verificado en el Docker de desarrollo y en el del servidor).
+RUN sed -i -E -e '/^user /d' -e 's#^pid .*#pid /tmp/nginx.pid;#' /etc/nginx/nginx.conf \
+ && chown -R nginx:nginx /var/cache/nginx /var/log/nginx /app \
+ && chmod -R a+rX /usr/share/nginx/html /etc/nginx/conf.d
+USER nginx
 
 EXPOSE 80
 

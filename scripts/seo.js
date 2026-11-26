@@ -26,6 +26,7 @@ import { htmlPostventa } from "../src/js/home/catalogo.js";
 import { htmlMenuPie } from "../src/js/home/pie.js";
 import { htmlPagina, PAGINAS } from "../src/js/paginas.js";
 import { versionarImagenes } from "./versionar-imagenes.js";
+import { escribirCsp } from "./csp.js";
 import { esc } from "../src/js/home/util.js";
 import { PRODUCTOS_ANTERIORES, PAGINAS_ANTERIORES, redireccion } from "./rutas.js";
 import { optimizarImagenes } from "../src/js/imagenes.js";
@@ -433,6 +434,8 @@ export function seo() {
       );
       // Último paso: las fotos llevan ?v=<hash> para que Cloudflare no siga sirviendo la versión anterior.
       versionarImagenes(salida);
+      // La CSP lleva el hash de cada script inline: va al final, con el HTML ya definitivo.
+      escribirCsp(salida);
     },
   };
 }

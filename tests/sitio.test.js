@@ -15,6 +15,7 @@ import {
 } from "../src/js/cookies.js";
 import { PAGINAS } from "../src/js/paginas.js";
 import { redireccion, PAGINAS_ANTERIORES } from "../scripts/rutas.js";
+import { hashesDeScriptsInline, construirCsp } from "../scripts/csp.js";
 import oraEv from "../src/js/tecnica/ora-5-ev.js";
 import oraHev from "../src/js/tecnica/ora-5-hev.js";
 import { MOTORIZACIONES_ORA5 } from "../src/js/ora5.js";
@@ -132,6 +133,30 @@ test("las páginas del sitio anterior (gwm.com.py en DreamHost) redirigen a su e
   const reglas = readFileSync("dist/nginx-redirects.inc", "utf8");
   for (const [vieja, nueva] of Object.entries(PAGINAS_ANTERIORES))
     assert.ok(reglas.includes(`rewrite ^${vieja}/?$ ${nueva} permanent;`), `falta la regla de nginx para ${vieja}`);
+});
+
+test("la CSP no deja ejecutar scripts ajenos, cubre cada script inline con su hash y el contenedor corre sin root", () => {
+  const inc = readFileSync("dist/nginx-csp.inc", "utf8");
+  const politica = inc.match(/add_header Content-Security-Policy "([^"]+)" always;/)?.[1];
+  assert.ok(politica, "dist/nginx-csp.inc debe traer el add_header de la CSP");
+  const dir = (nombre) => politica.split("; ").find((d) => d.startsWith(nombre + " ") || d === nombre) ?? "";
+  // Scripts: nada de 'unsafe-inline' ni 'unsafe-eval'; solo 'self', WebAssembly (Draco), los hashes y Google Analytics.
+  assert.doesNotMatch(dir("script-src"), /'unsafe-inline'|'unsafe-eval'|\s\*(\s|$)/); // 'wasm-unsafe-eval' es otra cosa: solo WebAssembly
+  assert.match(dir("script-src"), /'wasm-unsafe-eval'/);
+  for (const [nombre, valor] of [["default-src", "'self'"], ["object-src", "'none'"], ["base-uri", "'self'"], ["frame-ancestors", "'self'"], ["form-action", "'self'"]])
+    assert.equal(dir(nombre), `${nombre} ${valor}`);
+  assert.doesNotMatch(dir("style-src"), /'unsafe-inline'/); // el inline queda solo para atributos style="…"
+  assert.equal(dir("style-src-attr"), "style-src-attr 'unsafe-inline'");
+  // Cada script inline de cada página está autorizado por hash: si cambia, el build regenera la política.
+  const hashes = hashesDeScriptsInline("dist");
+  assert.ok(hashes.length >= 1);
+  for (const h of hashes) assert.ok(politica.includes(h), `falta ${h}`);
+  assert.equal(construirCsp(hashes), politica);
+  // Sin root: el contenedor baja al usuario `nginx` y el pid no va a un directorio de root.
+  const dockerfile = readFileSync("Dockerfile", "utf8");
+  assert.match(dockerfile, /^USER nginx$/m);
+  assert.match(dockerfile, /pid \/tmp\/nginx\.pid;/);
+  assert.match(readFileSync("nginx-seguridad.inc", "utf8"), /include \/etc\/nginx\/conf\.d\/csp\.inc;/);
 });
 
 test("las direcciones anteriores conservan su modelo y el sitemap no contiene páginas vacías", () => {
@@ -348,6 +373,9 @@ test(
       for (const ruta of ['/', '/modelos/ora-5-ev', '/modelos/no-existe', '/robots.txt'])
         assert.equal(hsts(await fetch(origen + ruta, { headers: { 'X-Forwarded-Proto': 'https' } })), 'max-age=15552000', ruta);
       assert.equal(hsts(await fetch(origen + '/')), null);
+      // CSP en todos los location (también en la página de error, en el robots y en la API).
+      for (const ruta of ['/', '/modelos/ora-5-ev', '/modelos/no-existe', '/robots.txt', '/api/health'])
+        assert.match((await fetch(origen + ruta)).headers.get('content-security-policy') ?? '', /^default-src 'self'; script-src 'self' 'wasm-unsafe-eval' 'sha256-[A-Za-z0-9+/=]+'/, ruta);
       assert.equal(hsts(await fetch(origen + '/', { headers: { 'CF-Visitor': '{"scheme":"https"}', 'X-Forwarded-Proto': 'http' } })), 'max-age=15552000');
     }
   },
