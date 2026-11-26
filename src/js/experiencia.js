@@ -1,5 +1,6 @@
 /**
- * Experiencia GWM: "Mundo GWM" y los simuladores de carga y autonomía.
+ * Experiencia GWM: "Mundo GWM" y el simulador de tiempo de carga (el de autonomía se retiró el 2026-11-26 a pedido de Marketing;
+ * sus datos y autonomiaEstimada quedan por si vuelve).
  *
  * Tomado de la lógica de gwmmotors.com.br/pt/experience (relevado el 2026-11-20), adaptado a Paraguay:
  *  - Mundo GWM: pilares globales y submarcas. Se omiten WEY (no se vende acá), el informe de transparencia
@@ -204,7 +205,6 @@ const selectVehiculo = (id, lista) =>
   `<label class="exp-campo"><span>Elegí tu GWM</span><select id="${id}" name="vehiculo">${lista.map((v) => `<option value="${v.slug}">${esc(v.nombre)}</option>`).join('')}</select></label>`;
 
 export function htmlSimuladores() {
-  const conAutonomia = VEHICULOS_CARGA.filter((v) => v.autonomia);
   return `<section class="exp-bloque responsive__layout" id="simulador-carga" aria-labelledby="sim-carga-titulo">
       <div class="section-heading"><div><p class="eyebrow">SIMULADOR</p><h2 id="sim-carga-titulo">Tiempo de carga</h2></div><p>Calculá cuánto tarda en cargarse tu GWM según el cargador que uses.</p></div>
       <form class="exp-sim" data-sim-carga>
@@ -224,30 +224,13 @@ export function htmlSimuladores() {
           <p class="exp-sim__nota">Valor aproximado. Depende de la red eléctrica, del cargador, de la temperatura de la batería y de otros factores.</p>
         </div>
       </form>
-    </section>
-    <section class="exp-bloque responsive__layout" id="simulador-autonomia" aria-labelledby="sim-aut-titulo">
-      <div class="section-heading"><div><p class="eyebrow">SIMULADOR</p><h2 id="sim-aut-titulo">Autonomía eléctrica</h2></div><p>Estimá cuántos kilómetros recorrés en modo eléctrico según cómo manejás.</p></div>
-      <form class="exp-sim" data-sim-autonomia>
-        <div class="exp-sim__controles">
-          ${selectVehiculo('sim-aut-vehiculo', conAutonomia)}
-          <fieldset class="exp-grupo"><legend>Tipo de manejo</legend><div class="exp-chips">${radios('manejo', MANEJO, 'ciudad')}</div></fieldset>
-          <fieldset class="exp-grupo"><legend>Aire acondicionado</legend><div class="exp-chips">${radios('aire', AIRE, 'no')}</div></fieldset>
-          <fieldset class="exp-grupo"><legend>Ocupantes</legend><div class="exp-chips">${radios('ocupantes', OCUPANTES, '1')}</div></fieldset>
-        </div>
-        <div class="exp-sim__resultado" aria-live="polite">
-          <p class="exp-sim__etiqueta">Autonomía estimada</p>
-          <p class="exp-sim__valor" data-resultado>—</p>
-          <p class="exp-sim__detalle" data-detalle></p>
-          <p class="exp-sim__nota">Estimación teórica sobre la autonomía eléctrica de la ficha técnica. Varía según la forma de manejo, el clima, el estado de la batería y otras condiciones.</p>
-        </div>
-      </form>
     </section>`;
 }
 
 export function htmlExperiencia() {
   return `<section class="exp-bloque responsive__layout"><div class="exp-modulos">
       <a class="exp-modulo" href="/experiencia/mundo-gwm"><img src="/img/hero/vive-el-futuro.webp" alt="" width="897" height="480" loading="lazy" /><div><p class="eyebrow">MÓDULO 01</p><h2>Mundo GWM</h2><p>Conocé la historia de GWM, su presencia global y sus marcas: Haval, Ora, Poer y Tank.</p><span class="exp-marca__link">Explorar <span aria-hidden="true">↗</span></span></div></a>
-      <a class="exp-modulo" href="/experiencia/simuladores"><img src="/img/fichas/ora-5-ev/galeria-2.webp" alt="" width="900" height="600" loading="lazy" /><div><p class="eyebrow">MÓDULO 02</p><h2>Simuladores</h2><p>Calculá el tiempo de carga y la autonomía eléctrica de tu GWM híbrido enchufable o eléctrico.</p><span class="exp-marca__link">Simular <span aria-hidden="true">↗</span></span></div></a>
+      <a class="exp-modulo" href="/experiencia/simuladores"><img src="/img/fichas/ora-5-ev/galeria-2.webp" alt="" width="900" height="600" loading="lazy" /><div><p class="eyebrow">MÓDULO 02</p><h2>Simulador de carga</h2><p>Calculá cuánto tarda en cargarse tu GWM híbrido enchufable o eléctrico según el cargador que uses.</p><span class="exp-marca__link">Simular <span aria-hidden="true">↗</span></span></div></a>
     </div></section>`;
 }
 

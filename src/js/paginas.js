@@ -10,7 +10,7 @@ export const PAGINAS = {
   "/experiencia": {
     titulo: "Experiencia GWM",
     seoTitulo: "Experiencia GWM | Mundo GWM y simuladores de carga",
-    descripcion: "Conocé el mundo GWM y sus marcas Haval, Ora, Poer y Tank, y calculá el tiempo de carga y la autonomía eléctrica de tu GWM.",
+    descripcion: "Conocé el mundo GWM y sus marcas Haval, Ora, Poer y Tank, y calculá el tiempo de carga de tu GWM.",
     etiqueta: "GWM EXPERIENCE",
     relacionados: ["/experiencia/mundo-gwm", "/experiencia/simuladores", "/guia/carga-en-casa"],
   },
@@ -22,9 +22,9 @@ export const PAGINAS = {
     relacionados: ["/experiencia/simuladores", "/modelos", "/experiencia"],
   },
   "/experiencia/simuladores": {
-    titulo: "Simuladores de carga y autonomía",
-    seoTitulo: "Simulador de carga y autonomía eléctrica | GWM Paraguay",
-    descripcion: "Calculá cuánto tarda en cargarse tu GWM híbrido enchufable o eléctrico según el cargador y estimá su autonomía eléctrica según cómo manejás.",
+    titulo: "Simulador de tiempo de carga",
+    seoTitulo: "Simulador de tiempo de carga | GWM Paraguay",
+    descripcion: "Calculá cuánto tarda en cargarse tu GWM híbrido enchufable o eléctrico según el cargador y el nivel de batería.",
     etiqueta: "EXPERIENCIA GWM",
     relacionados: ["/guia/carga-en-casa", "/electricos", "/experiencia/mundo-gwm"],
   },

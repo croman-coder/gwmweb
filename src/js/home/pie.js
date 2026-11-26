@@ -44,7 +44,7 @@ function columnas() {
       titulo: 'EXPERIENCIA GWM',
       enlaces: [
         { texto: 'Mundo GWM', href: '/experiencia/mundo-gwm' },
-        { texto: 'Simuladores de carga', href: '/experiencia/simuladores' },
+        { texto: 'Simulador de carga', href: '/experiencia/simuladores' },
       ],
     },
     {
