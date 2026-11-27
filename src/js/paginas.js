@@ -3,7 +3,7 @@ import { htmlCatalogo } from "./render/catalogo.js";
 import { DEALERS, nombreDealer, mapaHref, telHref } from "./concesionarios.js";
 import { esc } from "./home/util.js";
 import { htmlAgenda } from "./render/agenda.js";
-import { RECLAMOS, TALLERES } from "./postventa.js";
+import { RECLAMOS, TALLERES_PROPIOS, TALLERES_RED } from "./postventa.js";
 import { htmlExperiencia, htmlMundo, htmlSimuladores } from "./experiencia.js";
 import { enlaceWhatsApp } from "./whatsapp.js";
 
@@ -185,8 +185,8 @@ export const PAGINAS = {
   },
   "/postventa/talleres": {
     titulo: "Talleres autorizados GWM en Paraguay",
-    seoTitulo: "Talleres autorizados GWM en Asunción | Service y mantenimiento",
-    descripcion: "Direcciones, horarios y contacto de los talleres autorizados GWM de Grupo Santa Rosa en Asunción para el service y mantenimiento de tu vehículo.",
+    seoTitulo: "Talleres autorizados GWM en Paraguay | Service y mantenimiento",
+    descripcion: "Direcciones y contacto de los talleres autorizados GWM en Asunción, Ciudad del Este, Encarnación y todo Paraguay para el service y mantenimiento de tu vehículo.",
     etiqueta: "TALLERES AUTORIZADOS",
     relacionados: ["/postventa/agendar-service", "/postventa", "/postventa/reclamos"],
   },
@@ -280,8 +280,15 @@ export function htmlDealers() {
   return `<section class="locales responsive__layout"><h2>Elegí tu punto de venta</h2><p>Contactá al local para confirmar sus horarios y la disponibilidad del vehículo que querés conocer.</p><div class="locales-grid">${DEALERS.map((d, i) => `<article class="local-card" id="local-${i + 1}"><p class="eyebrow">${esc(d.ciudad)}</p><h3>${d.marca === "Dealer autorizado" ? `${esc(d.marca)} · ${esc(d.nombre)}` : esc(nombreDealer(d))}</h3><address>${esc(d.direccion)}</address><p>${esc(d.horario)}</p><p>${d.telefonos.map((t) => `<a href="${telHref(t)}">${esc(t)}</a>`).join("<br />")}</p><a class="action action--dark" href="${esc(mapaHref(d))}" target="_blank" rel="noopener">Cómo llegar ↗</a></article>`).join("")}</div></section>`;
 }
 
+const whatsappTaller = (tel) => (/^09/.test(tel) ? tel.replace(/\D/g, "").replace(/^0/, "595") : null);
+function tarjetaTaller(t, id) {
+  const w = t.whatsapp || whatsappTaller(t.telefono);
+  return `<article class="local-card" id="${id}"><p class="eyebrow">${esc(t.ciudad)}</p><h3>${esc(t.nombre)}</h3><address>${esc(t.direccion)}</address><p><a href="${telHref(t.telefono)}">${esc(t.telefono)}</a></p>${t.horarios ? `<dl class="taller-horarios">${t.horarios.map(([d, h]) => `<div><dt>${d}</dt><dd>${h}</dd></div>`).join("")}</dl>` : ""}<div class="taller-acciones"><a class="action action--dark" href="${esc(mapaHref(t))}" target="_blank" rel="noopener">Cómo llegar ↗</a>${w ? `<a class="action action--line" href="${enlaceWhatsApp(`Hola, quiero coordinar un turno para mi GWM en ${t.nombre}.`, w)}" target="_blank" rel="noopener">WhatsApp</a>` : ""}</div></article>`;
+}
+
 export function htmlTalleres() {
-  return `<section class="locales responsive__layout"><h2>Elegí tu taller</h2><p>Técnicos especializados y repuestos originales para tu GWM. Escribinos por WhatsApp para coordinar tu turno.</p><div class="locales-grid">${TALLERES.map((t, i) => `<article class="local-card" id="taller-${i + 1}"><p class="eyebrow">Asunción</p><h3>${esc(t.nombre)}</h3><address>${esc(t.direccion)}</address><p><a href="${telHref(t.telefono)}">${esc(t.telefono)}</a></p><dl class="taller-horarios">${t.horarios.map(([d, h]) => `<div><dt>${d}</dt><dd>${h}</dd></div>`).join("")}</dl><div class="taller-acciones"><a class="action action--dark" href="${esc(mapaHref(t))}" target="_blank" rel="noopener">Cómo llegar ↗</a><a class="action action--line" href="${enlaceWhatsApp(`Hola, quiero coordinar un turno en el ${t.nombre}.`, t.whatsapp)}" target="_blank" rel="noopener">WhatsApp</a></div></article>`).join("")}</div></section>`;
+  return `<section class="locales responsive__layout"><h2>Talleres Santa Rosa en Asunción</h2><p>Técnicos especializados y repuestos originales para tu GWM. Escribinos por WhatsApp para coordinar tu turno.</p><div class="locales-grid">${TALLERES_PROPIOS.map((t, i) => tarjetaTaller(t, `taller-${i + 1}`)).join("")}</div></section>
+  <section class="locales responsive__layout"><h2>Red de talleres autorizados</h2><p>Talleres autorizados GWM en todo el país. Contactá al taller para confirmar horarios y coordinar tu turno.</p><div class="locales-grid">${TALLERES_RED.map((t, i) => tarjetaTaller(t, `taller-red-${i + 1}`)).join("")}</div></section>`;
 }
 
 export function htmlPagina(ruta) {
