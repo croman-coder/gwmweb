@@ -73,6 +73,7 @@ const TODOS = [
     nombre: 'H7 PHEV',
     slug: 'h7-phev',
     precio: 34990,
+    precioAnterior: 35990, // Rebaja (2026-11-27): se muestra tachado. Borrar la línea al terminar la promoción.
     imagen: '/img/modelos/h7-phev.webp',
     bajada: 'El SUV híbrido enchufable que redefine la aventura urbana.',
   },
@@ -80,7 +81,8 @@ const TODOS = [
     categoria: 'haval',
     nombre: 'H9 Diesel 2.4',
     slug: 'h9-diesel-24',
-    precio: 42990,
+    precio: 41990,
+    precioAnterior: 42990, // Rebaja (2026-11-27): se muestra tachado. Borrar la línea al terminar la promoción.
     imagen: '/img/modelos/h9-diesel-24.webp',
     bajada: 'La SUV de 3 hileras lista para cualquier aventura.',
   },
@@ -132,7 +134,7 @@ const TODOS = [
     categoria: 'poer',
     nombre: 'Poer P500',
     slug: 'poer-p500',
-    precio: 42990,
+    precio: 44990,
     imagen: '/img/modelos/poer-p500.webp',
     bajada: 'La pick up híbrida enchufable 4x4 de GWM.',
   },
@@ -175,7 +177,7 @@ const TODOS = [
     categoria: 'tank',
     nombre: 'Tank 700 PHEV 4x4',
     slug: 'tank-700-phev-4x4',
-    precio: 72990,
+    precio: 75990,
     imagen: '/img/modelos/tank-700-phev.webp',
     bajada: 'La máxima expresión de lujo y poder off road de GWM.',
   },
@@ -266,7 +268,7 @@ export const SLIDES = [
   // El de H6 sirve para HEV y PHEV (mismo diseño). Están en public/video/<slug>-16x9.mp4 y -9x16.mp4.
   { modelo: 'Haval H7 PHEV', slug: 'h7-phev', precio: 34990, imagen: '/img/poster/h7-original-1080.webp', imagenMobile: '/img/fichas/h7-phev/portada-m.webp', ...spot('h7-phev') },
   { modelo: 'Tank 400 PHEV 4x4', slug: 'tank-400-phev-4x4', precio: 50990, imagen: '/img/hero/tank-400.webp', tituloIncrustado: true, ...spot('tank-400-phev-4x4') },
-  { modelo: 'Tank 700 PHEV 4x4', slug: 'tank-700-phev-4x4', precio: 72990, imagen: '/img/fichas/tank-700-phev-4x4/portada.webp', ...spot('tank-700-phev-4x4') },
+  { modelo: 'Tank 700 PHEV 4x4', slug: 'tank-700-phev-4x4', precio: 75990, imagen: '/img/fichas/tank-700-phev-4x4/portada.webp', ...spot('tank-700-phev-4x4') },
   { modelo: 'Haval New H6 PHEV', slug: 'new-h6-phev', precio: 30990, imagen: '/img/poster/h6-phev.webp', ...spot('new-h6') },
   { modelo: 'Haval New H6 HEV', slug: 'new-h6-hev', precio: 24990, imagen: '/img/hero/new-h6-hev.webp', tituloIncrustado: true, ...spot('new-h6') },
   { modelo: 'Poer Diesel', slug: 'poer-diesel', precio: 29990, imagen: '/img/poster/poer.webp', ...spot('poer-diesel') },
@@ -296,9 +298,19 @@ export function formatearPrecio(valor) {
   return `USD ${valor.toLocaleString('es-PY')}`;
 }
 
-/** Texto de precio de una tarjeta, contemplando los que están por confirmar. */
-export function textoPrecio(valor) {
-  return valor === null ? 'Consultar precio' : `Desde ${formatearPrecio(valor)}*`;
+/** Precio anterior tachado de una rebaja (vacío si no hay rebaja). */
+export function htmlPrecioAntes(anterior, actual) {
+  if (!anterior || actual === null || anterior <= actual) return '';
+  return `<s class="precio-antes"><span class="visually-hidden">Antes </span>${formatearPrecio(anterior)}</s> `;
+}
+
+/** Precio de una tarjeta ("Desde USD …*"), con el anterior tachado y el nuevo animado si hay rebaja. Devuelve HTML. */
+export function textoPrecio(valor, anterior = null) {
+  if (valor === null) return 'Consultar precio';
+  const antes = htmlPrecioAntes(anterior, valor);
+  return antes
+    ? `<span class="precio-rebaja">${antes}<span class="precio-ahora">Desde ${formatearPrecio(valor)}*</span></span>`
+    : `Desde ${formatearPrecio(valor)}*`;
 }
 
 /** Ruta de la ficha de un modelo. */

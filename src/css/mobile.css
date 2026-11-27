@@ -235,3 +235,15 @@ html.vista-ficha .cmp__header.is-open { background: white; }
 .agenda-aqui__titulo { margin: 0 0 6px; font-size: clamp(26px, 3vw, 36px); }
 .agenda-aqui p { margin: 0; color: #555; }
 .seccion--sin-cabecera { padding-top: 24px; }
+
+/* Rebaja: precio anterior tachado y el nuevo destacado. */
+.precio-antes { position: relative; display: inline-block; margin-right: 8px; color: #8a8f93; font-weight: 400; text-decoration: none; }
+/* Tachado en diagonal (en vez de la línea horizontal de text-decoration). */
+.precio-antes::after { content: ''; position: absolute; left: -3px; right: -3px; top: 50%; border-top: 2px solid var(--rojo, #e60012); transform: rotate(-12deg); pointer-events: none; }
+.precio-rebaja { display: inline-flex; flex-wrap: wrap; align-items: baseline; column-gap: 8px; }
+.precio-ahora { display: inline-block; color: var(--rojo, #e60012); font-weight: 700; }
+.kv-subtitle .precio-ahora, .hero-banner .precio-ahora { color: #fff; }
+.kv-subtitle .precio-antes, .hero-banner .precio-antes { color: #ffffffaa; }
+.ficha-portada__precio .precio-antes { display: table; font-size: .8em; margin: 2px 0; color: #b8bcbf; }
+.ficha-version__precio .precio-antes { display: table; font-size: 14px; }
+.ficha .ficha-portada__precio strong.precio-ahora { color: #fff; font-size: 22px; }

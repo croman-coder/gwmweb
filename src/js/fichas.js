@@ -301,6 +301,7 @@ export const FICHAS = {
       {
         nombre: 'H7 PHEV 4x2',
         precio: 34990,
+        precioAnterior: 35990,
         especificaciones: [
           ['Motor', 'Híbrido enchufable (1.5 Turbo + eléctrico)'],
           ['Transmisión', 'Automática'],
@@ -353,7 +354,8 @@ export const FICHAS = {
     versiones: [
       {
         nombre: 'H9 Diesel 4x4',
-        precio: 42990,
+        precio: 41990,
+        precioAnterior: 42990,
         especificaciones: [['Motor', '2.4 Turbodiesel 4x4'], ['Transmisión', 'Automática'], ['Potencia', '184 HP / 480 Nm de torque']],
       },
     ],
@@ -561,7 +563,7 @@ export const FICHAS = {
     versiones: [
       {
         nombre: 'POER P500 PHEV 4X4 HIGH',
-        precio: 42990,
+        precio: 44990,
         especificaciones: ['4x4 2.0 Híbrida enchufable'],
       },
     ],
@@ -852,7 +854,7 @@ export const FICHAS = {
     versiones: [
       {
         nombre: 'Tank 700 PHEV 4X4',
-        precio: 72990,
+        precio: 75990,
         especificaciones: ['Híbrida enchufable', '517 HP / 800 Nm', 'Motor V6 3.0 L + motor eléctrico', '9AT 4WD'],
       },
     ],

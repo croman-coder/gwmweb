@@ -19,7 +19,7 @@ export function tarjetaModelo(m, { comparar = true } = {}) {
     <p class="eyebrow">${esc(m.categoria)} · ${esc(carroceria(m))}</p>
     <h3><a href="${urlFicha(m.slug)}">${esc(nombreCompleto(m))}</a></h3>
     <p class="modelo-card__des">${esc(m.bajada)}</p>
-    <p class="modelo-card__precio">${precioDesdeTexto(m.precio)}</p>
+    <p class="modelo-card__precio">${precioDesdeTexto(m.precio, m.precioAnterior)}</p>
     <div class="modelo-card__acciones"><a href="${urlFicha(m.slug)}">Ver modelo <span aria-hidden="true">↗</span></a><button type="button" data-lead="cotizacion" data-modelo-slug="${m.slug}">${m.precio === null ? "Consultar" : "Cotizar"} <span aria-hidden="true">→</span></button></div>
   </article>`;
 }
@@ -61,7 +61,7 @@ export function htmlDestacadosHome() {
     <p class="home-destacados__hint">Deslizá para descubrir los destacados <span aria-hidden="true">→</span></p>
     <div class="catalogo-grid destacados-grid" role="group" aria-label="Modelos destacados" tabindex="0">${modelos.map((m, i) => `<article class="modelo-card modelo-card--editorial" data-catalogo-modelo="${m.slug}">
       <a class="destacado-media" href="${urlFicha(m.slug)}" tabindex="-1" aria-hidden="true"><img src="/img/fichas/${m.slug}/portada.webp" alt="" width="900" height="600" loading="lazy" /><span class="energy-tag">${esc(tecnologia(m))}</span><span class="destacado-numero">0${i + 1}</span></a>
-      <div class="destacado-contenido"><p class="eyebrow">${esc(m.categoria)} · ${esc(carroceria(m))}</p><h3><a href="${urlFicha(m.slug)}">${esc(nombreCompleto(m))}</a></h3><p class="modelo-card__des">${["La ciudad se vive con otra energía.", "Tu día a día, a otro nivel.", "El camino también es parte del plan."][i]}</p><p class="modelo-card__precio">${precioDesdeTexto(m.precio)}</p><div class="modelo-card__acciones"><a href="${urlFicha(m.slug)}">Descubrí el modelo <span aria-hidden="true">↗</span></a><button type="button" data-lead="cotizacion" data-modelo-slug="${m.slug}">${m.precio === null ? "Consultar" : "Cotizar"} <span aria-hidden="true">→</span></button></div></div>
+      <div class="destacado-contenido"><p class="eyebrow">${esc(m.categoria)} · ${esc(carroceria(m))}</p><h3><a href="${urlFicha(m.slug)}">${esc(nombreCompleto(m))}</a></h3><p class="modelo-card__des">${["La ciudad se vive con otra energía.", "Tu día a día, a otro nivel.", "El camino también es parte del plan."][i]}</p><p class="modelo-card__precio">${precioDesdeTexto(m.precio, m.precioAnterior)}</p><div class="modelo-card__acciones"><a href="${urlFicha(m.slug)}">Descubrí el modelo <span aria-hidden="true">↗</span></a><button type="button" data-lead="cotizacion" data-modelo-slug="${m.slug}">${m.precio === null ? "Consultar" : "Cotizar"} <span aria-hidden="true">→</span></button></div></div>
     </article>`).join("")}</div>
     <div class="home-destacados__cierre"><p>Hay un GWM para cada plan.</p><a class="action action--dark" href="/modelos">Ver todos los modelos <span aria-hidden="true">↗</span></a></div>
     <p class="catalogo-nota">* Precios de referencia en USD. Versiones y disponibilidad a confirmar con un asesor en Paraguay.</p>
@@ -86,7 +86,7 @@ export function htmlHeroSlide(s, i) {
       <p class="hero-eyebrow">GWM PARAGUAY · ${esc(tecnologia(m))}</p>
       <p class="kv-title">${esc(nombreCompleto(m).replace(/\s+4x4$/i, ""))}</p>
       <p class="hero-beneficio">${esc(m.bajada)}</p>
-      <p class="kv-subtitle">${precioDesdeTexto(m.precio)}</p>
+      <p class="kv-subtitle">${precioDesdeTexto(m.precio, m.precioAnterior)}</p>
       <div class="hero-actions"><a class="action action--light" href="${urlFicha(m.slug)}">Descubrí el modelo <span aria-hidden="true">↗</span></a><button class="action action--outline" type="button" data-lead="testdrive" data-modelo-slug="${m.slug}">Test drive</button></div>
     </div></div></div>
   </div>`;

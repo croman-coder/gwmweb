@@ -1,5 +1,5 @@
 /** HTML compartido entre el build y el navegador: la ficha completa se entrega sin depender de JS. */
-import { formatearPrecio, nombreCompleto } from "../modelos.js";
+import { formatearPrecio, htmlPrecioAntes, nombreCompleto } from "../modelos.js";
 import { whatsappModelo } from "../whatsapp.js";
 import { datosClave } from "../vehiculos.js";
 
@@ -67,7 +67,7 @@ function htmlPortada(modelo, ficha) {
   const precio = precioDesde(modelo, ficha);
   const tienePrecio = precio !== null && precio !== undefined;
   const bloquePrecio = tienePrecio
-    ? `<p class="ficha-portada__precio"><span>Desde</span><strong>${formatearPrecio(precio)}*</strong></p>`
+    ? `<p class="ficha-portada__precio"><span>Desde</span>${htmlPrecioAntes(precio === modelo.precio ? modelo.precioAnterior : null, precio)}<strong${precio === modelo.precio && modelo.precioAnterior ? ' class="precio-ahora"' : ''}>${formatearPrecio(precio)}*</strong></p>`
     : '<p class="ficha-portada__precio"><strong>Consultar precio</strong></p>';
   const boton = tienePrecio ? "Cotizar ahora" : "Consultar por WhatsApp";
   const enlace = whatsappModelo(modelo.nombre, { consulta: !tienePrecio });
@@ -124,7 +124,7 @@ function htmlVersiones(modelo, ficha) {
         </div>
         <div class="ficha-version__precio">
           ${v.precio === null ? '<strong>Consultá el precio</strong>' : `<span>Precio desde:</span>
-          <strong>${formatearPrecio(v.precio)}*</strong>`}
+          ${htmlPrecioAntes(v.precioAnterior, v.precio)}<strong${v.precioAnterior ? ' class="precio-ahora"' : ''}>${formatearPrecio(v.precio)}*</strong>`}
         </div>
         <div class="ficha-version__acciones">
           <button class="ficha-btn ficha-btn--oscuro" type="button" data-lead="cotizacion" data-modelo-slug="${modelo.slug}" data-version="${esc(v.nombre)}">Cotizá esta versión ${FLECHA}</button>

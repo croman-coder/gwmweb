@@ -7,13 +7,13 @@
  *
  * El esqueleto está en index.html; los listados de modelos salen del catálogo (modelos.js).
  */
-import { CATEGORIAS, MODELOS, TIPOS_MOTOR, CARROCERIAS, formatearPrecio, urlFicha } from '../modelos.js';
+import { CATEGORIAS, MODELOS, TIPOS_MOTOR, CARROCERIAS, formatearPrecio, textoPrecio as textoPrecioModelo, urlFicha } from '../modelos.js';
 import { enlaceWhatsApp } from '../whatsapp.js';
 import { esc } from './util.js';
 
 const MAS =
   '<svg class="mas" width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M7 2v10M2 7h10" /></svg>';
-const textoPrecio = (m) => (m.precio === null ? 'Consultar precio' : `Desde ${formatearPrecio(m.precio)}*`);
+const textoPrecio = (m) => textoPrecioModelo(m.precio, m.precioAnterior);
 
 /* ==========================================================================
    Marcado
