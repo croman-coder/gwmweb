@@ -67,7 +67,7 @@ function htmlPortada(modelo, ficha) {
   const precio = precioDesde(modelo, ficha);
   const tienePrecio = precio !== null && precio !== undefined;
   const bloquePrecio = tienePrecio
-    ? `<p class="ficha-portada__precio"><span>Desde</span>${htmlPrecioAntes(precio === modelo.precio ? modelo.precioAnterior : null, precio)}<strong${precio === modelo.precio && modelo.precioAnterior ? ' class="precio-ahora"' : ''}>${formatearPrecio(precio)}*</strong></p>`
+    ? `<p class="ficha-portada__precio">${htmlPrecioAntes(precio === modelo.precio ? modelo.precioAnterior : null, precio)}<span>${precio === modelo.precio && modelo.precioAnterior ? 'Ahora' : 'Desde'}</span><strong${precio === modelo.precio && modelo.precioAnterior ? ' class="precio-ahora"' : ''}>${formatearPrecio(precio)}*</strong></p>`
     : '<p class="ficha-portada__precio"><strong>Consultar precio</strong></p>';
   const boton = tienePrecio ? "Cotizar ahora" : "Consultar por WhatsApp";
   const enlace = whatsappModelo(modelo.nombre, { consulta: !tienePrecio });
@@ -123,8 +123,8 @@ function htmlVersiones(modelo, ficha) {
           <strong>${esc(v.nombre)}</strong>
         </div>
         <div class="ficha-version__precio">
-          ${v.precio === null ? '<strong>Consultá el precio</strong>' : `<span>Precio desde:</span>
-          ${htmlPrecioAntes(v.precioAnterior, v.precio)}<strong${v.precioAnterior ? ' class="precio-ahora"' : ''}>${formatearPrecio(v.precio)}*</strong>`}
+          ${v.precio === null ? '<strong>Consultá el precio</strong>' : `${htmlPrecioAntes(v.precioAnterior, v.precio)}<span>${v.precioAnterior ? 'Ahora:' : 'Precio desde:'}</span>
+          <strong${v.precioAnterior ? ' class="precio-ahora"' : ''}>${formatearPrecio(v.precio)}*</strong>`}
         </div>
         <div class="ficha-version__acciones">
           <button class="ficha-btn ficha-btn--oscuro" type="button" data-lead="cotizacion" data-modelo-slug="${modelo.slug}" data-version="${esc(v.nombre)}">Cotizá esta versión ${FLECHA}</button>

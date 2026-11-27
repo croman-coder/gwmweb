@@ -237,9 +237,10 @@ html.vista-ficha .cmp__header.is-open { background: white; }
 .seccion--sin-cabecera { padding-top: 24px; }
 
 /* Rebaja: precio anterior tachado y el nuevo destacado. */
-.precio-antes { position: relative; display: inline-block; margin-right: 8px; color: #8a8f93; font-weight: 400; text-decoration: none; }
+.precio-antes { display: inline-block; margin-right: 8px; color: #8a8f93; font-weight: 400; text-decoration: none; }
 /* Tachado en diagonal (en vez de la línea horizontal de text-decoration). */
-.precio-antes::after { content: ''; position: absolute; left: -3px; right: -3px; top: 50%; border-top: 2px solid var(--rojo, #e60012); transform: rotate(-12deg); pointer-events: none; }
+.precio-antes s { position: relative; display: inline-block; text-decoration: none; }
+.precio-antes s::after { content: ''; position: absolute; left: -3px; right: -3px; top: 50%; border-top: 2px solid var(--rojo, #e60012); transform: rotate(-12deg); pointer-events: none; }
 .precio-rebaja { display: inline-flex; flex-wrap: wrap; align-items: baseline; column-gap: 8px; }
 .precio-ahora { display: inline-block; color: var(--rojo, #e60012); font-weight: 700; }
 .kv-subtitle .precio-ahora, .hero-banner .precio-ahora { color: #fff; }

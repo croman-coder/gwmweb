@@ -301,7 +301,7 @@ export function formatearPrecio(valor) {
 /** Precio anterior tachado de una rebaja (vacío si no hay rebaja). */
 export function htmlPrecioAntes(anterior, actual) {
   if (!anterior || actual === null || anterior <= actual) return '';
-  return `<s class="precio-antes"><span class="visually-hidden">Antes </span>${formatearPrecio(anterior)}</s> `;
+  return `<span class="precio-antes">Antes <s>${formatearPrecio(anterior)}</s></span> `;
 }
 
 /** Precio de una tarjeta ("Desde USD …*"), con el anterior tachado y el nuevo animado si hay rebaja. Devuelve HTML. */
@@ -309,7 +309,7 @@ export function textoPrecio(valor, anterior = null) {
   if (valor === null) return 'Consultar precio';
   const antes = htmlPrecioAntes(anterior, valor);
   return antes
-    ? `<span class="precio-rebaja">${antes}<span class="precio-ahora">Desde ${formatearPrecio(valor)}*</span></span>`
+    ? `<span class="precio-rebaja">${antes}<span class="precio-ahora">Ahora ${formatearPrecio(valor)}*</span></span>`
     : `Desde ${formatearPrecio(valor)}*`;
 }
 
