@@ -103,6 +103,7 @@ export function htmlMovil() {
         <ul class="secondray-ul">
           <li><a class="secondray-link" href="/postventa/agendar-service">Agendá tu mantenimiento</a></li>
           <li><a class="secondray-link" href="/postventa">Servicios de postventa</a></li>
+          <li><a class="secondray-link" href="/postventa/talleres">Talleres autorizados</a></li>
         </ul>
       </div>
       <div class="secondray-item">

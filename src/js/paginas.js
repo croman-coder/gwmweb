@@ -3,8 +3,9 @@ import { htmlCatalogo } from "./render/catalogo.js";
 import { DEALERS, nombreDealer, mapaHref, telHref } from "./concesionarios.js";
 import { esc } from "./home/util.js";
 import { htmlAgenda } from "./render/agenda.js";
-import { RECLAMOS } from "./postventa.js";
+import { RECLAMOS, TALLERES } from "./postventa.js";
 import { htmlExperiencia, htmlMundo, htmlSimuladores } from "./experiencia.js";
+import { enlaceWhatsApp } from "./whatsapp.js";
 
 export const PAGINAS = {
   "/experiencia": {
@@ -173,7 +174,7 @@ export const PAGINAS = {
         "Para consultar repuestos o coberturas, tené a mano el modelo, año y versión. El asesor puede solicitar el número de chasis en el canal de atención para identificar el vehículo.",
       ],
     ],
-    relacionados: ["/concesionarios", "/postventa/agendar-service", "/postventa/reclamos"],
+    relacionados: ["/postventa/talleres", "/postventa/agendar-service", "/postventa/reclamos"],
   },
   "/postventa/agendar-service": {
     titulo: "Agendá el mantenimiento de tu GWM",
@@ -181,6 +182,13 @@ export const PAGINAS = {
     descripcion: "Mirá la lista de precios de mantenimiento de tu GWM por kilometraje y agendá tu turno en Paraguay; el equipo confirma la disponibilidad.",
     etiqueta: "CUIDAMOS TU GWM",
     relacionados: ["/postventa", "/concesionarios", "/postventa/reclamos"],
+  },
+  "/postventa/talleres": {
+    titulo: "Talleres autorizados GWM en Paraguay",
+    seoTitulo: "Talleres autorizados GWM en Asunción | Service y mantenimiento",
+    descripcion: "Direcciones, horarios y contacto de los talleres autorizados GWM de Grupo Santa Rosa en Asunción para el service y mantenimiento de tu vehículo.",
+    etiqueta: "TALLERES AUTORIZADOS",
+    relacionados: ["/postventa/agendar-service", "/postventa", "/postventa/reclamos"],
   },
   "/postventa/reclamos": {
     titulo: "Atención al cliente GWM Paraguay",
@@ -272,6 +280,10 @@ export function htmlDealers() {
   return `<section class="locales responsive__layout"><h2>Elegí tu punto de venta</h2><p>Contactá al local para confirmar sus horarios y la disponibilidad del vehículo que querés conocer.</p><div class="locales-grid">${DEALERS.map((d, i) => `<article class="local-card" id="local-${i + 1}"><p class="eyebrow">${esc(d.ciudad)}</p><h3>${d.marca === "Dealer autorizado" ? `${esc(d.marca)} · ${esc(d.nombre)}` : esc(nombreDealer(d))}</h3><address>${esc(d.direccion)}</address><p>${esc(d.horario)}</p><p>${d.telefonos.map((t) => `<a href="${telHref(t)}">${esc(t)}</a>`).join("<br />")}</p><a class="action action--dark" href="${esc(mapaHref(d))}" target="_blank" rel="noopener">Cómo llegar ↗</a></article>`).join("")}</div></section>`;
 }
 
+export function htmlTalleres() {
+  return `<section class="locales responsive__layout"><h2>Elegí tu taller</h2><p>Técnicos especializados y repuestos originales para tu GWM. Escribinos por WhatsApp para coordinar tu turno.</p><div class="locales-grid">${TALLERES.map((t, i) => `<article class="local-card" id="taller-${i + 1}"><p class="eyebrow">Asunción</p><h3>${esc(t.nombre)}</h3><address>${esc(t.direccion)}</address><p><a href="${telHref(t.telefono)}">${esc(t.telefono)}</a></p><dl class="taller-horarios">${t.horarios.map(([d, h]) => `<div><dt>${d}</dt><dd>${h}</dd></div>`).join("")}</dl><div class="taller-acciones"><a class="action action--dark" href="${esc(mapaHref(t))}" target="_blank" rel="noopener">Cómo llegar ↗</a><a class="action action--line" href="${enlaceWhatsApp(`Hola, quiero coordinar un turno en el ${t.nombre}.`, t.whatsapp)}" target="_blank" rel="noopener">WhatsApp</a></div></article>`).join("")}</div></section>`;
+}
+
 export function htmlPagina(ruta) {
   const p = PAGINAS[ruta];
   if (!p)
@@ -287,6 +299,7 @@ export function htmlPagina(ruta) {
     ${p.bloques ? `<div class="editorial responsive__layout">${p.bloques.map(([titulo, texto]) => `<section><h2>${esc(titulo)}</h2><p>${esc(texto)}</p></section>`).join("")}</div>` : ""}
     ${p.tipo ? htmlCatalogo(p.tipo, "Explorá los modelos", "TU PRÓXIMO GWM") : ""}
     ${ruta === "/concesionarios" ? htmlDealers() : ""}
+    ${ruta === "/postventa/talleres" ? htmlTalleres() : ""}
     ${ruta === "/experiencia" ? htmlExperiencia() : ""}
     ${ruta === "/experiencia/mundo-gwm" ? htmlMundo() : ""}
     ${ruta === "/experiencia/simuladores" ? htmlSimuladores() : ""}

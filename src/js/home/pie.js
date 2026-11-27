@@ -36,6 +36,7 @@ function columnas() {
       enlaces: [
         { texto: 'Agendá tu mantenimiento', href: '/postventa/agendar-service' },
         { texto: 'Servicios', href: '/postventa' },
+        { texto: 'Talleres autorizados', href: '/postventa/talleres' },
         { texto: 'Reclamos', href: '/postventa/reclamos' },
         { texto: 'Garantía y mantenimiento', href: '/postventa' },
       ],

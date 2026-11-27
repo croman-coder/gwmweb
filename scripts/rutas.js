@@ -28,7 +28,7 @@ export const PAGINAS_ANTERIORES = {
   '/agendar': '/postventa/agendar-service',
   '/mantenimiento': '/postventa',
   '/garantia': '/postventa',
-  '/talleres': '/postventa',
+  '/talleres': '/postventa/talleres',
   '/repuesto': '/postventa',
   '/cotizador': '/modelos',
   '/contacto': '/concesionarios',
